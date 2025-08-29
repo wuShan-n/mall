@@ -1,0 +1,82 @@
+
+services:
+  # 1. MySQL 数据库服务
+  mysql:
+    image: mysql:8.0
+    container_name: mall-mysql-dev
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: anzhihe0820
+      MYSQL_DATABASE: mall_user
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data-dev:/var/lib/mysql
+    networks:
+      - mall-dev-network
+
+  # 2. Redis 缓存服务
+  redis:
+    image: redis:7.2-alpine
+    container_name: mall-redis-dev
+    restart: always
+    command: redis-server --requirepass anzhihe0820
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data-dev:/data
+    networks:
+      - mall-dev-network
+
+  # 3. Nacos 注册与配置中心
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: mall-nacos-dev
+    restart: always
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone # 单机模式，占用资源最少
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    volumes:
+      - nacos-logs-dev:/home/nacos/logs
+      - nacos-data-dev:/home/nacos/data
+    networks:
+      - mall-dev-network
+
+  # 4. 你的 Spring Boot 应用服务
+  mall-user-service:
+    build: . # 依然使用 Dockerfile 构建，方便快捷
+    container_name: mall-user-service-dev
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on: # 明确依赖关系
+      - mysql
+      - redis
+      - nacos
+    environment:
+      # 覆盖配置，指向Docker内部服务
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_DRUID_URL=jdbc:mysql://mysql:3306/mall_user?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+      - SPRING_DATASOURCE_DRUID_USERNAME=root
+      - SPRING_DATASOURCE_DRUID_PASSWORD=anzhihe0820
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PASSWORD=anzhihe0820
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER-ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_CONFIG_SERVER-ADDR=nacos:8848
+    networks:
+      - mall-dev-network
+
+# 定义隔离的开发网络
+networks:
+  mall-dev-network:
+    driver: bridge
+
+# 定义隔离的开发数据卷
+volumes:
+  mysql-data-dev:
+  redis-data-dev:
+  nacos-logs-dev:
+  nacos-data-dev:

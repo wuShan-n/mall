@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: mall-user-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: dev
+        group: DEFAULT_GROUP
+        file-extension: yml
+        prefix: ${spring.application.name}
+
