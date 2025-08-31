@@ -2,12 +2,13 @@ package com.mall.api.product.dto.request;
 
 import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 import java.util.Map;
 

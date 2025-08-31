@@ -1,7 +1,7 @@
 package com.mall.common.enums;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Gender enumeration

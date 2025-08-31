@@ -2,6 +2,7 @@ package com.mall.common.exception;
 
 import com.mall.common.result.ResultCode;
 import lombok.Getter;
+
 import java.util.Map;
 
 /**

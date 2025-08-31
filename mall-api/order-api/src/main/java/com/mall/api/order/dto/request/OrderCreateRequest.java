@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.math.BigDecimal;
+
 import java.util.List;
 
 /**

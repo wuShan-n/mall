@@ -2,9 +2,10 @@ package com.mall.api.product.dubbo;
 
 import com.mall.api.product.dto.request.BrandCreateRequest;
 import com.mall.api.product.dto.response.BrandVO;
-import com.mall.common.result.Result;
-import com.mall.common.result.PageResult;
 import com.mall.common.base.PageRequest;
+import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
+
 import java.util.List;
 
 /**

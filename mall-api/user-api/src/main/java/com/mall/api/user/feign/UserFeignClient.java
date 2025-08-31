@@ -1,10 +1,14 @@
 package com.mall.api.user.feign;
 
 import com.mall.api.user.constant.UserConstants;
-import com.mall.api.user.dto.request.*;
-import com.mall.api.user.dto.response.*;
-import com.mall.common.result.Result;
+import com.mall.api.user.dto.request.UserLoginRequest;
+import com.mall.api.user.dto.request.UserQueryRequest;
+import com.mall.api.user.dto.request.UserRegisterRequest;
+import com.mall.api.user.dto.request.UserUpdateRequest;
+import com.mall.api.user.dto.response.UserLoginVO;
+import com.mall.api.user.dto.response.UserVO;
 import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

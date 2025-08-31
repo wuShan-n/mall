@@ -2,8 +2,6 @@ package com.mall.common.utils;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
-import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

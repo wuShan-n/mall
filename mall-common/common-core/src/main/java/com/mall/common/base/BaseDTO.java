@@ -1,6 +1,7 @@
 package com.mall.common.base;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**

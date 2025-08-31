@@ -1,8 +1,9 @@
 package com.mall.common.result;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**

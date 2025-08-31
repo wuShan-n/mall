@@ -1,7 +1,7 @@
 package com.mall.api.user.enums;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Point source enumeration

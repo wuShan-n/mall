@@ -1,7 +1,7 @@
 package com.mall.api.product.enums;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Product status enumeration

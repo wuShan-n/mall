@@ -1,10 +1,11 @@
 package com.mall.api.user.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 /**

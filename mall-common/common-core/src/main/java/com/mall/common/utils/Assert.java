@@ -1,10 +1,10 @@
 package com.mall.common.utils;
 
-import com.mall.common.exception.BusinessException;
-import com.mall.common.result.ResultCode;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.mall.common.exception.BusinessException;
+import com.mall.common.result.ResultCode;
 
 import java.util.Collection;
 import java.util.Map;

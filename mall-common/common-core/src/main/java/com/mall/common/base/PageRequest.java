@@ -1,10 +1,10 @@
 package com.mall.common.base;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
 
 /**
  * Pagination request parameters

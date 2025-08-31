@@ -4,6 +4,7 @@ import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 
 /**

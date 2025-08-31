@@ -1,7 +1,7 @@
 package com.mall.api.order.enums;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Order source enumeration

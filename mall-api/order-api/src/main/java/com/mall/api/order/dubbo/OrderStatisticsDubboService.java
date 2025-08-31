@@ -3,7 +3,6 @@ package com.mall.api.order.dubbo;
 
 import com.mall.api.order.dto.response.CustomerOrderVO;
 import com.mall.api.order.dto.response.OrderStatisticsVO;
-
 import com.mall.api.order.dto.response.ProductSalesVO;
 import com.mall.api.order.dto.response.RefundStatisticsVO;
 import com.mall.common.result.Result;

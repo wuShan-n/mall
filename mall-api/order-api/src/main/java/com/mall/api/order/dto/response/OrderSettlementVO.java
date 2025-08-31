@@ -1,10 +1,11 @@
 package com.mall.api.order.dto.response;
 
-import com.mall.common.base.BaseDTO;
 import com.mall.api.user.dto.response.AddressVO;
+import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 import java.util.List;
 

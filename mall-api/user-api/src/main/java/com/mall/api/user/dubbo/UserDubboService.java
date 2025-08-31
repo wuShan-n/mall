@@ -1,9 +1,13 @@
 package com.mall.api.user.dubbo;
 
-import com.mall.api.user.dto.request.*;
-import com.mall.api.user.dto.response.*;
-import com.mall.common.result.Result;
+import com.mall.api.user.dto.request.UserLoginRequest;
+import com.mall.api.user.dto.request.UserQueryRequest;
+import com.mall.api.user.dto.request.UserRegisterRequest;
+import com.mall.api.user.dto.request.UserUpdateRequest;
+import com.mall.api.user.dto.response.UserLoginVO;
+import com.mall.api.user.dto.response.UserVO;
 import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
 
 /**
  * User Dubbo RPC service interface

@@ -3,10 +3,11 @@ package com.mall.api.order.feign;
 import com.mall.api.order.constant.OrderConstants;
 import com.mall.api.order.dto.request.*;
 import com.mall.api.order.dto.response.*;
-import com.mall.common.result.Result;
 import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 

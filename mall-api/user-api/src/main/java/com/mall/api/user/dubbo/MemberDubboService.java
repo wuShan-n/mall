@@ -2,6 +2,7 @@ package com.mall.api.user.dubbo;
 
 import com.mall.api.user.dto.response.MemberVO;
 import com.mall.common.result.Result;
+
 import java.math.BigDecimal;
 
 /**
