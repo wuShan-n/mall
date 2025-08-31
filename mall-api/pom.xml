@@ -19,8 +19,8 @@
 
     <modules>
         <module>user-api</module>
-<!--        <module>product-api</module>-->
-<!--        <module>order-api</module>-->
+        <module>product-api</module>
+        <module>order-api</module>
 <!--        <module>payment-api</module>-->
 <!--        <module>inventory-api</module>-->
 <!--        <module>marketing-api</module>-->
