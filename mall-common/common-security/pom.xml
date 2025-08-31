@@ -17,10 +17,6 @@
     <description>Security components based on Sa-Token</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>cn.dev33</groupId>
