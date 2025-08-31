@@ -17,6 +17,11 @@
           <entry name="$PROJECT_DIR$/../../../software/apache-maven-3.9.10/mvn_resp/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$PROJECT_DIR$/../../../software/apache-maven-3.9.10/mvn_resp/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
+        <module name="common-mybatis" />
+        <module name="common-security" />
+        <module name="common-dubbo" />
+        <module name="common-web" />
+        <module name="common-redis" />
         <module name="common-core" />
       </profile>
     </annotationProcessing>

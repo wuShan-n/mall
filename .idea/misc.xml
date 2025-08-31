@@ -21,6 +21,11 @@
         <option value="$PROJECT_DIR$/mall-common/mall-common-web/pom.xml" />
         <option value="$PROJECT_DIR$/mall-common/pom.xml" />
         <option value="$PROJECT_DIR$/mall-common/common-core/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/common-mybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/common-redis/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/common-security/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/common-dubbo/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-common/common-web/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
