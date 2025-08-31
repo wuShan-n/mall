@@ -11,10 +11,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-api</artifactId>
+    <artifactId>product-api</artifactId>
 
-    <name>user-api</name>
-    <description>User service API definitions and DTOs</description>
+    <name>product-api</name>
+    <description>Product service API definitions and DTOs</description>
 
     <dependencies>
         <!-- Common core for base classes and utilities -->
@@ -55,10 +55,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+
         <!-- Swagger annotations for API documentation -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations-jakarta</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
