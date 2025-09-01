@@ -5,8 +5,11 @@ import com.mall.api.order.dto.request.RefundDetailVO;
 import com.mall.api.order.dto.request.RefundProcessRequest;
 import com.mall.api.order.dto.request.RefundQueryRequest;
 import com.mall.api.order.dto.response.RefundVO;
+import com.mall.common.base.PageRequest;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
+
+import java.util.List;
 
 /**
  * Refund Dubbo RPC service interface

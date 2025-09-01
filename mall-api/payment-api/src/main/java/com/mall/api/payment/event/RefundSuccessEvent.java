@@ -8,54 +8,54 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Payment success event
+ * Refund success event
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentSuccessEvent implements Serializable {
+public class RefundSuccessEvent implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    
     /**
-     * Payment ID
+     * Refund ID
      */
-    private Long paymentId;
-
+    private Long refundId;
+    
+    /**
+     * Refund number
+     */
+    private String refundNo;
+    
     /**
      * Payment number
      */
     private String paymentNo;
-
+    
     /**
      * Order number
      */
     private String orderNo;
-
+    
     /**
      * User ID
      */
     private Long userId;
-
+    
     /**
-     * Payment amount
+     * Refund amount
      */
-    private BigDecimal paymentAmount;
-
+    private BigDecimal refundAmount;
+    
     /**
-     * Payment type
+     * Third party refund number
      */
-    private Integer paymentType;
-
+    private String thirdPartyRefundNo;
+    
     /**
-     * Third party transaction ID
+     * Refund time
      */
-    private String transactionId;
-
-    /**
-     * Payment time
-     */
-    private LocalDateTime paymentTime;
-
+    private LocalDateTime refundTime;
+    
     /**
      * Event time
      */
