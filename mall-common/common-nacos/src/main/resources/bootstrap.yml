@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: user-service  # 服务名称
+  profiles:
+    active: dev  # 环境标识
+  cloud:
+    nacos:
+      # 配置中心
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:dev}  # 命名空间ID
+        group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
+        file-extension: yaml
+        refresh-enabled: true
+        # 共享配置
+        shared-configs:
+          - data-id: common-config.yaml
+            group: SHARED_GROUP
+            refresh: true
+          - data-id: database-config.yaml
+            group: SHARED_GROUP
+            refresh: true
+          - data-id: redis-config.yaml
+            group: SHARED_GROUP
+            refresh: true
+        # 扩展配置
+        extension-configs:
+          - data-id: ${spring.application.name}-custom.yaml
+            group: ${spring.cloud.nacos.config.group}
+            refresh: true
+      # 服务发现
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:dev}
+        group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+        cluster-name: ${NACOS_CLUSTER:DEFAULT}
+        metadata:
+          version: ${app.version:1.0.0}
+          region: ${app.region:default}
+          zone: ${app.zone:default}

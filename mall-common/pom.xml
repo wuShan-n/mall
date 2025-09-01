@@ -24,5 +24,6 @@
         <module>common-web</module>
         <module>common-dubbo</module>
         <module>common-security</module>
+        <module>common-nacos</module>
     </modules>
 </project>

@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacos-config
+  namespace: mall-system
+data:
+  application.properties: |
+    server.port=8848
+    spring.datasource.platform=mysql
+    db.num=1
+    db.url.0=jdbc:mysql://mysql-service:3306/nacos_config?characterEncoding=utf8
+    db.user=nacos
+    db.password=nacos
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos-server
+  namespace: mall-system
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nacos-server
+  template:
+    metadata:
+      labels:
+        app: nacos-server
+    spec:
+      containers:
+        - name: nacos
+          image: nacos/nacos-server:v2.3.0
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 9848
+              name: client-rpc
+            - containerPort: 9849
+              name: raft-rpc
+          env:
+            - name: NACOS_REPLICAS
+              value: "3"
+            - name: MODE
+              value: "cluster"
+            - name: NACOS_SERVERS
+              value: "nacos-0.nacos-headless:8848 nacos-1.nacos-headless:8848 nacos-2.nacos-headless:8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+          volumeMounts:
+            - name: config
+              mountPath: /home/nacos/conf/application.properties
+              subPath: application.properties
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "1000m"
+      volumes:
+        - name: config
+          configMap:
+            name: nacos-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos-service
+  namespace: mall-system
+spec:
+  type: NodePort
+  ports:
+    - port: 8848
+      targetPort: 8848
+      nodePort: 30848
+      name: client
+  selector:
+    app: nacos-server
