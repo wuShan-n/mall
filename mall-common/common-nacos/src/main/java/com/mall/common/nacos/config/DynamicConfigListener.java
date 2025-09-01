@@ -1,4 +1,4 @@
-package com.mall.common.nacos.congfig;
+package com.mall.common.nacos.config;
 
 import com.alibaba.nacos.api.config.annotation.NacosConfigListener;
 import lombok.extern.slf4j.Slf4j;

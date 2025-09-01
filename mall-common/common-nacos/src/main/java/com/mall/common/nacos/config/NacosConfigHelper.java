@@ -1,14 +1,11 @@
-package com.mall.common.nacos.congfig;
+package com.mall.common.nacos.config;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
-import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Executor;
 
 /**
  * Nacos configuration manager wrapper
@@ -16,10 +13,10 @@ import java.util.concurrent.Executor;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NacosConfigManager {
-    
+public class NacosConfigHelper {
+
     private final NacosConfigManager nacosConfigManager;
-    
+
     /**
      * Get configuration
      */
@@ -32,7 +29,7 @@ public class NacosConfigManager {
             return null;
         }
     }
-    
+
     /**
      * Publish configuration
      */
@@ -45,7 +42,7 @@ public class NacosConfigManager {
             return false;
         }
     }
-    
+
     /**
      * Remove configuration
      */
@@ -58,7 +55,7 @@ public class NacosConfigManager {
             return false;
         }
     }
-    
+
     /**
      * Add configuration listener
      */
@@ -71,17 +68,13 @@ public class NacosConfigManager {
             log.error("Failed to add listener, dataId: {}, group: {}", dataId, group, e);
         }
     }
-    
+
     /**
      * Remove configuration listener
      */
     public void removeListener(String dataId, String group, Listener listener) {
-        try {
-            nacosConfigManager.getConfigService()
-                    .removeListener(dataId, group, listener);
-            log.info("Removed listener for dataId: {}, group: {}", dataId, group);
-        } catch (NacosException e) {
-            log.error("Failed to remove listener, dataId: {}, group: {}", dataId, group, e);
-        }
+        nacosConfigManager.getConfigService()
+                .removeListener(dataId, group, listener);
+        log.info("Removed listener for dataId: {}, group: {}", dataId, group);
     }
 }

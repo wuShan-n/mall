@@ -1,12 +1,17 @@
-package com.mall.common.nacos.congfig;
+package com.mall.common.nacos.config;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
-import com.mall.common.nacos.discovery.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.NacosConfigProperties;
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.NacosServiceManager;
+import com.mall.common.nacos.discovery.LoadBalancerConfiguration;
+
 import com.mall.common.nacos.discovery.ServiceInstanceManager;
 import com.mall.common.nacos.discovery.ServiceMetadataProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,10 +23,6 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @ConditionalOnClass(NacosConfigManager.class)
-@EnableConfigurationProperties({
-    NacosConfigProperties.class,
-    NacosDiscoveryProperties.class
-})
 @ComponentScan(basePackages = "com.mall.common.nacos")
 @Import({LoadBalancerConfiguration.class})
 public class NacosAutoConfiguration {

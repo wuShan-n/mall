@@ -1,4 +1,4 @@
-package com.mall.common.nacos.congfig;
+package com.mall.common.nacos.config;
 
 import com.mall.common.utils.EncryptUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +25,9 @@ public class ConfigEncryptProcessor implements EnvironmentPostProcessor {
         Properties props = new Properties();
         
         environment.getPropertySources().forEach(propertySource -> {
-            if (propertySource instanceof PropertiesPropertySource) {
-                PropertiesPropertySource source = (PropertiesPropertySource) propertySource;
+            if (propertySource instanceof PropertiesPropertySource source) {
                 source.getSource().forEach((key, value) -> {
-                    if (value instanceof String) {
-                        String strValue = (String) value;
+                    if (value instanceof String strValue) {
                         if (isEncrypted(strValue)) {
                             String decryptedValue = decrypt(strValue);
                             props.put(key, decryptedValue);

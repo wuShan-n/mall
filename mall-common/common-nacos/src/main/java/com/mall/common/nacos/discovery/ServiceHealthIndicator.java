@@ -1,5 +1,7 @@
 package com.mall.common.nacos.discovery;
 
+
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.NacosServiceManager;
 import com.alibaba.nacos.api.naming.NamingService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class ServiceHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             String serverStatus = namingService.getServerStatus();
             
             if ("UP".equals(serverStatus)) {

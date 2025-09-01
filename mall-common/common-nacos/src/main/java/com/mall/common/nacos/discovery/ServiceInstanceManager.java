@@ -4,6 +4,7 @@ import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.NacosServiceManager;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class ServiceInstanceManager {
      */
     public List<Instance> getHealthyInstances(String serviceName) {
         try {
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             return namingService.selectInstances(serviceName, properties.getGroup(), true);
         } catch (NacosException e) {
             log.error("Failed to get healthy instances for service: {}", serviceName, e);
@@ -45,7 +46,7 @@ public class ServiceInstanceManager {
      */
     public List<Instance> getAllInstances(String serviceName) {
         try {
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             return namingService.getAllInstances(serviceName, properties.getGroup());
         } catch (NacosException e) {
             log.error("Failed to get all instances for service: {}", serviceName, e);
@@ -68,7 +69,7 @@ public class ServiceInstanceManager {
             instance.setMetadata(metadata);
             instance.setEphemeral(properties.isEphemeral());
             
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             namingService.registerInstance(serviceName, properties.getGroup(), instance);
             
             log.info("Registered instance: {}:{}:{}", serviceName, ip, port);
@@ -82,7 +83,7 @@ public class ServiceInstanceManager {
      */
     public void deregisterInstance(String serviceName, String ip, int port) {
         try {
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             namingService.deregisterInstance(serviceName, properties.getGroup(), ip, port);
             
             log.info("Deregistered instance: {}:{}:{}", serviceName, ip, port);
@@ -110,10 +111,13 @@ public class ServiceInstanceManager {
      */
     public void subscribeService(String serviceName, ServiceChangeListener listener) {
         try {
-            NamingService namingService = nacosServiceManager.getNamingService(properties);
+            NamingService namingService = nacosServiceManager.getNamingService(properties.getNacosProperties());
             namingService.subscribe(serviceName, properties.getGroup(), event -> {
-                List<Instance> instances = event.getInstances();
-                listener.onServiceChange(serviceName, instances);
+                if (event instanceof NamingEvent) {
+                    NamingEvent namingEvent = (NamingEvent) event;
+                    List<Instance> instances = namingEvent.getInstances();
+                    listener.onServiceChange(serviceName, instances);
+                }
             });
             
             log.info("Subscribed to service changes: {}", serviceName);
