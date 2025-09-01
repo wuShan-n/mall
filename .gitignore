@@ -1,4 +1,5 @@
 docs/tempconfig
+logs/
 target/
 
 ### IntelliJ IDEA ###
