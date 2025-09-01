@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.user.mapper.MemberLevelMapper">
+
+    <resultMap id="BaseResultMap" type="com.mall.user.entity.MemberLevel">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="levelName" column="level_name" jdbcType="VARCHAR"/>
+            <result property="minGrowth" column="min_growth" jdbcType="INTEGER"/>
+            <result property="maxGrowth" column="max_growth" jdbcType="INTEGER"/>
+            <result property="discount" column="discount" jdbcType="DECIMAL"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="privileges" column="privileges" jdbcType="OTHER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,level_name,min_growth,max_growth,discount,icon,
+        description,privileges,status,create_time
+    </sql>
+</mapper>

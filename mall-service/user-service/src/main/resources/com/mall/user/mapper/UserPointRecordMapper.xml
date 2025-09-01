@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.user.mapper.UserPointRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.mall.user.entity.UserPointRecord">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="points" column="points" jdbcType="INTEGER"/>
+            <result property="balance" column="balance" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="source" column="source" jdbcType="VARCHAR"/>
+            <result property="sourceId" column="source_id" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,points,balance,type,source,
+        source_id,remark,create_time
+    </sql>
+</mapper>
