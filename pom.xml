@@ -31,7 +31,7 @@
 
         <!-- Database & ORM -->
         <mysql.version>8.0.33</mysql.version>
-        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <druid.version>1.2.20</druid.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
 
