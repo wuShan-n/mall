@@ -90,7 +90,7 @@
     <modules>
         <module>mall-common</module>
         <module>mall-api</module>
-<!--        <module>mall-service</module>-->
+        <module>mall-service</module>
 <!--        <module>mall-gateway</module>-->
 <!--        <module>mall-auth</module>-->
 <!--        <module>mall-admin</module>-->
