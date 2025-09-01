@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.mall.common.nacos.config.NacosAutoConfiguration
-
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  com.mall.common.nacos.config.ConfigEncryptProcessor

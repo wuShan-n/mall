@@ -2,20 +2,11 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
-      # Master data source
-      master:
-        url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
-        username: ${DB_USERNAME:root}
-        password: ${DB_PASSWORD:root}
-
-      # Slave data source (for read-only)
-      slave:
-        enabled: false  # Enable for read/write separation
-        url: jdbc:mysql://${DB_SLAVE_HOST:localhost}:${DB_SLAVE_PORT:3306}/${DB_NAME}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
-        username: ${DB_SLAVE_USERNAME:root}
-        password: ${DB_SLAVE_PASSWORD:root}
 
       # Connection pool configuration
       initial-size: 5
