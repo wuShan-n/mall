@@ -1,5 +1,6 @@
 package com.mall.common.annotation;
 
+
 import java.lang.annotation.*;
 
 /**
@@ -9,12 +10,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CacheEvictByPattern {
-    
+
     /**
      * Cache key pattern (supports wildcard *)
      */
     String pattern();
-    
+
     /**
      * Whether to execute before method
      */

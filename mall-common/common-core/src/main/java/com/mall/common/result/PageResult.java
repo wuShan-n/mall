@@ -15,13 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 public class PageResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private Long total;
     private Long pages;
     private Long current;
     private Long size;
     private List<T> records;
-    
+
     public static <T> PageResult<T> of(Long current, Long size, Long total, List<T> records) {
         PageResult<T> pageResult = new PageResult<>();
         pageResult.setCurrent(current);

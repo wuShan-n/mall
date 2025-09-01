@@ -11,11 +11,11 @@ import java.util.function.Supplier;
  * Bean utility class
  */
 public class BeanUtils {
-    
+
     private BeanUtils() {
         throw new IllegalStateException("Utility class");
     }
-    
+
     /**
      * Copy properties from source to target
      */
@@ -25,7 +25,7 @@ public class BeanUtils {
         }
         return BeanUtil.copyProperties(source, targetClass);
     }
-    
+
     /**
      * Copy properties to existing target
      */
@@ -35,7 +35,7 @@ public class BeanUtils {
         }
         BeanUtil.copyProperties(source, target);
     }
-    
+
     /**
      * Copy list
      */
@@ -45,7 +45,7 @@ public class BeanUtils {
         }
         return BeanUtil.copyToList(sourceList, targetClass);
     }
-    
+
     /**
      * Copy list with supplier
      */

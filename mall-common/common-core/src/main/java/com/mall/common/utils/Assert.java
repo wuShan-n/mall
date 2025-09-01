@@ -13,11 +13,11 @@ import java.util.Map;
  * Assertion utility class
  */
 public class Assert {
-    
+
     private Assert() {
         throw new IllegalStateException("Utility class");
     }
-    
+
     /**
      * Assert not null
      */
@@ -26,7 +26,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert not null with ResultCode
      */
@@ -35,7 +35,7 @@ public class Assert {
             throw new BusinessException(resultCode);
         }
     }
-    
+
     /**
      * Assert not empty string
      */
@@ -44,7 +44,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert not empty collection
      */
@@ -53,7 +53,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert not empty map
      */
@@ -62,7 +62,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert true
      */
@@ -71,7 +71,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert false
      */
@@ -80,7 +80,7 @@ public class Assert {
             throw new BusinessException(message);
         }
     }
-    
+
     /**
      * Assert equals
      */
