@@ -1,0 +1,62 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /${spring.application.name}
+  shutdown: graceful
+
+spring:
+  # 服务注册配置
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+        instance-enabled: true
+        heart-beat-interval: 5000
+        heart-beat-timeout: 15000
+        ip-delete-timeout: 30000
+        weight: 1.0
+        ephemeral: true
+    # 负载均衡配置
+    loadbalancer:
+      ribbon:
+        enabled: false  # 禁用Ribbon，使用Spring Cloud LoadBalancer
+      cache:
+        enabled: true
+        ttl: 35s
+        capacity: 256
+      health-check:
+        initial-delay: 0s
+        interval: 5s
+
+# Actuator监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,nacos-config,nacos-discovery
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+  health:
+    nacos-discovery:
+      enabled: true
+
+# 日志配置
+logging:
+  level:
+    com.alibaba.nacos: INFO
+    com.mall.common.nacos: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/${spring.application.name}/${spring.application.name}.log
+    max-size: 100MB
+    max-history: 30

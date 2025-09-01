@@ -1,0 +1,32 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+
+# Nacos监控指标
+nacos:
+  metrics:
+    enabled: true
+    export:
+      type: prometheus
+
+# 自定义监控指标
+monitoring:
+  alerts:
+    service-down:
+      threshold: 0  # 服务实例数为0时告警
+      duration: 60s  # 持续60秒
+    config-change:
+      enabled: true  # 配置变更告警
+    response-time:
+      threshold: 1000ms  # 响应时间超过1秒告警
