@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Unified API response wrapper
@@ -57,6 +58,10 @@ public class Result<T> implements Serializable {
 
     public static <T> Result<T> failed(Integer code, String message) {
         return new Result<>(code, message, null);
+    }
+
+    public static <T> Result<T> failed(Integer code, String message,T errors) {
+        return new Result<>(code, message, errors);
     }
 
     public boolean isSuccess() {

@@ -34,7 +34,7 @@ services:
     image: mysql:8.0
     container_name: nacos-mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root123456
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=nacos_config
       - MYSQL_USER=nacos
       - MYSQL_PASSWORD=nacos
