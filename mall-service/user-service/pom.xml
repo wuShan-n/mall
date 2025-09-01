@@ -12,7 +12,6 @@
     </parent>
 
     <artifactId>user-service</artifactId>
-    <packaging>pom</packaging>
 
     <name>user-service</name>
 
@@ -37,12 +36,6 @@
             <artifactId>user-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>common-mybatis</artifactId>
-        </dependency>
-
-
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -64,7 +57,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

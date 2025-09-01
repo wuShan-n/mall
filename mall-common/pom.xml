@@ -19,11 +19,5 @@
 
     <modules>
         <module>common-core</module>
-        <module>common-redis</module>
-        <module>common-mybatis</module>
-        <module>common-web</module>
-        <module>common-dubbo</module>
-        <module>common-security</module>
-        <module>common-nacos</module>
     </modules>
 </project>

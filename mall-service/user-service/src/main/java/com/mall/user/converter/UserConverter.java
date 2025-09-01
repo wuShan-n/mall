@@ -8,6 +8,7 @@ import com.mall.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public interface UserConverter {
     /**
      * 实体转VO
      */
+    @Named("userToUserVO")
     UserVO toVO(User user);
 
     /**
