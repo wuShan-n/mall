@@ -1,0 +1,32 @@
+# 全局配置
+global:
+  scrape_interval: 15s # 设置抓取间隔为15秒
+  evaluation_interval: 15s # 每15秒评估一次规则
+
+# Alertmanager 配置，用于告警
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093 # Alertmanager 的地址，如果没有部署可以先注释掉
+
+# 抓取配置（scrape_configs），这里定义了 Prometheus 要监控哪些目标
+scrape_configs:
+  # 第一个监控任务：监控 Prometheus 自己
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # 第二个监控任务：监控你的 Spring Boot 微服务（示例）
+  # 你需要为你的每个微服务都添加类似的配置
+  - job_name: "mall-microservices"
+    # Spring Boot Actuator 暴露的 metrics 路径
+    metrics_path: '/actuator/prometheus'
+    # 这里使用 static_configs 来静态指定监控目标
+    # 在 Docker Compose 环境中，可以直接使用服务名作为主机名
+    static_configs:
+      - targets:
+        # - 'user-service:8081'   # 你的用户服务
+        # - 'order-service:8082'  # 你的订单服务
+        # - 'gateway-service:8888' # 你的网关服务
+        # 请根据你 docker-compose.yml 中定义的服务名和端口，取消注释并修改它们

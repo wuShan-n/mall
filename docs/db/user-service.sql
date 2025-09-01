@@ -1,3 +1,6 @@
+
+create schema mall_user;
+use mall_user;
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
