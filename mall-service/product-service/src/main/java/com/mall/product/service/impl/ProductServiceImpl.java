@@ -4,11 +4,16 @@ package com.mall.product.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mall.api.product.dto.request.*;
+import com.mall.api.product.dto.request.ProductQueryRequest;
+import com.mall.api.product.dto.request.SkuCreateRequest;
+import com.mall.api.product.dto.request.SpuCreateRequest;
+import com.mall.api.product.dto.request.StockUpdateRequest;
 import com.mall.api.product.dto.response.*;
 import com.mall.api.product.enums.ProductStatusEnum;
 import com.mall.api.product.enums.StockOperationEnum;
@@ -17,8 +22,14 @@ import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
 import com.mall.common.result.ResultCode;
 import com.mall.common.utils.Assert;
-import com.mall.product.entity.*;
-import com.mall.product.mapper.*;
+import com.mall.product.entity.ProductSku;
+import com.mall.product.entity.ProductSpu;
+import com.mall.product.entity.ProductSpuAttribute;
+import com.mall.product.entity.StockRecord;
+import com.mall.product.mapper.ProductSkuMapper;
+import com.mall.product.mapper.ProductSpuAttributeMapper;
+import com.mall.product.mapper.ProductSpuMapper;
+import com.mall.product.mapper.StockRecordMapper;
 import com.mall.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +54,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private static final String PRODUCT_CACHE_KEY = "product:spu:";
+    private static final String STOCK_LOCK_KEY = "stock:lock:";
     private final ProductSpuMapper spuMapper;
     private final ProductSkuMapper skuMapper;
     private final ProductSpuAttributeMapper spuAttributeMapper;
     private final StockRecordMapper stockRecordMapper;
     private final RedissonClient redissonClient;
-
-    private static final String PRODUCT_CACHE_KEY = "product:spu:";
-    private static final String STOCK_LOCK_KEY = "stock:lock:";
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -93,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
                         spuAttr.setAttributeName(attr.getAttributeName());
                         spuAttr.setAttributeValue(attr.getAttributeValue());
                         return spuAttr;
-                    }).collect(Collectors.toList());
+                    }).toList();
             spuAttributeMapper.batchInsert(attributes);
         }
 
@@ -120,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
             // Delete old SKUs
             skuMapper.delete(new LambdaQueryWrapper<ProductSku>()
                     .eq(ProductSku::getSpuId, spuId));
-            
+
             // Insert new SKUs
             for (SkuCreateRequest skuRequest : request.getSkuList()) {
                 ProductSku sku = new ProductSku();
@@ -138,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
             // Delete old attributes
             spuAttributeMapper.delete(new LambdaQueryWrapper<ProductSpuAttribute>()
                     .eq(ProductSpuAttribute::getSpuId, spuId));
-            
+
             // Insert new attributes
             List<ProductSpuAttribute> attributes = request.getAttributes().stream()
                     .map(attr -> {
@@ -163,10 +173,10 @@ public class ProductServiceImpl implements ProductService {
     public Result<Void> deleteSpu(Long spuId) {
         // Check if product has orders
         // This would typically check with order service
-        
+
         int result = spuMapper.deleteById(spuId);
         Assert.isTrue(result > 0, "Failed to delete product");
-        
+
         return Result.success();
     }
 
@@ -177,10 +187,10 @@ public class ProductServiceImpl implements ProductService {
         if (spu == null) {
             return Result.failed(ResultCode.PRODUCT_NOT_FOUND);
         }
-        
+
         // Increase view count asynchronously
         spuMapper.increaseViewCount(spuId);
-        
+
         return Result.success(spu);
     }
 
@@ -209,12 +219,12 @@ public class ProductServiceImpl implements ProductService {
             for (SkuVO sku : skuList) {
                 if (StrUtil.isNotBlank(sku.getSpecs().toString())) {
                     Map<String, String> specs = JSON.parseObject(sku.getSpecs().toString(), Map.class);
-                    specs.forEach((key, value) -> 
-                        specMap.computeIfAbsent(key, k -> new HashSet<>()).add(value)
+                    specs.forEach((key, value) ->
+                            specMap.computeIfAbsent(key, k -> new HashSet<>()).add(value)
                     );
                 }
             }
-            
+
             List<SpecificationVO> specifications = specMap.entrySet().stream()
                     .map(entry -> {
                         SpecificationVO spec = new SpecificationVO();
@@ -237,7 +247,7 @@ public class ProductServiceImpl implements ProductService {
     public Result<PageResult<SpuVO>> queryProducts(ProductQueryRequest request) {
         IPage<SpuVO> page = new Page<>(request.getCurrent(), request.getSize());
         IPage<SpuVO> result = spuMapper.selectProductPage(page, request);
-        
+
         return Result.success(PageResult.of(
                 result.getCurrent(),
                 result.getSize(),
@@ -254,7 +264,7 @@ public class ProductServiceImpl implements ProductService {
         spu.setId(spuId);
         spu.setStatus(status);
         int result = spuMapper.updateById(spu);
-        
+
         Assert.isTrue(result > 0, "Failed to update product status");
         return Result.success();
     }
@@ -265,13 +275,13 @@ public class ProductServiceImpl implements ProductService {
         if (CollUtil.isEmpty(spuIds)) {
             return Result.failed("Product IDs cannot be empty");
         }
-        
+
         int result = spuMapper.batchUpdateStatus(spuIds, status);
         Assert.isTrue(result > 0, "Failed to update product status");
-        
+
         // Clear cache
         spuIds.forEach(id -> evictProductCache(id));
-        
+
         return Result.success();
     }
 
@@ -281,10 +291,10 @@ public class ProductServiceImpl implements ProductService {
         if (sku == null) {
             return Result.failed("SKU not found");
         }
-        
+
         SkuVO vo = new SkuVO();
         BeanUtil.copyProperties(sku, vo);
-        vo.setSpecs(JSON.parseObject(sku.getSpecs(), Map.class));
+        vo.setSpecs(JSONObject.parse(sku.getSpecs(), Map.class));
         return Result.success(vo);
     }
 
@@ -299,7 +309,7 @@ public class ProductServiceImpl implements ProductService {
         if (CollUtil.isEmpty(skuIds)) {
             return Result.success(new ArrayList<>());
         }
-        
+
         List<SkuVO> skus = skuMapper.selectSkusByIds(skuIds);
         return Result.success(skus);
     }
@@ -310,13 +320,13 @@ public class ProductServiceImpl implements ProductService {
         // Use distributed lock
         String lockKey = STOCK_LOCK_KEY + request.getSkuId();
         RLock lock = redissonClient.getLock(lockKey);
-        
+
         try {
             if (lock.tryLock(5, 10, TimeUnit.SECONDS)) {
                 // Get current stock
                 ProductSku sku = skuMapper.selectById(request.getSkuId());
                 Assert.notNull(sku, "SKU not found");
-                
+
                 int result = 0;
                 StockRecord record = new StockRecord();
                 record.setSkuId(request.getSkuId());
@@ -326,7 +336,7 @@ public class ProductServiceImpl implements ProductService {
                 record.setBusinessType(request.getBusinessType());
                 record.setBusinessNo(request.getBusinessNo());
                 record.setRemark(request.getRemark());
-                
+
                 if (StockOperationEnum.ADD.getCode().equals(request.getOperationType())) {
                     result = skuMapper.addStock(request.getSkuId(), request.getQuantity());
                     record.setStockAfter(sku.getStock() + request.getQuantity());
@@ -335,12 +345,12 @@ public class ProductServiceImpl implements ProductService {
                     result = skuMapper.deductStock(request.getSkuId(), request.getQuantity());
                     record.setStockAfter(sku.getStock() - request.getQuantity());
                 }
-                
+
                 Assert.isTrue(result > 0, "Failed to update stock");
-                
+
                 // Save stock record
                 stockRecordMapper.insert(record);
-                
+
                 return Result.success();
             } else {
                 return Result.failed("Failed to acquire lock, please try again");
@@ -360,14 +370,14 @@ public class ProductServiceImpl implements ProductService {
     public Result<Void> lockStock(Long skuId, Integer quantity, String orderNo) {
         String lockKey = STOCK_LOCK_KEY + skuId;
         RLock lock = redissonClient.getLock(lockKey);
-        
+
         try {
             if (lock.tryLock(5, 10, TimeUnit.SECONDS)) {
                 int result = skuMapper.lockStock(skuId, quantity);
                 if (result <= 0) {
                     throw new BusinessException(ResultCode.STOCK_INSUFFICIENT);
                 }
-                
+
                 // Record stock operation
                 StockRecord record = new StockRecord();
                 record.setSkuId(skuId);
@@ -377,7 +387,7 @@ public class ProductServiceImpl implements ProductService {
                 record.setBusinessNo(orderNo);
                 record.setRemark("Order stock lock");
                 stockRecordMapper.insert(record);
-                
+
                 return Result.success();
             } else {
                 return Result.failed("Failed to lock stock, please try again");
@@ -397,7 +407,7 @@ public class ProductServiceImpl implements ProductService {
     public Result<Void> unlockStock(Long skuId, Integer quantity, String orderNo) {
         int result = skuMapper.unlockStock(skuId, quantity);
         Assert.isTrue(result > 0, "Failed to unlock stock");
-        
+
         // Record stock operation
         StockRecord record = new StockRecord();
         record.setSkuId(skuId);
@@ -407,7 +417,7 @@ public class ProductServiceImpl implements ProductService {
         record.setBusinessNo(orderNo);
         record.setRemark("Order stock unlock");
         stockRecordMapper.insert(record);
-        
+
         return Result.success();
     }
 
@@ -418,11 +428,11 @@ public class ProductServiceImpl implements ProductService {
         if (result <= 0) {
             throw new BusinessException(ResultCode.STOCK_INSUFFICIENT);
         }
-        
+
         // Update SPU sales count
         ProductSku sku = skuMapper.selectById(skuId);
         spuMapper.updateSaleCount(sku.getSpuId(), quantity);
-        
+
         // Record stock operation
         StockRecord record = new StockRecord();
         record.setSkuId(skuId);
@@ -432,7 +442,7 @@ public class ProductServiceImpl implements ProductService {
         record.setBusinessNo(orderNo);
         record.setRemark("Order stock deduction");
         stockRecordMapper.insert(record);
-        
+
         return Result.success();
     }
 
@@ -445,33 +455,33 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Result<ProductStatisticsVO> getProductStatistics() {
         ProductStatisticsVO stats = new ProductStatisticsVO();
-        
+
         // Get total products
         stats.setTotalProducts(spuMapper.selectCount(null));
-        
+
         // Get on/off shelf products
         stats.setOnShelfProducts(spuMapper.selectCount(new LambdaQueryWrapper<ProductSpu>()
                 .eq(ProductSpu::getStatus, ProductStatusEnum.UP.getCode())));
         stats.setOffShelfProducts(spuMapper.selectCount(new LambdaQueryWrapper<ProductSpu>()
                 .eq(ProductSpu::getStatus, ProductStatusEnum.DOWN.getCode())));
-        
+
         // Get SKU statistics
         stats.setTotalSkus(skuMapper.selectCount(null));
         stats.setOutOfStockSkus(skuMapper.selectCount(new LambdaQueryWrapper<ProductSku>()
                 .eq(ProductSku::getStock, 0)));
         stats.setLowStockSkus(skuMapper.selectCount(new LambdaQueryWrapper<ProductSku>()
                 .apply("stock > 0 AND stock <= warn_stock")));
-        
+
         // Today's new products
         LocalDateTime todayStart = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         stats.setTodayNewProducts(spuMapper.selectCount(new LambdaQueryWrapper<ProductSpu>()
                 .ge(ProductSpu::getCreateTime, todayStart)));
-        
+
         // This month's new products
         LocalDateTime monthStart = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
         stats.setMonthNewProducts(spuMapper.selectCount(new LambdaQueryWrapper<ProductSpu>()
                 .ge(ProductSpu::getCreateTime, monthStart)));
-        
+
         return Result.success(stats);
     }
 
