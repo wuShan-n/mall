@@ -66,7 +66,7 @@ public class UserController {
 
     @PostMapping("/refresh-token")
     @Operation(summary = "刷新Token", description = "使用refreshToken刷新accessToken")
-    public Result<String> refreshToken(@RequestParam String refreshToken) {
+    public Result<String> refreshToken(@RequestParam("refreshToken") String refreshToken) {
         return Result.success(userAuthService.refreshToken(refreshToken));
     }
 
@@ -146,7 +146,7 @@ public class UserController {
     @PostMapping("/send-sms-code")
     @Operation(summary = "发送短信验证码", description = "发送短信验证码到手机")
     @RateLimit(key = "user:send-sms", time = 60, count = 1, limitType = RateLimit.LimitType.IP)
-    public Result<Void> sendSmsCode(@RequestParam String phone) {
+    public Result<Void> sendSmsCode(@RequestParam("phone") String phone) {
         userAuthService.sendSmsCode(phone);
         return Result.success();
     }
