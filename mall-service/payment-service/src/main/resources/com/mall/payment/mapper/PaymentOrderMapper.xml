@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.payment.mapper.PaymentOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.mall.payment.entity.PaymentOrder">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="paymentNo" column="payment_no" jdbcType="VARCHAR"/>
+            <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="paymentType" column="payment_type" jdbcType="TINYINT"/>
+            <result property="paymentAmount" column="payment_amount" jdbcType="DECIMAL"/>
+            <result property="currency" column="currency" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="thirdPartyNo" column="third_party_no" jdbcType="VARCHAR"/>
+            <result property="paymentTime" column="payment_time" jdbcType="TIMESTAMP"/>
+            <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+            <result property="callbackTime" column="callback_time" jdbcType="TIMESTAMP"/>
+            <result property="callbackContent" column="callback_content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,payment_no,order_no,user_id,payment_type,payment_amount,
+        currency,status,third_party_no,payment_time,expire_time,
+        callback_time,callback_content,create_time,update_time
+    </sql>
+</mapper>
