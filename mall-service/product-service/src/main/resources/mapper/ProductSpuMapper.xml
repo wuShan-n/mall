@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.product.mapper.ProductSpuMapper">
+
+    <resultMap id="SpuVOMap" type="com.mall.api.product.dto.response.SpuVO">
+        <id column="id" property="id"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_code" property="productCode"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="main_image" property="mainImage"/>
+        <result column="images" property="images" typeHandler="com.mall.product.handler.JsonListTypeHandler"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="unit" property="unit"/>
+        <result column="weight" property="weight"/>
+        <result column="introduction" property="introduction"/>
+        <result column="keywords" property="keywords"/>
+        <result column="tags" property="tags"/>
+        <result column="sale_count" property="saleCount"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="score" property="score"/>
+        <result column="is_new" property="isNew"/>
+        <result column="is_hot" property="isHot"/>
+        <result column="is_best" property="isBest"/>
+        <result column="status" property="status"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="sort" property="sort"/>
+        <result column="min_price" property="minPrice"/>
+        <result column="max_price" property="maxPrice"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectProductPage" resultMap="SpuVOMap">
+        SELECT
+        s.id, s.product_name, s.product_code, s.category_id, s.brand_id,
+        s.main_image, s.images, s.video_url, s.unit, s.weight,
+        s.introduction, s.keywords, s.tags, s.sale_count, s.view_count,
+        s.comment_count, s.score, s.is_new, s.is_hot, s.is_best,
+        s.status, s.audit_status, s.sort, s.create_time,
+        c.category_name, b.brand_name,
+        (SELECT MIN(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
+        (SELECT MAX(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
+        FROM pms_spu s
+        LEFT JOIN pms_category c ON s.category_id = c.id
+        LEFT JOIN pms_brand b ON s.brand_id = b.id
+        WHERE s.deleted = 0
+        <if test="query.productName != null and query.productName != ''">
+            AND s.product_name LIKE CONCAT('%', #{query.productName}, '%')
+        </if>
+        <if test="query.productCode != null and query.productCode != ''">
+            AND s.product_code LIKE CONCAT('%', #{query.productCode}, '%')
+        </if>
+        <if test="query.categoryId != null">
+            AND s.category_id = #{query.categoryId}
+        </if>
+        <if test="query.brandId != null">
+            AND s.brand_id = #{query.brandId}
+        </if>
+        <if test="query.status != null">
+            AND s.status = #{query.status}
+        </if>
+        <if test="query.auditStatus != null">
+            AND s.audit_status = #{query.auditStatus}
+        </if>
+        <if test="query.isNew != null">
+            AND s.is_new = #{query.isNew}
+        </if>
+        <if test="query.isHot != null">
+            AND s.is_hot = #{query.isHot}
+        </if>
+        <if test="query.isBest != null">
+            AND s.is_best = #{query.isBest}
+        </if>
+        <if test="query.keywords != null and query.keywords != ''">
+            AND (s.keywords LIKE CONCAT('%', #{query.keywords}, '%')
+            OR s.product_name LIKE CONCAT('%', #{query.keywords}, '%'))
+        </if>
+        <if test="query.minPrice != null">
+            AND EXISTS (SELECT 1 FROM pms_sku WHERE spu_id = s.id AND price >= #{query.minPrice})
+        </if>
+        <if test="query.maxPrice != null">
+            AND EXISTS (SELECT 1 FROM pms_sku WHERE spu_id = s.id AND price &lt;= #{query.maxPrice})
+        </if>
+        <if test="query.startTime != null">
+            AND s.create_time >= #{query.startTime}
+        </if>
+        <if test="query.endTime != null">
+            AND s.create_time &lt;= #{query.endTime}
+        </if>
+        ORDER BY s.sort ASC, s.create_time DESC
+    </select>
+
+    <select id="selectSpuDetail" resultMap="SpuVOMap">
+        SELECT
+            s.*, c.category_name, b.brand_name,
+            (SELECT MIN(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
+            (SELECT MAX(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
+        FROM pms_spu s
+                 LEFT JOIN pms_category c ON s.category_id = c.id
+                 LEFT JOIN pms_brand b ON s.brand_id = b.id
+        WHERE s.id = #{spuId} AND s.deleted = 0
+    </select>
+
+    <update id="batchUpdateStatus">
+        UPDATE pms_spu
+        SET status = #{status}, update_time = NOW()
+        WHERE id IN
+        <foreach collection="spuIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND deleted = 0
+    </update>
+
+    <update id="increaseViewCount">
+        UPDATE pms_spu
+        SET view_count = view_count + 1
+        WHERE id = #{spuId} AND deleted = 0
+    </update>
+
+    <update id="updateSaleCount">
+        UPDATE pms_spu
+        SET sale_count = sale_count + #{count}
+        WHERE id = #{spuId} AND deleted = 0
+    </update>
+
+</mapper>

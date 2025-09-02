@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.product.mapper.ProductBrandMapper">
+
+    <resultMap id="BrandVOMap" type="com.mall.api.product.dto.response.BrandVO">
+        <id column="id" property="id"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="brand_code" property="brandCode"/>
+        <result column="logo" property="logo"/>
+        <result column="description" property="description"/>
+        <result column="sort" property="sort"/>
+        <result column="status" property="status"/>
+        <result column="product_count" property="productCount"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectBrandPage" resultMap="BrandVOMap">
+        SELECT
+        b.*,
+        (SELECT COUNT(*) FROM pms_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
+        FROM pms_brand b
+        WHERE b.deleted = 0
+        <if test="brandName != null and brandName != ''">
+            AND b.brand_name LIKE CONCAT('%', #{brandName}, '%')
+        </if>
+        ORDER BY b.sort ASC, b.create_time DESC
+    </select>
+
+    <select id="selectBrandsByCategoryId" resultMap="BrandVOMap">
+        SELECT DISTINCT b.*
+        FROM pms_brand b
+                 INNER JOIN pms_spu s ON b.id = s.brand_id
+        WHERE b.deleted = 0 AND s.deleted = 0
+          AND s.category_id = #{categoryId}
+        ORDER BY b.sort ASC
+    </select>
+
+    <select id="selectBrandWithCount" resultMap="BrandVOMap">
+        SELECT
+            b.*,
+            (SELECT COUNT(*) FROM pms_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
+        FROM pms_brand b
+        WHERE b.id = #{brandId} AND b.deleted = 0
+    </select>
+
+</mapper>

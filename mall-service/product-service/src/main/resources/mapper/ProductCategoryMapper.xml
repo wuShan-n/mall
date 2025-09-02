@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.product.mapper.ProductCategoryMapper">
+
+    <resultMap id="CategoryVOMap" type="com.mall.api.product.dto.response.CategoryVO">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="category_code" property="categoryCode"/>
+        <result column="level" property="level"/>
+        <result column="sort" property="sort"/>
+        <result column="icon" property="icon"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectCategoryTree" resultMap="CategoryVOMap">
+        SELECT * FROM pms_category
+        WHERE deleted = 0
+        <if test="parentId != null">
+            AND parent_id = #{parentId}
+        </if>
+        ORDER BY sort ASC, id ASC
+    </select>
+
+    <select id="selectCategoryPath" resultMap="CategoryVOMap">
+        WITH RECURSIVE category_path AS (
+            SELECT * FROM pms_category WHERE id = #{categoryId} AND deleted = 0
+            UNION ALL
+            SELECT c.* FROM pms_category c
+                                INNER JOIN category_path cp ON c.id = cp.parent_id
+            WHERE c.deleted = 0
+        )
+        SELECT * FROM category_path ORDER BY level ASC
+    </select>
+
+    <select id="hasChildren" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM pms_category
+        WHERE parent_id = #{categoryId} AND deleted = 0
+    </select>
+
+    <select id="hasProducts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM pms_spu
+        WHERE category_id = #{categoryId} AND deleted = 0
+    </select>
+
+</mapper>

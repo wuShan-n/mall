@@ -37,7 +37,7 @@
 
         <!-- Cache & Message Queue -->
         <redisson.version>3.25.0</redisson.version>
-        <rabbitmq.version>4.2.0</rabbitmq.version>
+        <rabbitmq.version>3.5.3</rabbitmq.version>
 
         <!-- Monitoring -->
         <skywalking.version>9.0.0</skywalking.version>
@@ -90,8 +90,8 @@
     <modules>
         <module>mall-common</module>
         <module>mall-api</module>
-<!--        <module>mall-service</module>-->
-<!--        <module>mall-gateway</module>-->
+        <module>mall-service</module>
+        <module>mall-gateway</module>
 <!--        <module>mall-auth</module>-->
 <!--        <module>mall-admin</module>-->
 <!--        <module>mall-portal</module>-->
