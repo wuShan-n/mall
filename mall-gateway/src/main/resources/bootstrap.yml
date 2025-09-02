@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:dev}
+        file-extension: yml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}
+        shared-configs:
+          - data-id: common-config.yml
+            group: DEFAULT_GROUP
+            refresh: true
+        extension-configs:
+          - data-id: gateway-routes.yml
+            group: DEFAULT_GROUP
+            refresh: true

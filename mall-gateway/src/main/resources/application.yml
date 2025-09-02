@@ -1,0 +1,183 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mall-gateway
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+  cloud:
+    # Nacos??
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:dev}
+        group: DEFAULT_GROUP
+        metadata:
+          version: 1.0.0
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:dev}
+        file-extension: yml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+
+    # Gateway??
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      # ?????
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+        - AddRequestHeader=X-Request-From, gateway
+
+      # ???????Java???????????????
+      routes:
+        # ??????
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                key-resolver: "#{@ipKeyResolver}"
+
+    # Sentinel??
+    sentinel:
+      transport:
+        dashboard: ${SENTINEL_DASHBOARD:localhost:8858}
+        port: 8719
+      datasource:
+        flow:
+          nacos:
+            server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+            namespace: ${NACOS_NAMESPACE:dev}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: flow
+        degrade:
+          nacos:
+            server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+            namespace: ${NACOS_NAMESPACE:dev}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: degrade
+
+  # Redis??
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+# Sa-Token ??
+sa-token:
+  # token?? (????cookie??)
+  token-name: Authorization
+  # token??????s ??30?
+  timeout: 2592000
+  # token????? (???????????token??) ??: ?
+  active-timeout: -1
+  # ???????????? (?true???????, ?false?????????)
+  is-concurrent: true
+  # ?????????????????token (?true?????????token, ?false?????????token)
+  is-share: false
+  # token??
+  token-style: uuid
+  # ????????
+  is-log: false
+  # ???cookie???token
+  is-read-cookie: false
+  # ?????????token
+  is-read-body: false
+  # ???header???token
+  is-read-header: true
+  # token??
+  token-prefix: "Bearer "
+  # jwt??
+  jwt-secret-key: ${JWT_SECRET:mall-platform-secret-2024}
+
+  # Sa-Token-Same-Token?? (????????)
+  same-token:
+    # ??????
+    check: true
+    # Same-Token??
+    value: ${SAME_TOKEN:mall-inner-service-2024}
+
+# ????
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,gateway
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# ????
+logging:
+  level:
+    com.mall.gateway: DEBUG
+    cn.dev33.satoken: DEBUG
+    org.springframework.cloud.gateway: INFO
+    reactor.netty: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/${spring.application.name}/${spring.application.name}.log
+    max-size: 100MB
+    max-history: 30
+
+# Knife4j????
+knife4j:
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      enabled: true
+      version: openapi3
+      excluded-services:
+        - mall-gateway
+    routes:
+      - name: ????
+        service-name: user-service
+        url: /user-service/v3/api-docs
+        context-path: /user-service
+        order: 1
+      - name: ????
+        service-name: product-service
+        url: /product-service/v3/api-docs
+        context-path: /product-service
+        order: 2
+      - name: ????
+        service-name: order-service
+        url: /order-service/v3/api-docs
+        context-path: /order-service
+        order: 3
+      - name: ????
+        service-name: payment-service
+        url: /payment-service/v3/api-docs
+        context-path: /payment-service
+        order: 4

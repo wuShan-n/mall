@@ -9,9 +9,6 @@ spring:
     name: user-service
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
-  config:
-    import:
-      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml
   main:
     allow-bean-definition-overriding: true
 
@@ -87,32 +84,12 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-        namespace: ${NACOS_NAMESPACE:dev}
+        namespace: ${NACOS_NAMESPACE:public}
         group: DEFAULT_GROUP
         metadata:
           version: 1.0.0
           region: default
 
-    # Sentinel配置
-    sentinel:
-      transport:
-        dashboard: ${SENTINEL_DASHBOARD:localhost:8080}
-        port: 8719
-      datasource:
-        flow:
-          nacos:
-            server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-            namespace: ${NACOS_NAMESPACE:dev}
-            dataId: ${spring.application.name}-flow-rules
-            groupId: SENTINEL_GROUP
-            rule-type: flow
-        degrade:
-          nacos:
-            server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-            namespace: ${NACOS_NAMESPACE:dev}
-            dataId: ${spring.application.name}-degrade-rules
-            groupId: SENTINEL_GROUP
-            rule-type: degrade
 
 # Dubbo配置
 dubbo:
@@ -123,7 +100,7 @@ dubbo:
   registry:
     address: nacos://${NACOS_SERVER_ADDR:localhost:8848}
     parameters:
-      namespace: ${NACOS_NAMESPACE:dev}
+      namespace: ${NACOS_NAMESPACE:public}
   protocol:
     name: dubbo
     port: ${DUBBO_PORT:20881}
@@ -155,22 +132,6 @@ mybatis-plus:
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# Seata配置
-seata:
-  enabled: true
-  application-id: ${spring.application.name}
-  tx-service-group: ${spring.application.name}-group
-  service:
-    vgroup-mapping:
-      user-service-group: default
-  registry:
-    type: nacos
-    nacos:
-      application: seata-server
-      server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-      namespace: ${NACOS_NAMESPACE:dev}
-      group: SEATA_GROUP
-
 # Sa-Token配置
 sa-token:
   token-name: Authorization
@@ -181,45 +142,6 @@ sa-token:
   token-style: uuid
   is-log: false
 
-# Feign配置
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: BASIC
-      user-service:
-        connectTimeout: 3000
-        readTimeout: 3000
-        loggerLevel: FULL
-      order-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: BASIC
-      payment-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: BASIC
-      product-service:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: BASIC
-  compression:
-    request:
-      enabled: true
-      mime-types: text/xml,application/xml,application/json
-      min-request-size: 2048
-    response:
-      enabled: true
-  sentinel:
-    enabled: true
-  hystrix:
-    enabled: false
-  okhttp:
-    enabled: false
-  httpclient:
-    enabled: true
 
 # Actuator监控配置
 management:
@@ -262,9 +184,9 @@ logging:
     org.springframework.web: INFO
     com.alibaba.nacos: INFO
     org.apache.dubbo: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: logs/${spring.application.name}/${spring.application.name}.log
     max-size: 100MB

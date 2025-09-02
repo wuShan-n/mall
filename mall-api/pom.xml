@@ -70,19 +70,6 @@
             <artifactId>swagger-annotations-jakarta</artifactId>
         </dependency>
 
-        <!-- Spring Cloud OpenFeign (provided scope) -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Dubbo (provided scope) -->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
