@@ -15,7 +15,7 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-        namespace: ${NACOS_NAMESPACE:dev}
+        namespace: ${NACOS_NAMESPACE:public}
         group: DEFAULT_GROUP
         metadata:
           version: 1.0.0
@@ -143,8 +143,8 @@ logging:
     cn.dev33.satoken: DEBUG
     org.springframework.cloud.gateway: INFO
     reactor.netty: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: logs/${spring.application.name}/${spring.application.name}.log
     max-size: 100MB
