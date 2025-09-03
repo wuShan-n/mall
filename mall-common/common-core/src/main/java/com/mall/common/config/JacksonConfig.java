@@ -1,4 +1,4 @@
-package com.mall.product.config;
+package com.mall.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

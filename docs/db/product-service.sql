@@ -152,24 +152,6 @@ CREATE TABLE `product_spu_attribute` (
                                      KEY `idx_attribute_id` (`attribute_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品SPU属性值表';
 
--- 库存变更记录表
-CREATE TABLE `product_stock_record` (
-                                    `id` bigint NOT NULL COMMENT '记录ID',
-                                    `sku_id` bigint NOT NULL COMMENT 'SKU ID',
-                                    `quantity` int NOT NULL COMMENT '变更数量',
-                                    `stock_before` int DEFAULT NULL COMMENT '变更前库存',
-                                    `stock_after` int DEFAULT NULL COMMENT '变更后库存',
-                                    `operation_type` tinyint NOT NULL COMMENT '操作: 1-入库, 2-出库, 3-锁定, 4-解锁',
-                                    `business_type` varchar(50) DEFAULT NULL COMMENT '业务类型',
-                                    `business_no` varchar(100) DEFAULT NULL COMMENT '业务单号',
-                                    `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-                                    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                    `create_by` bigint DEFAULT NULL COMMENT '操作者ID',
-                                    PRIMARY KEY (`id`),
-                                    KEY `idx_sku_id` (`sku_id`),
-                                    KEY `idx_business_no` (`business_no`),
-                                    KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='库存变更记录表';
 
 -- 插入示例数据
 INSERT INTO `product_category` (`id`, `parent_id`, `category_name`, `category_code`, `level`, `sort`) VALUES

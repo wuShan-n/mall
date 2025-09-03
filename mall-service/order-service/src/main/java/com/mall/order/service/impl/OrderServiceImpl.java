@@ -56,12 +56,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private final OrderItemService orderItemService;
     private final OrderOperateHistoryService operateHistoryService;
     private final ProductFeignClient productFeignClient;
-    private final InventoryFeignClient inventoryFeignClient;
     private final UserFeignClient userFeignClient;
     private final AddressFeignClient addressFeignClient;
     private final PaymentFeignClient paymentFeignClient;
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final RedissonClient redissonClient;
     private final OrderEventPublisher orderEventPublisher;
 
     @Override
@@ -187,7 +184,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             throw new BusinessException("Failed to create order: " + e.getMessage());
         }
     }
-
 
     @Override
     public OrderSettlementVO getSettlement(Long userId, OrderSettlementRequest request) {

@@ -101,9 +101,11 @@ dubbo:
     address: nacos://${NACOS_SERVER_ADDR:localhost:8848}
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
+    group: DUBBO_GROUP
+    register-mode: instance
   protocol:
-    name: dubbo
-    port: ${DUBBO_PORT:20881}
+    name: tri
+    port: ${TRIPLE_PORT:50051}
     threads: 200
   consumer:
     check: false

@@ -71,14 +71,14 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @Operation(summary = "获取用户信息", description = "根据用户ID获取用户信息")
-    public Result<UserVO> getUserById(@PathVariable @Parameter(description = "用户ID") Long userId) {
+    public Result<UserVO> getUserById(@PathVariable("userId") @Parameter(description = "用户ID") Long userId) {
         log.debug("Get user by id: {}", userId);
         return Result.success(userManagementService.getUserById(userId));
     }
 
     @GetMapping("/username/{username}")
     @Operation(summary = "根据用户名获取用户", description = "根据用户名获取用户信息")
-    public Result<UserVO> getUserByUsername(@PathVariable String username) {
+    public Result<UserVO> getUserByUsername(@PathVariable("username") String username) {
         log.debug("Get user by username: {}", username);
         return Result.success(userManagementService.getUserByUsername(username));
     }
@@ -126,19 +126,19 @@ public class UserController {
 
     @GetMapping("/check/username/{username}")
     @Operation(summary = "检查用户名是否存在", description = "检查用户名是否已被注册")
-    public Result<Boolean> checkUsernameExists(@PathVariable String username) {
+    public Result<Boolean> checkUsernameExists(@PathVariable("username") String username) {
         return Result.success(userManagementService.checkUsernameExists(username));
     }
 
     @GetMapping("/check/phone/{phone}")
     @Operation(summary = "检查手机号是否存在", description = "检查手机号是否已被注册")
-    public Result<Boolean> checkPhoneExists(@PathVariable String phone) {
+    public Result<Boolean> checkPhoneExists(@PathVariable("phone") String phone) {
         return Result.success(userManagementService.checkPhoneExists(phone));
     }
 
     @GetMapping("/check/email/{email}")
     @Operation(summary = "检查邮箱是否存在", description = "检查邮箱是否已被注册")
-    public Result<Boolean> checkEmailExists(@PathVariable String email) {
+    public Result<Boolean> checkEmailExists(@PathVariable("email") String email) {
         return Result.success(userManagementService.checkEmailExists(email));
     }
 
@@ -161,7 +161,7 @@ public class UserController {
     @PostMapping("/enable/{userId}")
     @Operation(summary = "启用用户", description = "启用指定用户账号")
     @Log(module = "用户", type = Log.OperationType.UPDATE, desc = "启用用户")
-    public Result<Void> enableUser(@PathVariable Long userId) {
+    public Result<Void> enableUser(@PathVariable("userId") Long userId) {
         userManagementService.enableUser(userId);
         return Result.success();
     }
@@ -169,7 +169,7 @@ public class UserController {
     @PostMapping("/disable/{userId}")
     @Operation(summary = "禁用用户", description = "禁用指定用户账号")
     @Log(module = "用户", type = Log.OperationType.UPDATE, desc = "禁用用户")
-    public Result<Void> disableUser(@PathVariable Long userId) {
+    public Result<Void> disableUser(@PathVariable("userId") Long userId) {
         userManagementService.disableUser(userId);
         return Result.success();
     }
@@ -177,7 +177,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     @Operation(summary = "删除用户", description = "逻辑删除用户")
     @Log(module = "用户", type = Log.OperationType.DELETE, desc = "删除用户")
-    public Result<Void> deleteUser(@PathVariable Long userId) {
+    public Result<Void> deleteUser(@PathVariable("userId") Long userId) {
         userManagementService.deleteUser(userId);
         return Result.success();
     }

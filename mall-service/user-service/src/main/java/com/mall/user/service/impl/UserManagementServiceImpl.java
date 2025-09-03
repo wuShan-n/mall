@@ -39,7 +39,6 @@ public class UserManagementServiceImpl implements UserManagementService {
     private final UserConverter userConverter;
 
     @Override
-    @Cacheable(value = "user", key = "#userId")
     public UserVO getUserById(Long userId) {
         log.debug("Get user by id: {}", userId);
         
@@ -50,7 +49,6 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    @Cacheable(value = "user", key = "'username:' + #username")
     public UserVO getUserByUsername(String username) {
         log.debug("Get user by username: {}", username);
         
@@ -63,7 +61,6 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "user", key = "#request.id")
     public UserVO updateUser(UserUpdateRequest request) {
         log.info("Update user: {}", request.getId());
         
@@ -168,7 +165,6 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "user", key = "#userId")
     public void enableUser(Long userId) {
         log.info("Enable user: {}", userId);
         
@@ -189,7 +185,6 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "user", key = "#userId")
     public void disableUser(Long userId) {
         log.info("Disable user: {}", userId);
         
@@ -210,7 +205,6 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "user", key = "#userId")
     public void deleteUser(Long userId) {
         log.info("Delete user: {}", userId);
         

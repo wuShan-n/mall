@@ -18,15 +18,14 @@
     <description>Microservices modules for mall platform</description>
 
     <modules>
-<!--        <module>user-service</module>-->
-        <!-- 未来可添加的服务模块 -->
-        <!-- <module>product-service</module> -->
-        <!-- <module>order-service</module> -->
-        <!-- <module>payment-service</module> -->
-        <!-- <module>inventory-service</module> -->
-        <!-- <module>search-service</module> -->
-        <!-- <module>marketing-service</module> -->
-        <!-- <module>message-service</module> -->
+        <module>user-service</module>
+         <module>product-service</module>
+         <module>order-service</module>
+         <module>payment-service</module>
+<!--         <module>inventory-service</module> -->
+<!--         <module>search-service</module> -->
+<!--         <module>marketing-service</module> -->
+<!--         <module>message-service</module> -->
     </modules>
 
     <properties>
@@ -243,85 +242,17 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
-
-        <!-- Resources Configuration -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.yml</include>
-                    <include>**/*.yaml</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/*.yml</exclude>
-                    <exclude>**/*.yaml</exclude>
-                    <exclude>**/*.properties</exclude>
-                    <exclude>**/*.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
     </build>
 
-    <!-- Profiles for different environments -->
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profileActive>dev</profileActive>
-                <nacos.namespace>dev</nacos.namespace>
-            </properties>
-        </profile>
 
-        <profile>
-            <id>test</id>
-            <properties>
-                <profileActive>test</profileActive>
-                <nacos.namespace>test</nacos.namespace>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profileActive>prod</profileActive>
-                <nacos.namespace>prod</nacos.namespace>
-                <skipTests>true</skipTests>
-            </properties>
-        </profile>
-    </profiles>
 </project>
