@@ -23,13 +23,13 @@
     </resultMap>
 
     <select id="selectSkusBySpuId" resultMap="SkuVOMap">
-        SELECT * FROM pms_sku
+        SELECT * FROM product_sku
         WHERE spu_id = #{spuId} AND deleted = 0
         ORDER BY sort ASC, id ASC
     </select>
 
     <select id="selectSkusByIds" resultMap="SkuVOMap">
-        SELECT * FROM pms_sku
+        SELECT * FROM product_sku
         WHERE deleted = 0 AND id IN
         <foreach collection="skuIds" item="id" open="(" separator="," close=")">
             #{id}
@@ -38,7 +38,7 @@
 
     <select id="checkStock" resultType="java.lang.Integer">
         SELECT stock - lock_stock AS available_stock
-        FROM pms_sku
+        FROM product_sku
         WHERE id = #{skuId} AND deleted = 0
     </select>
 

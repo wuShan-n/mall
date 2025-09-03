@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "用户管理", description = "用户相关接口")
 @Validated
 public class UserController {
-
     private final UserAuthService userAuthService;
     private final UserManagementService userManagementService;
 

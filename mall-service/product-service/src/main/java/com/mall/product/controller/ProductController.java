@@ -30,7 +30,7 @@ public class ProductController {
 
     @PostMapping("/spu/create")
     @Operation(summary = "Create SPU", description = "Create a new product SPU with SKUs")
-    @SaCheckPermission("product:add")
+//    @SaCheckPermission("product:add")
     @Log(module = "Product", type = Log.OperationType.CREATE, desc = "Create SPU")
     public Result<SpuVO> createSpu(@Valid @RequestBody SpuCreateRequest request) {
         return productService.createSpu(request);
@@ -38,7 +38,7 @@ public class ProductController {
 
     @PutMapping("/spu/{spuId}")
     @Operation(summary = "Update SPU", description = "Update product SPU information")
-    @SaCheckPermission("product:update")
+//    @SaCheckPermission("product:update")
     @Log(module = "Product", type = Log.OperationType.UPDATE, desc = "Update SPU")
     public Result<SpuVO> updateSpu(
             @Parameter(description = "SPU ID") @PathVariable Long spuId,
@@ -48,7 +48,7 @@ public class ProductController {
 
     @DeleteMapping("/spu/{spuId}")
     @Operation(summary = "Delete SPU", description = "Delete a product SPU")
-    @SaCheckPermission("product:delete")
+//    @SaCheckPermission("product:delete")
     @Log(module = "Product", type = Log.OperationType.DELETE, desc = "Delete SPU")
     public Result<Void> deleteSpu(@Parameter(description = "SPU ID") @PathVariable Long spuId) {
         return productService.deleteSpu(spuId);
@@ -77,7 +77,7 @@ public class ProductController {
 
     @PutMapping("/spu/{spuId}/status/{status}")
     @Operation(summary = "Update product status", description = "Update product on/off shelf status")
-    @SaCheckPermission("product:update")
+//    @SaCheckPermission("product:update")
     @Log(module = "Product", type = Log.OperationType.UPDATE, desc = "Update product status")
     public Result<Void> updateProductStatus(
             @Parameter(description = "SPU ID") @PathVariable Long spuId,
@@ -87,7 +87,7 @@ public class ProductController {
 
     @PutMapping("/spu/batch/status")
     @Operation(summary = "Batch update product status", description = "Batch update product status")
-    @SaCheckPermission("product:update")
+//    @SaCheckPermission("product:update")
     @Log(module = "Product", type = Log.OperationType.UPDATE, desc = "Batch update product status")
     public Result<Void> batchUpdateProductStatus(
             @Parameter(description = "SPU IDs") @RequestParam List<Long> spuIds,
@@ -113,25 +113,9 @@ public class ProductController {
         return productService.getSkusByIds(skuIds);
     }
 
-    @PostMapping("/sku/stock/update")
-    @Operation(summary = "Update SKU stock", description = "Add or deduct SKU stock")
-    @SaCheckPermission("product:stock:update")
-    @Log(module = "Product", type = Log.OperationType.UPDATE, desc = "Update SKU stock")
-    public Result<Void> updateSkuStock(@Valid @RequestBody StockUpdateRequest request) {
-        return productService.updateSkuStock(request);
-    }
-
-    @GetMapping("/sku/stock/check")
-    @Operation(summary = "Check stock availability", description = "Check if SKU has enough stock")
-    public Result<Boolean> checkStock(
-            @Parameter(description = "SKU ID") @RequestParam Long skuId,
-            @Parameter(description = "Required quantity") @RequestParam Integer quantity) {
-        return productService.checkStock(skuId, quantity);
-    }
-
     @GetMapping("/statistics")
     @Operation(summary = "Get product statistics", description = "Get overall product statistics")
-    @SaCheckPermission("product:statistics")
+//    @SaCheckPermission("product:statistics")
     public Result<ProductStatisticsVO> getProductStatistics() {
         return productService.getProductStatistics();
     }

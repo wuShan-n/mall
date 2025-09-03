@@ -30,7 +30,7 @@ public class BrandController {
 
     @PostMapping("/create")
     @Operation(summary = "Create brand", description = "Create a new product brand")
-    @SaCheckPermission("brand:add")
+//    @SaCheckPermission("brand:add")
     @Log(module = "Brand", type = Log.OperationType.CREATE, desc = "Create brand")
     public Result<BrandVO> createBrand(@Valid @RequestBody BrandCreateRequest request) {
         return brandService.createBrand(request);
@@ -38,25 +38,25 @@ public class BrandController {
 
     @PutMapping("/{brandId}")
     @Operation(summary = "Update brand", description = "Update brand information")
-    @SaCheckPermission("brand:update")
+//    @SaCheckPermission("brand:update")
     @Log(module = "Brand", type = Log.OperationType.UPDATE, desc = "Update brand")
     public Result<BrandVO> updateBrand(
-            @Parameter(description = "Brand ID") @PathVariable Long brandId,
+            @Parameter(description = "Brand ID") @PathVariable("brandId") Long brandId,
             @Valid @RequestBody BrandCreateRequest request) {
         return brandService.updateBrand(brandId, request);
     }
 
     @DeleteMapping("/{brandId}")
     @Operation(summary = "Delete brand", description = "Delete a product brand")
-    @SaCheckPermission("brand:delete")
+//    @SaCheckPermission("brand:delete")
     @Log(module = "Brand", type = Log.OperationType.DELETE, desc = "Delete brand")
-    public Result<Void> deleteBrand(@Parameter(description = "Brand ID") @PathVariable Long brandId) {
+    public Result<Void> deleteBrand(@Parameter(description = "Brand ID") @PathVariable("brandId") Long brandId) {
         return brandService.deleteBrand(brandId);
     }
 
     @GetMapping("/{brandId}")
     @Operation(summary = "Get brand by ID", description = "Get brand information")
-    public Result<BrandVO> getBrandById(@Parameter(description = "Brand ID") @PathVariable Long brandId) {
+    public Result<BrandVO> getBrandById(@Parameter(description = "Brand ID") @PathVariable("brandId") Long brandId) {
         return brandService.getBrandById(brandId);
     }
 
@@ -75,17 +75,17 @@ public class BrandController {
     @GetMapping("/category/{categoryId}")
     @Operation(summary = "Get brands by category", description = "Get brands associated with category")
     public Result<List<BrandVO>> getBrandsByCategoryId(
-            @Parameter(description = "Category ID") @PathVariable Long categoryId) {
+            @Parameter(description = "Category ID") @PathVariable("categoryId") Long categoryId) {
         return brandService.getBrandsByCategoryId(categoryId);
     }
 
     @PutMapping("/{brandId}/status/{status}")
     @Operation(summary = "Update brand status", description = "Enable or disable brand")
-    @SaCheckPermission("brand:update")
+//    @SaCheckPermission("brand:update")
     @Log(module = "Brand", type = Log.OperationType.UPDATE, desc = "Update brand status")
     public Result<Void> updateBrandStatus(
             @Parameter(description = "Brand ID") @PathVariable Long brandId,
-            @Parameter(description = "Status: 0-Disable, 1-Enable") @PathVariable Integer status) {
+            @Parameter(description = "Status: 0-Disable, 1-Enable") @PathVariable("status") Integer status) {
         return brandService.updateBrandStatus(brandId, status);
     }
 }

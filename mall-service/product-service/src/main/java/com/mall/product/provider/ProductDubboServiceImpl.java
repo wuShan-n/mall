@@ -94,52 +94,6 @@ public class ProductDubboServiceImpl implements ProductDubboService {
     }
 
     @Override
-    public Result<Void> updateSkuStock(StockUpdateRequest request) {
-        log.info("Dubbo RPC: updateSkuStock, skuId: {}, quantity: {}", 
-                request.getSkuId(), request.getQuantity());
-        return productService.updateSkuStock(request);
-    }
-
-    @Override
-    public Result<Void> batchUpdateSkuStock(List<StockUpdateRequest> requests) {
-        log.info("Dubbo RPC: batchUpdateSkuStock, count: {}", requests.size());
-        for (StockUpdateRequest request : requests) {
-            Result<Void> result = productService.updateSkuStock(request);
-            if (!result.isSuccess()) {
-                return result;
-            }
-        }
-        return Result.success();
-    }
-
-    @Override
-    public Result<Void> lockStock(Long skuId, Integer quantity, String orderNo) {
-        log.info("Dubbo RPC: lockStock, skuId: {}, quantity: {}, orderNo: {}", 
-                skuId, quantity, orderNo);
-        return productService.lockStock(skuId, quantity, orderNo);
-    }
-
-    @Override
-    public Result<Void> unlockStock(Long skuId, Integer quantity, String orderNo) {
-        log.info("Dubbo RPC: unlockStock, skuId: {}, quantity: {}, orderNo: {}", 
-                skuId, quantity, orderNo);
-        return productService.unlockStock(skuId, quantity, orderNo);
-    }
-
-    @Override
-    public Result<Void> deductStock(Long skuId, Integer quantity, String orderNo) {
-        log.info("Dubbo RPC: deductStock, skuId: {}, quantity: {}, orderNo: {}", 
-                skuId, quantity, orderNo);
-        return productService.deductStock(skuId, quantity, orderNo);
-    }
-
-    @Override
-    public Result<Boolean> checkStock(Long skuId, Integer quantity) {
-        log.debug("Dubbo RPC: checkStock, skuId: {}, quantity: {}", skuId, quantity);
-        return productService.checkStock(skuId, quantity);
-    }
-
-    @Override
     public Result<ProductStatisticsVO> getProductStatistics() {
         log.debug("Dubbo RPC: getProductStatistics");
         return productService.getProductStatistics();

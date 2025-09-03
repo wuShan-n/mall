@@ -57,30 +57,6 @@ public interface ProductFeignClient {
     @PostMapping("/sku/list")
     Result<List<SkuVO>> getSkusByIds(@RequestBody List<Long> skuIds);
 
-    @PostMapping("/sku/stock/update")
-    Result<Void> updateSkuStock(@RequestBody StockUpdateRequest request);
-
-    @PostMapping("/sku/stock/batch-update")
-    Result<Void> batchUpdateSkuStock(@RequestBody List<StockUpdateRequest> requests);
-
-    @PostMapping("/sku/stock/lock")
-    Result<Void> lockStock(@RequestParam("skuId") Long skuId,
-            @RequestParam("quantity") Integer quantity,
-            @RequestParam("orderNo") String orderNo);
-
-    @PostMapping("/sku/stock/unlock")
-    Result<Void> unlockStock(@RequestParam("skuId") Long skuId,
-            @RequestParam("quantity") Integer quantity,
-            @RequestParam("orderNo") String orderNo);
-
-    @PostMapping("/sku/stock/deduct")
-    Result<Void> deductStock(@RequestParam("skuId") Long skuId,
-            @RequestParam("quantity") Integer quantity,
-            @RequestParam("orderNo") String orderNo);
-
-    @GetMapping("/sku/stock/check")
-    Result<Boolean> checkStock(@RequestParam("skuId") Long skuId,
-            @RequestParam("quantity") Integer quantity);
 
     @GetMapping("/statistics")
     Result<ProductStatisticsVO> getProductStatistics();

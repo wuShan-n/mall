@@ -21,14 +21,14 @@ import java.util.Set;
  * Global Exception Handler
  */
 @Slf4j
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("Method argument not valid: {}", e.getMessage());
         Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> 
+        e.getBindingResult().getFieldErrors().forEach(error ->
             errors.put(error.getField(), error.getDefaultMessage())
         );
         return Result.failed(ResultCode.PARAM_VALID_ERROR.getCode(), "Parameter validation failed", errors);

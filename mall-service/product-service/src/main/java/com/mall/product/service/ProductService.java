@@ -33,16 +33,6 @@ public interface ProductService {
     Result<List<SkuVO>> getSkusBySpuId(Long spuId);
     
     Result<List<SkuVO>> getSkusByIds(List<Long> skuIds);
-    
-    Result<Void> updateSkuStock(StockUpdateRequest request);
-    
-    Result<Void> lockStock(Long skuId, Integer quantity, String orderNo);
-    
-    Result<Void> unlockStock(Long skuId, Integer quantity, String orderNo);
-    
-    Result<Void> deductStock(Long skuId, Integer quantity, String orderNo);
-    
-    Result<Boolean> checkStock(Long skuId, Integer quantity);
-    
+
     Result<ProductStatisticsVO> getProductStatistics();
 }

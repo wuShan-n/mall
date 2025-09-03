@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="selectCategoryTree" resultMap="CategoryVOMap">
-        SELECT * FROM pms_category
+        SELECT * FROM product_category
         WHERE deleted = 0
         <if test="parentId != null">
             AND parent_id = #{parentId}
@@ -26,9 +26,9 @@
 
     <select id="selectCategoryPath" resultMap="CategoryVOMap">
         WITH RECURSIVE category_path AS (
-            SELECT * FROM pms_category WHERE id = #{categoryId} AND deleted = 0
+            SELECT * FROM product_category WHERE id = #{categoryId} AND deleted = 0
             UNION ALL
-            SELECT c.* FROM pms_category c
+            SELECT c.* FROM product_category c
                                 INNER JOIN category_path cp ON c.id = cp.parent_id
             WHERE c.deleted = 0
         )
@@ -36,12 +36,12 @@
     </select>
 
     <select id="hasChildren" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM pms_category
+        SELECT COUNT(*) FROM product_category
         WHERE parent_id = #{categoryId} AND deleted = 0
     </select>
 
     <select id="hasProducts" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM pms_spu
+        SELECT COUNT(*) FROM product_spu
         WHERE category_id = #{categoryId} AND deleted = 0
     </select>
 

@@ -17,8 +17,8 @@
     <select id="selectBrandPage" resultMap="BrandVOMap">
         SELECT
         b.*,
-        (SELECT COUNT(*) FROM pms_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
-        FROM pms_brand b
+        (SELECT COUNT(*) FROM product_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
+        FROM product_brand b
         WHERE b.deleted = 0
         <if test="brandName != null and brandName != ''">
             AND b.brand_name LIKE CONCAT('%', #{brandName}, '%')
@@ -28,8 +28,8 @@
 
     <select id="selectBrandsByCategoryId" resultMap="BrandVOMap">
         SELECT DISTINCT b.*
-        FROM pms_brand b
-                 INNER JOIN pms_spu s ON b.id = s.brand_id
+        FROM product_brand b
+                 INNER JOIN product_spu s ON b.id = s.brand_id
         WHERE b.deleted = 0 AND s.deleted = 0
           AND s.category_id = #{categoryId}
         ORDER BY b.sort ASC
@@ -38,8 +38,8 @@
     <select id="selectBrandWithCount" resultMap="BrandVOMap">
         SELECT
             b.*,
-            (SELECT COUNT(*) FROM pms_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
-        FROM pms_brand b
+            (SELECT COUNT(*) FROM product_spu WHERE brand_id = b.id AND deleted = 0) AS product_count
+        FROM product_brand b
         WHERE b.id = #{brandId} AND b.deleted = 0
     </select>
 

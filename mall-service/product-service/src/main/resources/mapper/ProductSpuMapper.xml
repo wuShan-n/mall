@@ -41,11 +41,11 @@
         s.comment_count, s.score, s.is_new, s.is_hot, s.is_best,
         s.status, s.audit_status, s.sort, s.create_time,
         c.category_name, b.brand_name,
-        (SELECT MIN(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
-        (SELECT MAX(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
-        FROM pms_spu s
-        LEFT JOIN pms_category c ON s.category_id = c.id
-        LEFT JOIN pms_brand b ON s.brand_id = b.id
+        (SELECT MIN(price) FROM product_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
+        (SELECT MAX(price) FROM product_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
+        FROM product_spu s
+        LEFT JOIN product_category c ON s.category_id = c.id
+        LEFT JOIN product_brand b ON s.brand_id = b.id
         WHERE s.deleted = 0
         <if test="query.productName != null and query.productName != ''">
             AND s.product_name LIKE CONCAT('%', #{query.productName}, '%')
@@ -79,10 +79,10 @@
             OR s.product_name LIKE CONCAT('%', #{query.keywords}, '%'))
         </if>
         <if test="query.minPrice != null">
-            AND EXISTS (SELECT 1 FROM pms_sku WHERE spu_id = s.id AND price >= #{query.minPrice})
+            AND EXISTS (SELECT 1 FROM product_sku WHERE spu_id = s.id AND price >= #{query.minPrice})
         </if>
         <if test="query.maxPrice != null">
-            AND EXISTS (SELECT 1 FROM pms_sku WHERE spu_id = s.id AND price &lt;= #{query.maxPrice})
+            AND EXISTS (SELECT 1 FROM product_sku WHERE spu_id = s.id AND price &lt;= #{query.maxPrice})
         </if>
         <if test="query.startTime != null">
             AND s.create_time >= #{query.startTime}
@@ -96,16 +96,16 @@
     <select id="selectSpuDetail" resultMap="SpuVOMap">
         SELECT
             s.*, c.category_name, b.brand_name,
-            (SELECT MIN(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
-            (SELECT MAX(price) FROM pms_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
-        FROM pms_spu s
-                 LEFT JOIN pms_category c ON s.category_id = c.id
-                 LEFT JOIN pms_brand b ON s.brand_id = b.id
+            (SELECT MIN(price) FROM product_sku WHERE spu_id = s.id AND deleted = 0) AS min_price,
+            (SELECT MAX(price) FROM product_sku WHERE spu_id = s.id AND deleted = 0) AS max_price
+        FROM product_spu s
+                 LEFT JOIN product_category c ON s.category_id = c.id
+                 LEFT JOIN product_brand b ON s.brand_id = b.id
         WHERE s.id = #{spuId} AND s.deleted = 0
     </select>
 
     <update id="batchUpdateStatus">
-        UPDATE pms_spu
+        UPDATE product_spu
         SET status = #{status}, update_time = NOW()
         WHERE id IN
         <foreach collection="spuIds" item="id" open="(" separator="," close=")">
@@ -115,13 +115,13 @@
     </update>
 
     <update id="increaseViewCount">
-        UPDATE pms_spu
+        UPDATE product_spu
         SET view_count = view_count + 1
         WHERE id = #{spuId} AND deleted = 0
     </update>
 
     <update id="updateSaleCount">
-        UPDATE pms_spu
+        UPDATE product_spu
         SET sale_count = sale_count + #{count}
         WHERE id = #{spuId} AND deleted = 0
     </update>

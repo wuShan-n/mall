@@ -28,7 +28,7 @@ public class CategoryController {
 
     @PostMapping("/create")
     @Operation(summary = "Create category", description = "Create a new product category")
-    @SaCheckPermission("category:add")
+//    @SaCheckPermission("category:add")
     @Log(module = "Category", type = Log.OperationType.CREATE, desc = "Create category")
     public Result<CategoryVO> createCategory(@Valid @RequestBody CategoryCreateRequest request) {
         return categoryService.createCategory(request);
@@ -36,7 +36,7 @@ public class CategoryController {
 
     @PutMapping("/{categoryId}")
     @Operation(summary = "Update category", description = "Update category information")
-    @SaCheckPermission("category:update")
+//    @SaCheckPermission("category:update")
     @Log(module = "Category", type = Log.OperationType.UPDATE, desc = "Update category")
     public Result<CategoryVO> updateCategory(
             @Parameter(description = "Category ID") @PathVariable Long categoryId,
@@ -46,7 +46,7 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     @Operation(summary = "Delete category", description = "Delete a product category")
-    @SaCheckPermission("category:delete")
+//    @SaCheckPermission("category:delete")
     @Log(module = "Category", type = Log.OperationType.DELETE, desc = "Delete category")
     public Result<Void> deleteCategory(@Parameter(description = "Category ID") @PathVariable Long categoryId) {
         return categoryService.deleteCategory(categoryId);
@@ -79,7 +79,7 @@ public class CategoryController {
 
     @PutMapping("/{categoryId}/status/{status}")
     @Operation(summary = "Update category status", description = "Enable or disable category")
-    @SaCheckPermission("category:update")
+//    @SaCheckPermission("category:update")
     @Log(module = "Category", type = Log.OperationType.UPDATE, desc = "Update category status")
     public Result<Void> updateCategoryStatus(
             @Parameter(description = "Category ID") @PathVariable Long categoryId,

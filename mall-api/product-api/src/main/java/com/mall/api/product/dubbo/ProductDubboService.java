@@ -71,37 +71,7 @@ public interface ProductDubboService {
      * Get SKUs by IDs
      */
     Result<List<SkuVO>> getSkusByIds(List<Long> skuIds);
-    
-    /**
-     * Update SKU stock
-     */
-    Result<Void> updateSkuStock(StockUpdateRequest request);
-    
-    /**
-     * Batch update SKU stock
-     */
-    Result<Void> batchUpdateSkuStock(List<StockUpdateRequest> requests);
-    
-    /**
-     * Lock stock
-     */
-    Result<Void> lockStock(Long skuId, Integer quantity, String orderNo);
-    
-    /**
-     * Unlock stock
-     */
-    Result<Void> unlockStock(Long skuId, Integer quantity, String orderNo);
-    
-    /**
-     * Deduct stock
-     */
-    Result<Void> deductStock(Long skuId, Integer quantity, String orderNo);
-    
-    /**
-     * Check stock availability
-     */
-    Result<Boolean> checkStock(Long skuId, Integer quantity);
-    
+
     /**
      * Get product statistics
      */

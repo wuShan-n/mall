@@ -50,7 +50,7 @@ public class SkuVO extends BaseDTO {
     private String image;
     
     @Schema(description = "Specification values", example = "{\"color\":\"Natural Titanium\",\"storage\":\"256GB\"}")
-    private Map<String, String> specs;
+    private Map<String, Object> specs;
     
     @Schema(description = "Weight in kg", example = "0.5")
     private BigDecimal weight;

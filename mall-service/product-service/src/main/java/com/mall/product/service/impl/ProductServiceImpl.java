@@ -4,20 +4,15 @@ package com.mall.product.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.api.product.dto.request.ProductQueryRequest;
 import com.mall.api.product.dto.request.SkuCreateRequest;
 import com.mall.api.product.dto.request.SpuCreateRequest;
-import com.mall.api.product.dto.request.StockUpdateRequest;
 import com.mall.api.product.dto.response.*;
 import com.mall.api.product.enums.ProductStatusEnum;
-import com.mall.api.product.enums.StockOperationEnum;
-import com.mall.common.exception.BusinessException;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
 import com.mall.common.result.ResultCode;
@@ -25,15 +20,12 @@ import com.mall.common.utils.Assert;
 import com.mall.product.entity.ProductSku;
 import com.mall.product.entity.ProductSpu;
 import com.mall.product.entity.ProductSpuAttribute;
-import com.mall.product.entity.StockRecord;
 import com.mall.product.mapper.ProductSkuMapper;
 import com.mall.product.mapper.ProductSpuAttributeMapper;
 import com.mall.product.mapper.ProductSpuMapper;
-import com.mall.product.mapper.StockRecordMapper;
 import com.mall.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -43,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -59,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductSpuMapper spuMapper;
     private final ProductSkuMapper skuMapper;
     private final ProductSpuAttributeMapper spuAttributeMapper;
-    private final StockRecordMapper stockRecordMapper;
+
     private final RedissonClient redissonClient;
 
     @Override
@@ -114,7 +105,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "product", key = "#spuId")
     public Result<SpuVO> updateSpu(Long spuId, SpuCreateRequest request) {
         // 1. Check if SPU exists
         ProductSpu spu = spuMapper.selectById(spuId);
@@ -294,7 +284,7 @@ public class ProductServiceImpl implements ProductService {
 
         SkuVO vo = new SkuVO();
         BeanUtil.copyProperties(sku, vo);
-        vo.setSpecs(JSONObject.parse(sku.getSpecs(), Map.class));
+        vo.setSpecs(BeanUtil.beanToMap(sku.getSpecs()));
         return Result.success(vo);
     }
 
@@ -312,144 +302,6 @@ public class ProductServiceImpl implements ProductService {
 
         List<SkuVO> skus = skuMapper.selectSkusByIds(skuIds);
         return Result.success(skus);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result<Void> updateSkuStock(StockUpdateRequest request) {
-        // Use distributed lock
-        String lockKey = STOCK_LOCK_KEY + request.getSkuId();
-        RLock lock = redissonClient.getLock(lockKey);
-
-        try {
-            if (lock.tryLock(5, 10, TimeUnit.SECONDS)) {
-                // Get current stock
-                ProductSku sku = skuMapper.selectById(request.getSkuId());
-                Assert.notNull(sku, "SKU not found");
-
-                int result = 0;
-                StockRecord record = new StockRecord();
-                record.setSkuId(request.getSkuId());
-                record.setQuantity(request.getQuantity());
-                record.setStockBefore(sku.getStock());
-                record.setOperationType(request.getOperationType());
-                record.setBusinessType(request.getBusinessType());
-                record.setBusinessNo(request.getBusinessNo());
-                record.setRemark(request.getRemark());
-
-                if (StockOperationEnum.ADD.getCode().equals(request.getOperationType())) {
-                    result = skuMapper.addStock(request.getSkuId(), request.getQuantity());
-                    record.setStockAfter(sku.getStock() + request.getQuantity());
-                } else if (StockOperationEnum.DEDUCT.getCode().equals(request.getOperationType())) {
-                    Assert.isTrue(sku.getStock() >= request.getQuantity(), "Insufficient stock");
-                    result = skuMapper.deductStock(request.getSkuId(), request.getQuantity());
-                    record.setStockAfter(sku.getStock() - request.getQuantity());
-                }
-
-                Assert.isTrue(result > 0, "Failed to update stock");
-
-                // Save stock record
-                stockRecordMapper.insert(record);
-
-                return Result.success();
-            } else {
-                return Result.failed("Failed to acquire lock, please try again");
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return Result.failed("Operation interrupted");
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
-        }
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result<Void> lockStock(Long skuId, Integer quantity, String orderNo) {
-        String lockKey = STOCK_LOCK_KEY + skuId;
-        RLock lock = redissonClient.getLock(lockKey);
-
-        try {
-            if (lock.tryLock(5, 10, TimeUnit.SECONDS)) {
-                int result = skuMapper.lockStock(skuId, quantity);
-                if (result <= 0) {
-                    throw new BusinessException(ResultCode.STOCK_INSUFFICIENT);
-                }
-
-                // Record stock operation
-                StockRecord record = new StockRecord();
-                record.setSkuId(skuId);
-                record.setQuantity(quantity);
-                record.setOperationType(StockOperationEnum.LOCK.getCode());
-                record.setBusinessType("ORDER");
-                record.setBusinessNo(orderNo);
-                record.setRemark("Order stock lock");
-                stockRecordMapper.insert(record);
-
-                return Result.success();
-            } else {
-                return Result.failed("Failed to lock stock, please try again");
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return Result.failed("Operation interrupted");
-        } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
-        }
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result<Void> unlockStock(Long skuId, Integer quantity, String orderNo) {
-        int result = skuMapper.unlockStock(skuId, quantity);
-        Assert.isTrue(result > 0, "Failed to unlock stock");
-
-        // Record stock operation
-        StockRecord record = new StockRecord();
-        record.setSkuId(skuId);
-        record.setQuantity(quantity);
-        record.setOperationType(StockOperationEnum.UNLOCK.getCode());
-        record.setBusinessType("ORDER");
-        record.setBusinessNo(orderNo);
-        record.setRemark("Order stock unlock");
-        stockRecordMapper.insert(record);
-
-        return Result.success();
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result<Void> deductStock(Long skuId, Integer quantity, String orderNo) {
-        int result = skuMapper.deductStock(skuId, quantity);
-        if (result <= 0) {
-            throw new BusinessException(ResultCode.STOCK_INSUFFICIENT);
-        }
-
-        // Update SPU sales count
-        ProductSku sku = skuMapper.selectById(skuId);
-        spuMapper.updateSaleCount(sku.getSpuId(), quantity);
-
-        // Record stock operation
-        StockRecord record = new StockRecord();
-        record.setSkuId(skuId);
-        record.setQuantity(quantity);
-        record.setOperationType(StockOperationEnum.DEDUCT.getCode());
-        record.setBusinessType("ORDER");
-        record.setBusinessNo(orderNo);
-        record.setRemark("Order stock deduction");
-        stockRecordMapper.insert(record);
-
-        return Result.success();
-    }
-
-    @Override
-    public Result<Boolean> checkStock(Long skuId, Integer quantity) {
-        Integer available = skuMapper.checkStock(skuId, quantity);
-        return Result.success(available != null && available >= quantity);
     }
 
     @Override
