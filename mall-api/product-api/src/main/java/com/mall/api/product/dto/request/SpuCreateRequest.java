@@ -1,7 +1,6 @@
 package com.mall.api.product.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,22 +19,22 @@ import java.util.List;
 public class SpuCreateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Product name cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Product name cannot be empty")
     @Schema(description = "Product name", example = "iPhone 15 Pro")
     private String productName;
     
-    @NotBlank(message = "Product code cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Product code cannot be empty")
     @Schema(description = "Product code", example = "IP15PRO")
     private String productCode;
     
-    @NotNull(message = "Category ID cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Category ID cannot be null")
     @Schema(description = "Category ID", example = "1")
     private Long categoryId;
     
     @Schema(description = "Brand ID", example = "1")
     private Long brandId;
     
-    @NotBlank(message = "Main image cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Main image cannot be empty")
     @Schema(description = "Main image URL", example = "https://example.com/main.jpg")
     private String mainImage;
     

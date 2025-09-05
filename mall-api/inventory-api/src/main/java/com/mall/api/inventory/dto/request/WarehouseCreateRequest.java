@@ -1,7 +1,6 @@
 package com.mall.api.inventory.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -18,11 +17,11 @@ import java.math.BigDecimal;
 public class WarehouseCreateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Warehouse name cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Warehouse name cannot be empty")
     @Schema(description = "Warehouse name", example = "Beijing Main Warehouse")
     private String warehouseName;
     
-    @NotBlank(message = "Warehouse code cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Warehouse code cannot be empty")
     @Schema(description = "Warehouse code", example = "WH001")
     private String warehouseCode;
     
@@ -35,18 +34,18 @@ public class WarehouseCreateRequest extends BaseDTO {
     @Schema(description = "Contact phone", example = "13800138000")
     private String contactPhone;
     
-    @NotBlank(message = "Province cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Province cannot be empty")
     @Schema(description = "Province", example = "Beijing")
     private String province;
     
-    @NotBlank(message = "City cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "City cannot be empty")
     @Schema(description = "City", example = "Beijing")
     private String city;
     
     @Schema(description = "District", example = "Chaoyang")
     private String district;
     
-    @NotBlank(message = "Address cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Address cannot be empty")
     @Schema(description = "Detailed address", example = "No.1 Warehouse Road")
     private String address;
     

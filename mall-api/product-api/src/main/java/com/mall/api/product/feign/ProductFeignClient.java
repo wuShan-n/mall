@@ -57,7 +57,6 @@ public interface ProductFeignClient {
     @PostMapping("/sku/list")
     Result<List<SkuVO>> getSkusByIds(@RequestBody List<Long> skuIds);
 
-
     @GetMapping("/statistics")
     Result<ProductStatisticsVO> getProductStatistics();
 }

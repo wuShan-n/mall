@@ -156,40 +156,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public String refreshToken(String refreshToken) {
-        // Sa-Token 内置了 token 续期机制
-        // 可以使用 StpUtil.updateLastActivityToNow() 更新最后活跃时间
-        // 或者使用 StpUtil.renewTimeout() 续期
-
-        Long userId = StpUtil.getLoginIdAsLong();
-        StpUtil.renewTimeout(StpUtil.getTokenTimeout());
-
-        log.info("Token 续期成功: userId={}", userId);
-        return StpUtil.getTokenValue();
-    }
-
-    @Override
-    public UserVO getCurrentUser(String token) {
-        // Sa-Token 自动管理 token 验证
-        Object loginId = StpUtil.getLoginIdByToken(token);
-        Assert.notNull(loginId, ResultCode.USER_TOKEN_INVALID);
-
-        // 从 Session 获取缓存的用户信息
-        User user = (User) StpUtil.getSessionByLoginId(loginId).get("user");
-
-        if (user == null) {
-            // 缓存未命中，从数据库查询
-            user = userMapper.selectById(Long.valueOf(loginId.toString()));
-            Assert.notNull(user, ResultCode.USER_NOT_FOUND);
-
-            // 更新 Session 缓存
-            StpUtil.getSessionByLoginId(loginId).set("user", user);
-        }
-
-        return userConverter.toVO(user);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public void changePassword(PasswordChangeRequest request) {
         // Sa-Token 获取当前登录用户 ID
@@ -271,7 +237,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         Assert.notEmpty(cachedCode, "验证码已过期");
         Assert.isTrue(cachedCode.equals(code), "验证码错误");
 
-        // 验证成功后删除验证码
         clearSmsCode(phone);
         return true;
     }
@@ -314,30 +279,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         return loginVO;
     }
 
-    @Override
-    public UserVO validateToken(String token) {
-        try {
-            // Sa-Token 自动验证 token
-            Object loginId = StpUtil.getLoginIdByToken(token);
-            if (loginId == null) {
-                return null;
-            }
 
-            // 获取用户信息
-            User user = (User) StpUtil.getSessionByLoginId(loginId).get("user");
-            if (user == null) {
-                user = userMapper.selectById(Long.valueOf(loginId.toString()));
-                if (user != null) {
-                    StpUtil.getSessionByLoginId(loginId).set("user", user);
-                }
-            }
-
-            return user != null ? userConverter.toVO(user) : null;
-        } catch (Exception e) {
-            log.error("Token 验证失败: {}", e.getMessage());
-            return null;
-        }
-    }
 
     // ========== 私有方法 ==========
 

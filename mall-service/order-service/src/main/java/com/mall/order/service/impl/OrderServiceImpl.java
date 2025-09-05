@@ -1,10 +1,10 @@
 package com.mall.order.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mall.api.inventory.feign.InventoryFeignClient;
 import com.mall.api.order.constant.OrderConstants;
 import com.mall.api.order.dto.request.*;
 import com.mall.api.order.dto.response.*;
@@ -22,7 +22,6 @@ import com.mall.api.user.feign.UserFeignClient;
 import com.mall.common.exception.BusinessException;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
-import com.mall.common.utils.BeanUtils;
 import com.mall.order.entity.Order;
 import com.mall.order.entity.OrderItem;
 import com.mall.order.mapper.OrderMapper;
@@ -32,8 +31,6 @@ import com.mall.order.service.OrderOperateHistoryService;
 import com.mall.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -284,7 +281,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         // 构造返回结果
         OrderPaymentVO paymentVO = new OrderPaymentVO();
-        BeanUtils.copy(paymentResult.getData(), paymentVO);
+        BeanUtil.copyProperties(paymentResult.getData(), paymentVO);
         paymentVO.setOrderNo(order.getOrderNo());
         paymentVO.setPaymentAmount(order.getPayAmount());
 
@@ -534,7 +531,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
 
         OrderDetailVO detail = new OrderDetailVO();
-        BeanUtils.copy(convertToOrderVO(order), detail);
+        BeanUtil.copyProperties(convertToOrderVO(order), detail);
 
         // 获取订单项
         List<OrderItem> items = orderItemService.getByOrderNo(orderNo);
@@ -815,7 +812,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     private OrderVO convertToOrderVO(Order order) {
         OrderVO vo = new OrderVO();
-        BeanUtils.copy(order, vo);
+        BeanUtil.copyProperties(order, vo);
 
         // 设置状态名称
         OrderStatusEnum status = OrderStatusEnum.of(order.getStatus());
@@ -843,7 +840,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private List<OrderItemVO> convertToOrderItemVOs(List<OrderItem> items) {
         return items.stream().map(item -> {
             OrderItemVO vo = new OrderItemVO();
-            BeanUtils.copy(item, vo);
+            BeanUtil.copyProperties(item, vo);
             return vo;
         }).collect(Collectors.toList());
     }

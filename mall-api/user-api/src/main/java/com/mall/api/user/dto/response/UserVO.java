@@ -1,7 +1,6 @@
 package com.mall.api.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mall.common.annotation.Sensitive;
 import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -28,11 +27,9 @@ public class UserVO extends BaseDTO {
     @Schema(description = "Nickname", example = "John Doe")
     private String nickname;
     
-    @Sensitive(type = Sensitive.SensitiveType.MOBILE)
     @Schema(description = "Phone number", example = "138****8000")
     private String phone;
     
-    @Sensitive(type = Sensitive.SensitiveType.EMAIL)
     @Schema(description = "Email", example = "u***@example.com")
     private String email;
     

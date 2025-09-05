@@ -1,7 +1,6 @@
 package com.mall.order.mq;
 
 import com.mall.api.order.event.*;
-import com.mall.common.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -1,0 +1,39 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: inventory-service
+
+  config:
+    import:
+      - "optional:nacos:common.yml?group=DEFAULT_GROUP"
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: DEFAULT_GROUP
+        metadata:
+          version: 1.0.0
+          region: default
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: DEFAULT_GROUP
+
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/mall_inventory?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin123}
+    virtual-host: /
+
+# Dubbo配置
+dubbo:
+  protocol:
+    port: ${TRIPLE_PORT:50054}

@@ -1,9 +1,7 @@
 package com.mall.product.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mall.api.product.dto.request.CategoryCreateRequest;
 import com.mall.api.product.dto.response.CategoryVO;
-import com.mall.common.annotation.Log;
 import com.mall.common.result.Result;
 import com.mall.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,16 +26,12 @@ public class CategoryController {
 
     @PostMapping("/create")
     @Operation(summary = "Create category", description = "Create a new product category")
-//    @SaCheckPermission("category:add")
-    @Log(module = "Category", type = Log.OperationType.CREATE, desc = "Create category")
     public Result<CategoryVO> createCategory(@Valid @RequestBody CategoryCreateRequest request) {
         return categoryService.createCategory(request);
     }
 
     @PutMapping("/{categoryId}")
     @Operation(summary = "Update category", description = "Update category information")
-//    @SaCheckPermission("category:update")
-    @Log(module = "Category", type = Log.OperationType.UPDATE, desc = "Update category")
     public Result<CategoryVO> updateCategory(
             @Parameter(description = "Category ID") @PathVariable Long categoryId,
             @Valid @RequestBody CategoryCreateRequest request) {
@@ -46,8 +40,6 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     @Operation(summary = "Delete category", description = "Delete a product category")
-//    @SaCheckPermission("category:delete")
-    @Log(module = "Category", type = Log.OperationType.DELETE, desc = "Delete category")
     public Result<Void> deleteCategory(@Parameter(description = "Category ID") @PathVariable Long categoryId) {
         return categoryService.deleteCategory(categoryId);
     }
@@ -79,8 +71,6 @@ public class CategoryController {
 
     @PutMapping("/{categoryId}/status/{status}")
     @Operation(summary = "Update category status", description = "Enable or disable category")
-//    @SaCheckPermission("category:update")
-    @Log(module = "Category", type = Log.OperationType.UPDATE, desc = "Update category status")
     public Result<Void> updateCategoryStatus(
             @Parameter(description = "Category ID") @PathVariable Long categoryId,
             @Parameter(description = "Status: 0-Disable, 1-Enable") @PathVariable Integer status) {

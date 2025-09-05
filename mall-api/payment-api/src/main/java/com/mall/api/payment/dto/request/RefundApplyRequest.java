@@ -1,7 +1,6 @@
 package com.mall.api.payment.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,24 +18,24 @@ import java.math.BigDecimal;
 public class RefundApplyRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Payment number cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Payment number cannot be empty")
     @Schema(description = "Original payment number", example = "PAY202401010001")
     private String paymentNo;
     
-    @NotBlank(message = "Order number cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Order number cannot be empty")
     @Schema(description = "Business order number", example = "ORD202401010001")
     private String orderNo;
     
-    @NotNull(message = "User ID cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "User ID cannot be null")
     @Schema(description = "User ID", example = "1")
     private Long userId;
     
-    @NotNull(message = "Refund amount cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Refund amount cannot be null")
     @DecimalMin(value = "0.01", message = "Refund amount must be greater than 0")
     @Schema(description = "Refund amount", example = "50.00")
     private BigDecimal refundAmount;
     
-    @NotBlank(message = "Refund reason cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Refund reason cannot be empty")
     @Schema(description = "Refund reason", example = "Product quality issue")
     private String refundReason;
     

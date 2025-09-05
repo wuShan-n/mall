@@ -68,10 +68,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
 
         <!-- Nacos -->
         <dependency>
@@ -94,23 +90,6 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
         </dependency>
-
-       <!-- &lt;!&ndash; Sentinel &ndash;&gt;
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
-
-        &lt;!&ndash; Seata &ndash;&gt;
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>-->
 
         <!-- Database -->
         <dependency>
@@ -140,18 +119,6 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
 
-        <!--&lt;!&ndash; RabbitMQ &ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>3.5.3</version>
-        </dependency>
-
-        &lt;!&ndash; Elasticsearch &ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>-->
 
         <!-- API Documentation -->
         <dependency>
@@ -159,18 +126,6 @@
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Sa-Token -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
-            <version>1.38.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-jackson</artifactId>
-            <version>1.38.0</version>
-        </dependency>
 
         <!-- MinIO -->
         <dependency>

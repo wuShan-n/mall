@@ -33,12 +33,7 @@ public interface UserDubboService {
      * Get user by ID
      */
     Result<UserVO> getUserById(Long userId);
-    
-    /**
-     * Get user by username
-     */
-    Result<UserVO> getUserByUsername(String username);
-    
+
     /**
      * Update user information
      */
@@ -48,29 +43,20 @@ public interface UserDubboService {
      * Query users with pagination
      */
     Result<PageResult<UserVO>> queryUsers(UserQueryRequest request);
-    
+
     /**
      * Check if username exists
      */
     Result<Boolean> checkUsernameExists(String username);
-    
+
     /**
      * Check if phone exists
      */
     Result<Boolean> checkPhoneExists(String phone);
-    
+
     /**
      * Check if email exists
      */
     Result<Boolean> checkEmailExists(String email);
-    
-    /**
-     * Validate token
-     */
-    Result<UserVO> validateToken(String token);
-    
-    /**
-     * Refresh token
-     */
-    Result<String> refreshToken(String refreshToken);
+
 }

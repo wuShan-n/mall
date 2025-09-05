@@ -18,10 +18,7 @@ public interface UserManagementService {
      */
     UserVO getUserById(Long userId);
 
-    /**
-     * 根据用户名获取用户
-     */
-    UserVO getUserByUsername(String username);
+
 
     /**
      * 更新用户信息

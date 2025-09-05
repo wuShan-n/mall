@@ -62,10 +62,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
 
         <!-- Nacos -->
         <dependency>
@@ -89,22 +85,7 @@
             <artifactId>dubbo-registry-nacos</artifactId>
         </dependency>
 
-       <!-- Sentinel -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
-
-        <!-- Seata -->
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
 
         <!-- Database -->
         <dependency>
@@ -138,14 +119,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>3.5.3</version>
         </dependency>
 
-        <!-- Elasticsearch -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
 
         <!-- API Documentation -->
         <dependency>

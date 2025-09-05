@@ -1,7 +1,6 @@
 package com.mall.api.user.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -18,13 +17,13 @@ import lombok.EqualsAndHashCode;
 public class UserRegisterRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Username cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Username cannot be empty")
     @Size(min = 4, max = 20, message = "Username length must be between 4 and 20")
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers and underscore")
     @Schema(description = "Username", example = "user123")
     private String username;
     
-    @NotBlank(message = "Password cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Password cannot be empty")
     @Size(min = 6, max = 20, message = "Password length must be between 6 and 20")
     @Schema(description = "Password", example = "123456")
     private String password;

@@ -36,22 +36,6 @@ public interface UserAuthService {
     void logout(String token);
 
     /**
-     * 刷新Token
-     * 
-     * @param refreshToken 刷新token
-     * @return 新的access token
-     */
-    String refreshToken(String refreshToken);
-
-    /**
-     * 获取当前用户
-     * 
-     * @param token 用户token
-     * @return 用户信息
-     */
-    UserVO getCurrentUser(String token);
-
-    /**
      * 修改密码
      * 
      * @param request 修改密码请求
@@ -89,11 +73,4 @@ public interface UserAuthService {
      */
     UserLoginVO thirdPartyLogin(ThirdPartyLoginRequest request);
 
-    /**
-     * 验证Token
-     * 
-     * @param token token
-     * @return 用户信息
-     */
-    UserVO validateToken(String token);
 }

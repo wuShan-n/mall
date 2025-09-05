@@ -1,7 +1,6 @@
 package com.mall.api.payment.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -21,19 +20,19 @@ import java.time.LocalDateTime;
 public class PaymentCreateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Order number cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Order number cannot be empty")
     @Schema(description = "Business order number", example = "ORD202401010001")
     private String orderNo;
     
-    @NotNull(message = "User ID cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "User ID cannot be null")
     @Schema(description = "User ID", example = "1")
     private Long userId;
     
-    @NotNull(message = "Payment type cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Payment type cannot be null")
     @Schema(description = "Payment type: 1-Alipay, 2-WeChat, 3-UnionPay", example = "1")
     private Integer paymentType;
     
-    @NotNull(message = "Payment amount cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Payment amount cannot be null")
     @DecimalMin(value = "0.01", message = "Payment amount must be greater than 0")
     @Schema(description = "Payment amount", example = "100.00")
     private BigDecimal paymentAmount;

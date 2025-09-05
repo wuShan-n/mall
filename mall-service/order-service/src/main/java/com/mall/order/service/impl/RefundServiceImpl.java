@@ -1,5 +1,6 @@
 package com.mall.order.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,7 +17,6 @@ import com.mall.api.payment.feign.RefundFeignClient;
 import com.mall.common.exception.BusinessException;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
-import com.mall.common.utils.BeanUtils;
 import com.mall.order.entity.Order;
 import com.mall.order.entity.OrderRefund;
 import com.mall.order.mapper.OrderMapper;
@@ -272,7 +272,7 @@ public class RefundServiceImpl extends ServiceImpl<OrderRefundMapper, OrderRefun
         }
         
         RefundDetailVO detail = new RefundDetailVO();
-        BeanUtils.copy(convertToRefundVO(refund), detail);
+        BeanUtil.copyProperties(convertToRefundVO(refund), detail);
         
         // TODO: 添加更多详情信息
         
@@ -345,7 +345,7 @@ public class RefundServiceImpl extends ServiceImpl<OrderRefundMapper, OrderRefun
     
     private RefundVO convertToRefundVO(OrderRefund refund) {
         RefundVO vo = new RefundVO();
-        BeanUtils.copy(refund, vo);
+        BeanUtil.copyProperties(refund, vo);
         
         // 设置状态名称
         RefundStatusEnum status = RefundStatusEnum.of(refund.getStatus());

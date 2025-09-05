@@ -1,7 +1,7 @@
 package com.mall.api.user.feign;
 
 import com.mall.api.user.constant.UserConstants;
-import com.mall.api.user.feign.fallback.UserFeignFallbackFactory;
+
 import com.mall.api.user.dto.request.UserLoginRequest;
 import com.mall.api.user.dto.request.UserQueryRequest;
 import com.mall.api.user.dto.request.UserRegisterRequest;
@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * User Feign client for HTTP calls
  */
-@FeignClient(name = UserConstants.SERVICE_NAME, path = UserConstants.API_PREFIX,
-        fallbackFactory = UserFeignFallbackFactory.class)
+@FeignClient(name = UserConstants.SERVICE_NAME, path = UserConstants.API_PREFIX)
 public interface UserFeignClient {
 
     @PostMapping("/register")

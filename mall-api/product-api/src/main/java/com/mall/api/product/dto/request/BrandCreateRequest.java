@@ -1,7 +1,6 @@
 package com.mall.api.product.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -16,11 +15,11 @@ import lombok.EqualsAndHashCode;
 public class BrandCreateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotBlank(message = "Brand name cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Brand name cannot be empty")
     @Schema(description = "Brand name", example = "Apple")
     private String brandName;
     
-    @NotBlank(message = "Brand code cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Brand code cannot be empty")
     @Schema(description = "Brand code", example = "APPLE")
     private String brandCode;
     

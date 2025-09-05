@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.inventory.mapper.StockMapper">
+
+    <resultMap id="BaseResultMap" type="com.mall.inventory.entity.Stock">
+        <id column="id" property="id" />
+        <result column="sku_id" property="skuId" />
+        <result column="warehouse_id" property="warehouseId" />
+        <result column="total_stock" property="totalStock" />
+        <result column="available_stock" property="availableStock" />
+        <result column="locked_stock" property="lockedStock" />
+        <result column="in_transit_stock" property="inTransitStock" />
+        <result column="warn_stock" property="warnStock" />
+        <result column="safety_stock" property="safetyStock" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sku_id, warehouse_id, total_stock, available_stock, locked_stock,
+        in_transit_stock, warn_stock, safety_stock, status, version, create_time, update_time
+    </sql>
+
+    <!-- 批量更新库存 -->
+    <update id="batchUpdateStock">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE inv_stock
+            SET
+            total_stock = #{item.totalStock},
+            available_stock = #{item.availableStock},
+            locked_stock = #{item.lockedStock},
+            version = version + 1
+            WHERE id = #{item.id} AND version = #{item.version}
+        </foreach>
+    </update>
+
+    <!-- 查询低库存SKU -->
+    <select id="selectLowStockSkus" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM inv_stock
+        WHERE deleted = 0
+        AND status = 1
+        AND available_stock &lt;= warn_stock
+        ORDER BY available_stock ASC
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+    <!-- 查询缺货SKU -->
+    <select id="selectOutOfStockSkus" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM inv_stock
+        WHERE deleted = 0
+        AND status = 1
+        AND available_stock = 0
+        ORDER BY update_time DESC
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+</mapper>

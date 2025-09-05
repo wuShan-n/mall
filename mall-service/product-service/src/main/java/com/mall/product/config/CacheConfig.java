@@ -1,5 +1,7 @@
 package com.mall.product.config;
 
+// 引入 ObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -23,13 +25,19 @@ import java.time.Duration;
 class CacheConfig {
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+    // 1. 在方法参数中注入 ObjectMapper
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+
+        // 2. 使用注入的 objectMapper 来创建序列化器
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofHours(1))
                 .serializeKeysWith(RedisSerializationContext.SerializationPair
                         .fromSerializer(new StringRedisSerializer()))
+                // 3. 使用上面创建好的、包含正确配置的序列化器
                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                        .fromSerializer(jsonRedisSerializer))
                 .disableCachingNullValues();
 
         return RedisCacheManager.builder(connectionFactory)

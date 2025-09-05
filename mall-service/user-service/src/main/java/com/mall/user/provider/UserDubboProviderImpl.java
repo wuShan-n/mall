@@ -74,17 +74,7 @@ public class UserDubboProviderImpl implements UserDubboService {
         }
     }
 
-    @Override
-    public Result<UserVO> getUserByUsername(String username) {
-        try {
-            log.debug("Dubbo call - get user by username: {}", username);
-            UserVO userVO = userManagementService.getUserByUsername(username);
-            return Result.success(userVO);
-        } catch (Exception e) {
-            log.error("Get user by username failed", e);
-            return Result.failed(e.getMessage());
-        }
-    }
+
 
     @Override
     public Result<UserVO> updateUser(UserUpdateRequest request) {
@@ -143,25 +133,5 @@ public class UserDubboProviderImpl implements UserDubboService {
         }
     }
 
-    @Override
-    public Result<UserVO> validateToken(String token) {
-        try {
-            UserVO userVO = userAuthService.validateToken(token);
-            return Result.success(userVO);
-        } catch (Exception e) {
-            log.error("Validate token failed", e);
-            return Result.failed(e.getMessage());
-        }
-    }
 
-    @Override
-    public Result<String> refreshToken(String refreshToken) {
-        try {
-            String newToken = userAuthService.refreshToken(refreshToken);
-            return Result.success(newToken);
-        } catch (Exception e) {
-            log.error("Refresh token failed", e);
-            return Result.failed(e.getMessage());
-        }
-    }
 }

@@ -14,7 +14,6 @@ import com.mall.api.payment.enums.RefundStatusEnum;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
 import com.mall.common.result.ResultCode;
-import com.mall.common.utils.BeanUtils;
 import com.mall.common.utils.IdGenerator;
 import com.mall.payment.converter.PaymentConverter;
 import com.mall.payment.entity.PaymentOrder;

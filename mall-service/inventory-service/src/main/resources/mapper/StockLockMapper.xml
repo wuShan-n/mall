@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.inventory.mapper.StockLockMapper">
+
+    <resultMap id="BaseResultMap" type="com.mall.inventory.entity.StockLock">
+        <id column="id" property="id" />
+        <result column="sku_id" property="skuId" />
+        <result column="warehouse_id" property="warehouseId" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="locked_quantity" property="lockedQuantity" />
+        <result column="lock_status" property="lockStatus" />
+        <result column="lock_time" property="lockTime" />
+        <result column="expire_time" property="expireTime" />
+        <result column="release_time" property="releaseTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 批量更新锁定状态 -->
+    <update id="batchUpdateStatus">
+        UPDATE inv_stock_lock
+        SET lock_status = #{status},
+            release_time = NOW()
+        WHERE order_no = #{orderNo}
+          AND lock_status = 1
+    </update>
+
+    <!-- 查询过期的锁定记录 -->
+    <select id="selectExpiredLocks" resultMap="BaseResultMap">
+        SELECT * FROM inv_stock_lock
+        WHERE lock_status = 1
+          AND expire_time &lt; NOW()
+        LIMIT 100
+    </select>
+
+</mapper>

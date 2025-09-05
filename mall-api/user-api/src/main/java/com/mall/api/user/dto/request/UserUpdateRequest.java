@@ -1,7 +1,6 @@
 package com.mall.api.user.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 public class UserUpdateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotNull(message = "User ID cannot be null", groups = ValidationGroups.Update.class)
+    @NotNull(message = "User ID cannot be null")
     @Schema(description = "User ID", example = "1")
     private Long id;
     

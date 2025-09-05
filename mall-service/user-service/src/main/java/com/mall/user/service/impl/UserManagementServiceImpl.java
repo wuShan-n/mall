@@ -41,21 +41,10 @@ public class UserManagementServiceImpl implements UserManagementService {
     @Override
     public UserVO getUserById(Long userId) {
         log.debug("Get user by id: {}", userId);
-        
+
         User user = userMapper.selectById(userId);
         Assert.notNull(user, ResultCode.USER_NOT_FOUND);
-        
-        return userConverter.toVO(user);
-    }
 
-    @Override
-    public UserVO getUserByUsername(String username) {
-        log.debug("Get user by username: {}", username);
-        
-        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUsername, username));
-        Assert.notNull(user, ResultCode.USER_NOT_FOUND);
-        
         return userConverter.toVO(user);
     }
 

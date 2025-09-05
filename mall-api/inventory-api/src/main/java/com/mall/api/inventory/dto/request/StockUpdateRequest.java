@@ -1,7 +1,6 @@
 package com.mall.api.inventory.dto.request;
 
 import com.mall.common.base.BaseDTO;
-import com.mall.common.validation.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -18,27 +17,27 @@ import lombok.EqualsAndHashCode;
 public class StockUpdateRequest extends BaseDTO {
     private static final long serialVersionUID = 1L;
     
-    @NotNull(message = "SKU ID cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "SKU ID cannot be null")
     @Schema(description = "SKU ID", example = "1")
     private Long skuId;
     
-    @NotNull(message = "Quantity cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Quantity cannot be null")
     @Min(value = 1, message = "Quantity must be at least 1")
     @Schema(description = "Quantity to add/deduct", example = "10")
     private Integer quantity;
     
-    @NotNull(message = "Operation type cannot be null", groups = ValidationGroups.Create.class)
+    @NotNull(message = "Operation type cannot be null")
     @Schema(description = "Operation type: 1-Add, 2-Deduct, 3-Lock, 4-Unlock", example = "1")
     private Integer operationType;
     
     @Schema(description = "Warehouse ID", example = "1")
     private Long warehouseId;
     
-    @NotBlank(message = "Business type cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Business type cannot be empty")
     @Schema(description = "Business type", example = "PURCHASE")
     private String businessType;
     
-    @NotBlank(message = "Business number cannot be empty", groups = ValidationGroups.Create.class)
+    @NotBlank(message = "Business number cannot be empty")
     @Schema(description = "Business number", example = "PO202401010001")
     private String businessNo;
     
