@@ -81,9 +81,6 @@
             <artifactId>sa-token-spring-boot3-starter</artifactId>
             <version>1.38.0</version>
         </dependency>
-
-
-
     </dependencies>
 
 </project>
