@@ -26,7 +26,12 @@ spring:
   # 数据源配置
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/mall_order?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin123}
+    virtual-host: /
 # Dubbo配置
 dubbo:
   protocol:

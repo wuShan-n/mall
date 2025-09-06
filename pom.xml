@@ -52,6 +52,7 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <jackson.version>2.16.0</jackson.version>
         <fastjson2.version>2.0.43</fastjson2.version>
+        <logstash-logback.version>5.3</logstash-logback.version>
 
         <!-- Validation -->
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
@@ -251,6 +252,13 @@
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations-jakarta</artifactId>
                 <version>${swagger-annotations.version}</version>
+            </dependency>
+
+            <!--集成logstash-->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback.version}</version>
             </dependency>
 
             <!-- JWT -->
