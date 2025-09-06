@@ -22,7 +22,7 @@
         <module>product-api</module>
         <module>order-api</module>
         <module>payment-api</module>
-<!--        <module>inventory-api</module>-->
+        <module>inventory-api</module>
 <!--        <module>marketing-api</module>-->
 <!--        <module>search-api</module>-->
 <!--        <module>message-api</module>-->

@@ -22,7 +22,7 @@
          <module>product-service</module>
          <module>order-service</module>
          <module>payment-service</module>
-<!--         <module>inventory-service</module> -->
+         <module>inventory-service</module>
 <!--         <module>search-service</module> -->
 <!--         <module>marketing-service</module> -->
 <!--         <module>message-service</module> -->

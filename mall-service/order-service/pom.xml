@@ -36,6 +36,24 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>user-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>product-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>inventory-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <!-- Spring Boot Starters -->
         <dependency>
@@ -172,10 +190,7 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>inventory-api</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>
