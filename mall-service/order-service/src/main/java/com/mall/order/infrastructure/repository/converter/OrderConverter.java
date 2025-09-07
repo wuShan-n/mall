@@ -128,7 +128,6 @@ public class OrderConverter {
             .remark(po.getRemark())
             .createTime(po.getCreateTime())
             .updateTime(po.getUpdateTime())
-            .domainEvents(new ArrayList<>())
             .build();
         
         return order;

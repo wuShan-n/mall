@@ -42,7 +42,6 @@ services:
     container_name: nacos-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=nacos_config
       - MYSQL_USER=nacos
       - MYSQL_PASSWORD=nacos
     volumes:
@@ -183,20 +182,33 @@ services:
 
   # Seata Server 分布式事务
   seata-server:
-    image: seataio/seata-server:1.7.1
+    image: seataio/seata-server:2.0.0
     container_name: mall-seata
     ports:
       - "8091:8091"
     environment:
-      - SEATA_PORT=8091
-      - STORE_MODE=db
-      - SEATA_CONFIG_NAME=file:/root/seata-config/registry
-    volumes:
-      - ./seata/config:/root/seata-config
-      - ./seata/logs:/root/logs
+      SEATA_IP: 0.0.0.0
+      # 引导 Seata 使用 Nacos 作为配置中心
+      STORE_MODE: db
+      SEATA_CONFIG_TYPE: nacos
+      SEATA_CONFIG_NACOS_SERVER_ADDR: nacos-server:8848
+      SEATA_CONFIG_NACOS_GROUP: SEATA_GROUP
+      SEATA_CONFIG_NACOS_USERNAME: nacos
+      SEATA_CONFIG_NACOS_PASSWORD: nacos
+      SEATA_CONFIG_NACOS_NAMESPACE: ""
+      SEATA_CONFIG_NACOS_DATA_ID: seataServer.properties
+
+      # 引导 Seata 使用 Nacos 作为注册中心
+      SEATA_REGISTRY_TYPE: nacos
+      SEATA_REGISTRY_NACOS_SERVER_ADDR: nacos-server:8848
+      SEATA_REGISTRY_NACOS_USERNAME: nacos
+      SEATA_REGISTRY_NACOS_PASSWORD: nacos
+
     depends_on:
-      - mysql
-      - nacos-server
+      mysql:
+        condition: service_healthy
+      nacos-server:
+        condition: service_healthy
     restart: always
     networks:
       - mall-network

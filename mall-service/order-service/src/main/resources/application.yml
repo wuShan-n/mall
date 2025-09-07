@@ -36,3 +36,13 @@ spring:
 dubbo:
   protocol:
     port: ${TRIPLE_PORT:50053}
+seata:
+  enabled: true
+  application-id: seata-server
+
+  # 事务组映射
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: localhost:8091

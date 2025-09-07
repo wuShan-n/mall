@@ -3,9 +3,6 @@ package com.mall.order.application.service;
 
 import com.mall.api.order.dto.request.*;
 import com.mall.api.order.dto.response.*;
-import com.mall.api.order.event.OrderCancelledEvent;
-import com.mall.api.order.event.OrderCreatedEvent;
-import com.mall.api.order.event.OrderPaidEvent;
 import com.mall.api.product.dto.response.SkuVO;
 import com.mall.common.result.PageResult;
 
@@ -22,8 +19,9 @@ import com.mall.order.infrastructure.external.InventoryServiceClient;
 import com.mall.order.infrastructure.external.PaymentServiceClient;
 import com.mall.order.infrastructure.external.ProductServiceClient;
 import com.mall.order.infrastructure.external.UserServiceClient;
-import com.mall.order.infrastructure.messaging.OrderEventPublisher;
+import com.mall.order.infrastructure.messaging.DomainEventPublisher;
 import com.mall.order.interfaces.assembler.OrderAssembler;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,7 +48,7 @@ public class OrderApplicationService {
     private final OrderDomainService orderDomainService;
     private final OrderFactory orderFactory;
     private final OrderAssembler orderAssembler;
-    private final OrderEventPublisher eventPublisher;
+    private final DomainEventPublisher domainEventPublisher;
     
     // 外部服务客户端
     private final UserServiceClient userServiceClient;
@@ -61,7 +59,7 @@ public class OrderApplicationService {
     /**
      * 创建订单
      */
-    @Transactional
+    @GlobalTransactional
     public OrderVO createOrder(Long userId, OrderCreateRequest request) {
         log.info("Creating order for user: {}, request: {}", userId, request);
         
@@ -129,12 +127,8 @@ public class OrderApplicationService {
         // 7. 保存订单
         order = orderRepository.save(order);
         
-        // 8. 发布订单创建事件
-        OrderCreatedEvent event = createOrderCreatedEvent(order);
-        eventPublisher.publishOrderCreated(event);
-        
-        // 9. 清除领域事件
-        order.clearDomainEvents();
+        // 8. 发布领域事件
+        domainEventPublisher.publishEvents(order);
         
         // 10. 返回DTO
         return orderAssembler.toOrderVO(order);
@@ -187,9 +181,8 @@ public class OrderApplicationService {
         // 4. 更新订单
         orderRepository.update(order);
         
-        // 5. 发布支付成功事件
-        OrderPaidEvent event = createOrderPaidEvent(order, transactionId);
-        eventPublisher.publishOrderPaid(event);
+        // 5. 发布领域事件
+        domainEventPublisher.publishEvents(order);
     }
     
     /**
@@ -217,9 +210,8 @@ public class OrderApplicationService {
         // 5. 更新订单
         orderRepository.update(order);
         
-        // 6. 发布订单取消事件
-        OrderCancelledEvent event = createOrderCancelledEvent(order, request.getReason());
-        eventPublisher.publishOrderCancelled(event);
+        // 6. 发布领域事件
+        domainEventPublisher.publishEvents(order);
     }
     
     /**
@@ -339,9 +331,8 @@ public class OrderApplicationService {
                 // 更新订单
                 orderRepository.update(order);
                 
-                // 发布事件
-                OrderCancelledEvent event = createOrderCancelledEvent(order, "支付超时");
-                eventPublisher.publishOrderCancelled(event);
+                // 发布领域事件
+                domainEventPublisher.publishEvents(order);
                 
             } catch (Exception e) {
                 log.error("Cancel timeout order failed: {}", order.getOrderNo(), e);
@@ -349,60 +340,4 @@ public class OrderApplicationService {
         }
     }
     
-    // 辅助方法：创建事件对象
-    private OrderCreatedEvent createOrderCreatedEvent(Order order) {
-        List<OrderCreatedEvent.OrderItemInfo> items = order.getOrderItems().stream()
-            .map(item -> new OrderCreatedEvent.OrderItemInfo(
-                item.getSkuId(),
-                item.getSkuName(),
-                item.getQuantity(),
-                item.getPrice()
-            ))
-            .collect(Collectors.toList());
-        
-        return new OrderCreatedEvent(
-            order.getId(),
-            order.getOrderNo().getValue(),
-            order.getUserId().getValue(),
-            order.getTotalAmount().getAmount(),
-            items,
-            order.getCreateTime(),
-            LocalDateTime.now()
-        );
-    }
-    
-    private OrderPaidEvent createOrderPaidEvent(Order order, String transactionId) {
-        return new OrderPaidEvent(
-            order.getId(),
-            order.getOrderNo().getValue(),
-            order.getUserId().getValue(),
-            order.getPayAmount().getAmount(),
-            order.getPaymentType().getCode(),
-            transactionId,
-            order.getPaymentTime(),
-            LocalDateTime.now()
-        );
-    }
-    
-    private OrderCancelledEvent createOrderCancelledEvent(Order order, String reason) {
-        List<OrderCancelledEvent.StockReleaseInfo> stockList = order.getOrderItems().stream()
-            .map(item -> new OrderCancelledEvent.StockReleaseInfo(
-                item.getSkuId(),
-                item.getQuantity()
-            ))
-            .collect(Collectors.toList());
-        
-        return new OrderCancelledEvent(
-            order.getId(),
-            order.getOrderNo().getValue(),
-            order.getUserId().getValue(),
-            reason,
-            1, // 用户取消
-            stockList,
-            0, // TODO: 计算退还积分
-            null, // TODO: 退还优惠券
-            LocalDateTime.now(),
-            LocalDateTime.now()
-        );
-    }
 }

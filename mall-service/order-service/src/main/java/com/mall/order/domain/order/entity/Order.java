@@ -1,9 +1,14 @@
 package com.mall.order.domain.order.entity;
 
 
+import com.mall.order.domain.common.AggregateRoot;
+import com.mall.order.domain.order.event.OrderCancelledDomainEvent;
+import com.mall.order.domain.order.event.OrderCreatedDomainEvent;
+import com.mall.order.domain.order.event.OrderPaidDomainEvent;
 import com.mall.order.domain.order.valueobject.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,8 +19,9 @@ import java.util.List;
  * DDD核心：聚合根负责维护自身的业务规则和不变性约束
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
-public class Order {
+public class Order extends AggregateRoot {
     
     private Long id;
     private OrderNo orderNo;
@@ -39,9 +45,6 @@ public class Order {
     
     // 订单项（实体集合）
     private List<OrderItem> orderItems;
-    
-    // 领域事件
-    private List<Object> domainEvents;
     
     // 其他信息
     private String remark;
@@ -74,12 +77,11 @@ public class Order {
             .payAmount(new Money(productAmount))
             .freightAmount(new Money(BigDecimal.ZERO))
             .discountAmount(new Money(BigDecimal.ZERO))
-            .domainEvents(new ArrayList<>())
             .createTime(LocalDateTime.now())
             .build();
         
         // 发布领域事件
-//        order.addDomainEvent(new OrderCreatedEvent(order));
+        order.addDomainEvent(new OrderCreatedDomainEvent(order));
         
         return order;
     }
@@ -99,7 +101,7 @@ public class Order {
         this.updateTime = LocalDateTime.now();
         
         // 发布支付成功事件
-//        this.addDomainEvent(new OrderPaidEvent(this));
+        this.addDomainEvent(new OrderPaidDomainEvent(this, paymentNo));
     }
     
     /**
@@ -115,7 +117,7 @@ public class Order {
         this.updateTime = LocalDateTime.now();
         
         // 发布订单取消事件
-//        this.addDomainEvent(new OrderCancelledEvent(this, reason));
+        this.addDomainEvent(new OrderCancelledDomainEvent(this, reason));
     }
     
     /**
@@ -167,22 +169,4 @@ public class Order {
         this.updateTime = LocalDateTime.now();
     }
     
-    /**
-     * 添加领域事件
-     */
-    private void addDomainEvent(Object event) {
-        if (this.domainEvents == null) {
-            this.domainEvents = new ArrayList<>();
-        }
-        this.domainEvents.add(event);
-    }
-    
-    /**
-     * 清除领域事件
-     */
-    public void clearDomainEvents() {
-        if (this.domainEvents != null) {
-            this.domainEvents.clear();
-        }
-    }
 }
