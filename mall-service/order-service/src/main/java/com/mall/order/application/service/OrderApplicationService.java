@@ -8,8 +8,7 @@ import com.mall.api.order.event.OrderCreatedEvent;
 import com.mall.api.order.event.OrderPaidEvent;
 import com.mall.api.product.dto.response.SkuVO;
 import com.mall.common.result.PageResult;
-import com.mall.order.application.command.CreateOrderCommand;
-import com.mall.order.application.command.PayOrderCommand;
+
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.entity.OrderAddress;
 import com.mall.order.domain.order.entity.OrderItem;

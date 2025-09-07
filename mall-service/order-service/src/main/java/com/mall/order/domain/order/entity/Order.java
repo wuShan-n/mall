@@ -1,13 +1,9 @@
 package com.mall.order.domain.order.entity;
 
-import com.mall.order.domain.event.OrderCancelledEvent;
-import com.mall.order.domain.event.OrderCreatedEvent;
-import com.mall.order.domain.event.OrderPaidEvent;
+
 import com.mall.order.domain.order.valueobject.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -83,7 +79,7 @@ public class Order {
             .build();
         
         // 发布领域事件
-        order.addDomainEvent(new OrderCreatedEvent(order));
+//        order.addDomainEvent(new OrderCreatedEvent(order));
         
         return order;
     }
@@ -103,7 +99,7 @@ public class Order {
         this.updateTime = LocalDateTime.now();
         
         // 发布支付成功事件
-        this.addDomainEvent(new OrderPaidEvent(this));
+//        this.addDomainEvent(new OrderPaidEvent(this));
     }
     
     /**
@@ -119,7 +115,7 @@ public class Order {
         this.updateTime = LocalDateTime.now();
         
         // 发布订单取消事件
-        this.addDomainEvent(new OrderCancelledEvent(this, reason));
+//        this.addDomainEvent(new OrderCancelledEvent(this, reason));
     }
     
     /**

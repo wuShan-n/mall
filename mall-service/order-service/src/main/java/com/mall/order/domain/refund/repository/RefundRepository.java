@@ -1,4 +1,4 @@
-package com.mall.order.domain.order.repository;
+package com.mall.order.domain.refund.repository;
 
 import com.mall.order.domain.order.valueobject.OrderNo;
 import com.mall.order.domain.order.valueobject.UserId;
