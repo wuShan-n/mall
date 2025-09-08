@@ -65,7 +65,6 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-redis-jackson</artifactId>
-            <version>1.44.0</version>
         </dependency>
 
         <!-- Redis 用于限流、缓存、Session共享 -->

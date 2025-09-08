@@ -120,10 +120,7 @@ public class OrderApplicationService {
             // TODO: 计算优惠金额
             // order.applyDiscount(discountAmount);
         }
-        
-        // 6. 锁定库存
-        orderDomainService.lockStock(order.getOrderNo(), orderItems);
-        
+
         // 7. 保存订单
         order = orderRepository.save(order);
         

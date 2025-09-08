@@ -24,7 +24,7 @@ public class OrderScheduledTasks {
     public void checkOrderTimeout() {
         log.info("Starting check order timeout task");
         try {
-            orderApplicationService.checkOrderTimeout();
+//            orderApplicationService.checkOrderTimeout();
         } catch (Exception e) {
             log.error("Check order timeout task failed", e);
         }

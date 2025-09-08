@@ -1,5 +1,6 @@
 package com.mall.inventory.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.api.inventory.dto.request.*;
@@ -220,7 +221,7 @@ public class StockServiceImpl implements StockService {
             stockLock.setSkuId(request.getSkuId());
             stockLock.setWarehouseId(warehouseId);
             stockLock.setOrderNo(request.getOrderNo());
-            stockLock.setUserId(request.getUserId());
+            stockLock.setUserId(StpUtil.getLoginIdAsLong());
             stockLock.setLockedQuantity(request.getQuantity());
             stockLock.setLockStatus(LockStatusEnum.LOCKED.getCode());
             stockLock.setLockTime(LocalDateTime.now());
@@ -898,7 +899,6 @@ public class StockServiceImpl implements StockService {
             stock.setWarnStock(10);
             stock.setSafetyStock(5);
             stock.setStatus(1);
-            stock.setVersion(0);
             stockMapper.insert(stock);
         }
 

@@ -1,5 +1,6 @@
 package com.mall.order.infrastructure.external;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.mall.api.inventory.dto.request.StockLockRequest;
 import com.mall.api.inventory.dto.response.StockLockVO;
 import com.mall.api.inventory.dubbo.InventoryDubboService;

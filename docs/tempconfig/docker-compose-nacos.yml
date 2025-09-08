@@ -187,22 +187,19 @@ services:
     ports:
       - "8091:8091"
     environment:
+      #宿主机Ip
       SEATA_IP: 0.0.0.0
       # 引导 Seata 使用 Nacos 作为配置中心
       STORE_MODE: db
       SEATA_CONFIG_TYPE: nacos
       SEATA_CONFIG_NACOS_SERVER_ADDR: nacos-server:8848
       SEATA_CONFIG_NACOS_GROUP: SEATA_GROUP
-      SEATA_CONFIG_NACOS_USERNAME: nacos
-      SEATA_CONFIG_NACOS_PASSWORD: nacos
-      SEATA_CONFIG_NACOS_NAMESPACE: ""
-      SEATA_CONFIG_NACOS_DATA_ID: seataServer.properties
+      SEATA_CONFIG_NACOS_DATA_ID: seata.properties
 
       # 引导 Seata 使用 Nacos 作为注册中心
       SEATA_REGISTRY_TYPE: nacos
       SEATA_REGISTRY_NACOS_SERVER_ADDR: nacos-server:8848
-      SEATA_REGISTRY_NACOS_USERNAME: nacos
-      SEATA_REGISTRY_NACOS_PASSWORD: nacos
+      SEATA_REGISTRY_NACOS_GROUP: SEATA_GROUP
 
     depends_on:
       mysql:

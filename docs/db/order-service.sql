@@ -177,11 +177,3 @@ CREATE TABLE `oms_order_refund_reason` (
                                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='退货原因表';
 
--- 初始化退货原因数据
-INSERT INTO `oms_order_refund_reason` (`name`, `sort`, `status`) VALUES
-                                                                     ('质量问题', 1, 1),
-                                                                     ('商品与描述不符', 2, 1),
-                                                                     ('发错货品', 3, 1),
-                                                                     ('商品损坏', 4, 1),
-                                                                     ('不想要了', 5, 1),
-                                                                     ('其他', 100, 1);

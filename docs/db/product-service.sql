@@ -152,18 +152,3 @@ CREATE TABLE `product_spu_attribute` (
                                      KEY `idx_attribute_id` (`attribute_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品SPU属性值表';
 
-
--- 插入示例数据
-INSERT INTO `product_category` (`id`, `parent_id`, `category_name`, `category_code`, `level`, `sort`) VALUES
-                                                                                                      (1, 0, 'Electronics', 'ELEC', 1, 1),
-                                                                                                      (2, 1, 'Smartphones', 'PHONE', 2, 1),
-                                                                                                      (3, 1, 'Laptops', 'LAPTOP', 2, 2),
-                                                                                                      (4, 0, 'Clothing', 'CLOTH', 1, 2),
-                                                                                                      (5, 4, 'Men', 'MEN', 2, 1),
-                                                                                                      (6, 4, 'Women', 'WOMEN', 2, 2);
-
-INSERT INTO `product_brand` (`id`, `brand_name`, `brand_code`, `logo`, `description`, `sort`) VALUES
-                                                                                              (1, 'Apple', 'APPLE', 'https://example.com/apple-logo.png', 'Apple Inc.', 1),
-                                                                                              (2, 'Samsung', 'SAMSUNG', 'https://example.com/samsung-logo.png', 'Samsung Electronics', 2),
-                                                                                              (3, 'Nike', 'NIKE', 'https://example.com/nike-logo.png', 'Nike Inc.', 3),
-                                                                                              (4, 'Adidas', 'ADIDAS', 'https://example.com/adidas-logo.png', 'Adidas AG', 4);

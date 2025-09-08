@@ -77,6 +77,7 @@
         <seata.version>2.0.0</seata.version>
         <sentinel.version>1.8.7</sentinel.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
+        <sa-token.version>1.44.0</sa-token.version>
 
         <!-- Maven Plugins -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -261,23 +262,31 @@
                 <version>${logstash-logback.version}</version>
             </dependency>
 
-            <!-- JWT -->
+            <!-- Sa-token -->
             <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-api</artifactId>
-                <version>${jwt.version}</version>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+
+            <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.cc -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+                <version>${sa-token.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-impl</artifactId>
-                <version>${jwt.version}</version>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${sa-token.version}</version>
             </dependency>
 
+            <!-- Sa-Token 整合 Dubbo -->
             <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-jackson</artifactId>
-                <version>${jwt.version}</version>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dubbo3</artifactId>
+                <version>${sa-token.version}</version>
             </dependency>
 
             <!-- MinIO -->

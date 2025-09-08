@@ -283,7 +283,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         SkuVO vo = new SkuVO();
-        BeanUtil.copyProperties(sku, vo);
+        BeanUtil.copyProperties(sku, vo,"specs");
         vo.setSpecs(BeanUtil.beanToMap(sku.getSpecs()));
         return Result.success(vo);
     }

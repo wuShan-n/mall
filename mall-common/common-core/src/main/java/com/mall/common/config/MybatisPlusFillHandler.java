@@ -45,6 +45,6 @@ public class MybatisPlusFillHandler implements MetaObjectHandler {
     }
 
     private Long getCurrentUserId() {
-        return (Long) StpUtil.getLoginId(); // Placeholder: Replace with actual logic
+        return StpUtil.getLoginIdAsLong(); // Placeholder: Replace with actual logic
     }
 }

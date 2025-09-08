@@ -21,8 +21,8 @@ public class StockLockReleaseTask {
     public void releaseExpiredLocks() {
         try {
             log.info("Starting to release expired stock locks...");
-            Integer count = stockService.releaseExpiredLocks();
-            log.info("Released {} expired stock locks", count);
+//            Integer count = stockService.releaseExpiredLocks();
+//            log.info("Released {} expired stock locks", count);
         } catch (Exception e) {
             log.error("Failed to release expired stock locks", e);
         }

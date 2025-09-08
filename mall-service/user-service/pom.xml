@@ -24,62 +24,10 @@
     </properties>
 
     <dependencies>
-        <!-- Common dependencies for all API modules -->
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
-
         <!-- User API -->
         <dependency>
             <groupId>com.mall</groupId>
             <artifactId>user-api</artifactId>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Spring Cloud Nacos Config -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-        <!-- Spring Cloud Nacos Discovery -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <!-- Spring Cloud Bootstrap -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
-            <version>1.38.0</version>
         </dependency>
     </dependencies>
 

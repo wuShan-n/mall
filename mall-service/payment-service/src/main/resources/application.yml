@@ -32,6 +32,18 @@ spring:
     username: ${RABBITMQ_USERNAME:admin}
     password: ${RABBITMQ_PASSWORD:admin123}
     virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+        retry:
+          enabled: true
+          initial-interval: 3000ms
+          max-attempts: 3
 # Dubbo配置
 dubbo:
   protocol:
