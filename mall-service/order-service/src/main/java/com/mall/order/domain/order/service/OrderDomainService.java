@@ -1,15 +1,19 @@
 package com.mall.order.domain.order.service;
 
+import com.mall.order.application.dto.StockLockItem;
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.entity.OrderItem;
 import com.mall.order.domain.order.repository.OrderRepository;
 import com.mall.order.domain.order.valueobject.Money;
 import com.mall.order.domain.order.valueobject.OrderNo;
+import com.mall.order.infrastructure.external.InventoryServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 订单领域服务
@@ -21,6 +25,7 @@ public class OrderDomainService {
     
     private final OrderRepository orderRepository;
     private final InventoryDomainService inventoryDomainService;
+    private final InventoryServiceClient inventoryServiceClient;
     
     /**
      * 计算订单金额
@@ -50,11 +55,23 @@ public class OrderDomainService {
     }
     
     /**
-     * 锁定库存
+     * 锁定库存（批量优化）
      */
     public void lockStock(OrderNo orderNo, List<OrderItem> items) {
+        // 构建批量锁定请求
+        List<StockLockItem> stockLockItems = items.stream()
+                .map(item -> StockLockItem.of(item.getSkuId(), item.getQuantity()))
+                .collect(Collectors.toList());
+        
+        // 批量锁定库存
+        Map<Long, Boolean> lockResults = inventoryServiceClient.lockStockBatch(orderNo.getValue(), stockLockItems);
+        
+        // 检查锁定结果
         for (OrderItem item : items) {
-            inventoryDomainService.lockStock(item.getSkuId(), item.getQuantity(), orderNo);
+            Boolean lockSuccess = lockResults.get(item.getSkuId());
+            if (lockSuccess == null || !lockSuccess) {
+                throw new IllegalStateException("库存锁定失败: SKU " + item.getSkuId());
+            }
         }
     }
     

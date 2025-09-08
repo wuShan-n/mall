@@ -5,6 +5,8 @@ import com.mall.api.inventory.dto.request.StockLockRequest;
 import com.mall.api.inventory.dto.response.StockLockVO;
 import com.mall.api.inventory.dubbo.InventoryDubboService;
 import com.mall.common.result.Result;
+import com.mall.order.application.dto.StockCheckItem;
+import com.mall.order.application.dto.StockLockItem;
 import com.mall.order.domain.order.service.InventoryDomainService;
 import com.mall.order.domain.order.valueobject.OrderNo;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -90,6 +93,53 @@ public class InventoryServiceClient implements InventoryDomainService {
         } catch (Exception e) {
             log.error("Deduct stock failed: {}", e.getMessage(), e);
             throw new RuntimeException("扣减库存失败", e);
+        }
+    }
+    
+    /**
+     * 批量检查库存
+     */
+    public Map<Long, Boolean> checkStockBatch(List<StockCheckItem> items) {
+        try {
+            Map<Long, Boolean> result = new HashMap<>();
+            
+            // 由于缺少批量Dubbo接口，暂时使用循环实现
+            // TODO: 后续可以扩展库存服务的批量接口
+            for (StockCheckItem item : items) {
+                boolean hasStock = checkStock(item.getSkuId(), item.getQuantity());
+                result.put(item.getSkuId(), hasStock);
+            }
+            
+            return result;
+        } catch (Exception e) {
+            log.error("Batch check stock failed: {}", e.getMessage(), e);
+            throw new RuntimeException("批量检查库存失败", e);
+        }
+    }
+    
+    /**
+     * 批量锁定库存
+     */
+    public Map<Long, Boolean> lockStockBatch(String orderNo, List<StockLockItem> items) {
+        try {
+            Map<Long, Boolean> result = new HashMap<>();
+            
+            // 由于缺少批量Dubbo接口，暂时使用循环实现
+            // TODO: 后续可以扩展库存服务的批量接口
+            for (StockLockItem item : items) {
+                try {
+                    lockStock(item.getSkuId(), item.getQuantity(), new OrderNo(orderNo));
+                    result.put(item.getSkuId(), true);
+                } catch (Exception e) {
+                    log.error("Lock stock failed for skuId: {}, orderNo: {}", item.getSkuId(), orderNo, e);
+                    result.put(item.getSkuId(), false);
+                }
+            }
+            
+            return result;
+        } catch (Exception e) {
+            log.error("Batch lock stock failed: {}", e.getMessage(), e);
+            throw new RuntimeException("批量锁定库存失败", e);
         }
     }
 }
