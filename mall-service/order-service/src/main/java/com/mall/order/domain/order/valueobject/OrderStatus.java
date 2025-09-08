@@ -2,59 +2,57 @@ package com.mall.order.domain.order.valueobject;
 
 import lombok.Getter;
 
-/**
- * 订单状态枚举
- */
 @Getter
 public enum OrderStatus {
-    
-    PENDING_PAYMENT(0, "待付款"),//用户创建订单后，用户付款前
-    PENDING_DELIVERY(1, "待发货"),//用户付款后，商家发货前
-    DELIVERED(2, "已发货"), //商家发货后，用户收货前
-    RECEIVED(3, "已收货"),//用户确认收货
-    COMPLETED(4, "已完成"),//用户收货无异议，订单结束
-    CANCELLED(5, "已取消"),//用户取消订单，等待商家处理
-    REFUNDING(6, "退款中"),//商家同意退款，退款中
-    REFUNDED(7, "已退款"),//商家退款成功
-    CLOSED(8, "已关闭");//退款结束
-    
+
+    INIT(0, "初始化"),                    // 新增：初始状态
+    PENDING_STOCK(1, "待锁定库存"),        // 新增：等待库存锁定
+    STOCK_LOCKED(2, "库存已锁定"),         // 新增：库存锁定成功
+    PENDING_PAYMENT(3, "待付款"),          // 原来的待付款
+    PAID(4, "已付款"),                    // 新增：已付款状态
+    PENDING_DELIVERY(5, "待发货"),
+    DELIVERED(6, "已发货"),
+    RECEIVED(7, "已收货"),
+    COMPLETED(8, "已完成"),
+    CANCELLED(9, "已取消"),
+    STOCK_LOCK_FAILED(10, "库存锁定失败"), // 新增：库存锁定失败
+    REFUNDING(11, "退款中"),
+    REFUNDED(12, "已退款"),
+    CLOSED(13, "已关闭");
+
     private final Integer code;
     private final String description;
-    
+
     OrderStatus(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
-    
-    /**
-     * 是否可以支付
-     */
+
     public boolean canPay() {
-        return this == PENDING_PAYMENT;
+        return this == STOCK_LOCKED || this == PENDING_PAYMENT;
     }
-    
-    /**
-     * 是否可以取消
-     */
+
     public boolean canCancel() {
-        return this == PENDING_PAYMENT || this == PENDING_DELIVERY;
+        return this == INIT || this == PENDING_STOCK ||
+                this == STOCK_LOCKED || this == PENDING_PAYMENT;
     }
-    
-    /**
-     * 是否可以发货
-     */
+
+    public boolean canLockStock() {
+        return this == INIT || this == PENDING_STOCK;
+    }
+
     public boolean canShip() {
-        return this == PENDING_DELIVERY;
+        return this == PAID || this == PENDING_DELIVERY;
     }
-    
-    /**
-     * 是否可以退款
-     */
+
+    public boolean canReceive() {
+        return this == DELIVERED;
+    }
+
     public boolean canRefund() {
-        return this == PENDING_DELIVERY || this == DELIVERED || 
-               this == RECEIVED || this == COMPLETED;
+        return this == PENDING_DELIVERY || this == DELIVERED || this == RECEIVED;
     }
-    
+
     public static OrderStatus fromCode(Integer code) {
         for (OrderStatus status : values()) {
             if (status.code.equals(code)) {

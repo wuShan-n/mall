@@ -6,7 +6,11 @@ import com.mall.api.order.dubbo.OrderDubboService;
 import com.mall.common.base.PageRequest;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
-import com.mall.order.application.service.OrderApplicationService;
+import com.mall.order.application.service.OrderCreationApplicationService;
+import com.mall.order.application.service.OrderPaymentApplicationService;
+import com.mall.order.application.service.OrderLifecycleApplicationService;
+import com.mall.order.application.service.OrderQueryApplicationService;
+import com.mall.order.application.service.OrderScheduleApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -22,12 +26,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OrderDubboServiceImpl implements OrderDubboService {
     
-    private final OrderApplicationService orderApplicationService;
+    private final OrderCreationApplicationService orderCreationApplicationService;
+    private final OrderPaymentApplicationService orderPaymentApplicationService;
+    private final OrderLifecycleApplicationService orderLifecycleApplicationService;
+    private final OrderQueryApplicationService orderQueryApplicationService;
+    private final OrderScheduleApplicationService orderScheduleApplicationService;
     
     @Override
     public Result<OrderVO> createOrder(Long userId, OrderCreateRequest request) {
         try {
-            OrderVO order = orderApplicationService.createOrder(userId, request);
+            OrderVO order = orderCreationApplicationService.createOrder(userId, request);
             return Result.success(order);
         } catch (Exception e) {
             log.error("Create order failed: {}", e.getMessage(), e);
@@ -49,7 +57,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<OrderPaymentVO> payOrder(OrderPaymentRequest request) {
         try {
-            OrderPaymentVO payment = orderApplicationService.payOrder(request);
+            OrderPaymentVO payment = orderPaymentApplicationService.initiatePayment(request);
             return Result.success(payment);
         } catch (Exception e) {
             log.error("Pay order failed: {}", e.getMessage(), e);
@@ -60,7 +68,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> paymentCallback(String orderNo, String transactionId) {
         try {
-            orderApplicationService.paymentCallback(orderNo, transactionId);
+            orderPaymentApplicationService.handlePaymentCallback(orderNo, transactionId);
             return Result.success();
         } catch (Exception e) {
             log.error("Payment callback failed: {}", e.getMessage(), e);
@@ -71,7 +79,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> cancelOrder(Long userId, OrderCancelRequest request) {
         try {
-            orderApplicationService.cancelOrder(userId, request);
+            orderLifecycleApplicationService.cancelOrder(userId, request);
             return Result.success();
         } catch (Exception e) {
             log.error("Cancel order failed: {}", e.getMessage(), e);
@@ -82,7 +90,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> shipOrder(OrderShipRequest request) {
         try {
-            orderApplicationService.shipOrder(request);
+            orderLifecycleApplicationService.shipOrder(request);
             return Result.success();
         } catch (Exception e) {
             log.error("Ship order failed: {}", e.getMessage(), e);
@@ -93,7 +101,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> confirmReceipt(Long userId, String orderNo) {
         try {
-            orderApplicationService.confirmReceipt(userId, orderNo);
+            orderLifecycleApplicationService.confirmReceipt(userId, orderNo);
             return Result.success();
         } catch (Exception e) {
             log.error("Confirm receipt failed: {}", e.getMessage(), e);
@@ -104,7 +112,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> completeOrder(String orderNo) {
         try {
-            // TODO: 实现订单完成
+            orderLifecycleApplicationService.completeOrder(orderNo);
             return Result.success();
         } catch (Exception e) {
             log.error("Complete order failed: {}", e.getMessage(), e);
@@ -126,8 +134,8 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<OrderVO> getOrderByNo(String orderNo) {
         try {
-            // TODO: 实现订单查询
-            return Result.success();
+            OrderVO order = orderQueryApplicationService.getOrderSummary(orderNo);
+            return Result.success(order);
         } catch (Exception e) {
             log.error("Get order failed: {}", e.getMessage(), e);
             return Result.failed(e.getMessage());
@@ -137,7 +145,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<OrderDetailVO> getOrderDetail(String orderNo) {
         try {
-            OrderDetailVO detail = orderApplicationService.getOrderDetail(orderNo);
+            OrderDetailVO detail = orderQueryApplicationService.getOrderDetail(orderNo);
             return Result.success(detail);
         } catch (Exception e) {
             log.error("Get order detail failed: {}", e.getMessage(), e);
@@ -159,7 +167,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<PageResult<OrderVO>> getUserOrders(Long userId, Integer status, PageRequest pageRequest) {
         try {
-            PageResult<OrderVO> result = orderApplicationService.getUserOrders(
+            PageResult<OrderVO> result = orderQueryApplicationService.getUserOrders(
                 userId, status, pageRequest.getCurrent().intValue(), pageRequest.getSize().intValue()
             );
             return Result.success(result);
@@ -172,7 +180,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Map<Integer, Long>> getOrderCountByStatus(Long userId) {
         try {
-            Map<Integer, Long> counts = orderApplicationService.getOrderCountByStatus(userId);
+            Map<Integer, Long> counts = orderQueryApplicationService.getOrderCountByStatus(userId);
             return Result.success(counts);
         } catch (Exception e) {
             log.error("Get order count failed: {}", e.getMessage(), e);
@@ -194,7 +202,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> checkOrderTimeout() {
         try {
-            orderApplicationService.checkOrderTimeout();
+            orderScheduleApplicationService.checkAndCancelTimeoutOrders();
             return Result.success();
         } catch (Exception e) {
             log.error("Check order timeout failed: {}", e.getMessage(), e);
@@ -205,7 +213,7 @@ public class OrderDubboServiceImpl implements OrderDubboService {
     @Override
     public Result<Void> autoConfirmReceipt() {
         try {
-            // TODO: 实现自动确认收货
+            orderScheduleApplicationService.autoConfirmReceipt();
             return Result.success();
         } catch (Exception e) {
             log.error("Auto confirm receipt failed: {}", e.getMessage(), e);

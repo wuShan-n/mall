@@ -6,7 +6,10 @@ import com.mall.api.order.dto.request.*;
 import com.mall.api.order.dto.response.*;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
-import com.mall.order.application.service.OrderApplicationService;
+import com.mall.order.application.service.OrderCreationApplicationService;
+import com.mall.order.application.service.OrderPaymentApplicationService;
+import com.mall.order.application.service.OrderLifecycleApplicationService;
+import com.mall.order.application.service.OrderQueryApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +30,17 @@ import java.util.Map;
 @Tag(name = "订单管理", description = "订单相关接口")
 public class OrderController {
     
-    private final OrderApplicationService orderApplicationService;
+    private final OrderCreationApplicationService orderCreationApplicationService;
+    private final OrderPaymentApplicationService orderPaymentApplicationService;
+    private final OrderLifecycleApplicationService orderLifecycleApplicationService;
+    private final OrderQueryApplicationService orderQueryApplicationService;
     
     @PostMapping("/create")
     @Operation(summary = "创建订单")
     @SaCheckLogin
     public Result<OrderVO> createOrder(@Valid @RequestBody OrderCreateRequest request) {
         Long userId = StpUtil.getLoginIdAsLong();
-        OrderVO order = orderApplicationService.createOrder(userId, request);
+        OrderVO order = orderCreationApplicationService.createOrder(userId, request);
         return Result.success(order);
     }
     
@@ -51,7 +57,7 @@ public class OrderController {
     @Operation(summary = "支付订单")
     @SaCheckLogin
     public Result<OrderPaymentVO> payOrder(@Valid @RequestBody OrderPaymentRequest request) {
-        OrderPaymentVO payment = orderApplicationService.payOrder(request);
+        OrderPaymentVO payment = orderPaymentApplicationService.initiatePayment(request);
         return Result.success(payment);
     }
     
@@ -59,7 +65,7 @@ public class OrderController {
     @Operation(summary = "支付回调")
     public Result<Void> paymentCallback(@RequestParam String orderNo,
                                         @RequestParam String transactionId) {
-        orderApplicationService.paymentCallback(orderNo, transactionId);
+        orderPaymentApplicationService.handlePaymentCallback(orderNo, transactionId);
         return Result.success();
     }
     
@@ -68,14 +74,14 @@ public class OrderController {
     @SaCheckLogin
     public Result<Void> cancelOrder(@Valid @RequestBody OrderCancelRequest request) {
         Long userId = StpUtil.getLoginIdAsLong();
-        orderApplicationService.cancelOrder(userId, request);
+        orderLifecycleApplicationService.cancelOrder(userId, request);
         return Result.success();
     }
     
     @PostMapping("/ship")
     @Operation(summary = "发货")
     public Result<Void> shipOrder(@Valid @RequestBody OrderShipRequest request) {
-        orderApplicationService.shipOrder(request);
+        orderLifecycleApplicationService.shipOrder(request);
         return Result.success();
     }
     
@@ -84,7 +90,7 @@ public class OrderController {
     @SaCheckLogin
     public Result<Void> confirmReceipt(@RequestParam String orderNo) {
         Long userId = StpUtil.getLoginIdAsLong();
-        orderApplicationService.confirmReceipt(userId, orderNo);
+        orderLifecycleApplicationService.confirmReceipt(userId, orderNo);
         return Result.success();
     }
     
@@ -92,7 +98,7 @@ public class OrderController {
     @Operation(summary = "获取订单详情")
     @SaCheckLogin
     public Result<OrderDetailVO> getOrderDetail(@PathVariable String orderNo) {
-        OrderDetailVO detail = orderApplicationService.getOrderDetail(orderNo);
+        OrderDetailVO detail = orderQueryApplicationService.getOrderDetailForUser(orderNo, StpUtil.getLoginIdAsLong());
         return Result.success(detail);
     }
     
@@ -105,7 +111,7 @@ public class OrderController {
             @RequestParam(defaultValue = "1") Integer current,
             @RequestParam(defaultValue = "10") Integer size) {
         
-        PageResult<OrderVO> result = orderApplicationService.getUserOrders(userId, status, current, size);
+        PageResult<OrderVO> result = orderQueryApplicationService.getUserOrders(userId, status, current, size);
         return Result.success(result);
     }
     
@@ -113,7 +119,7 @@ public class OrderController {
     @Operation(summary = "获取用户订单统计")
     @SaCheckLogin
     public Result<Map<Integer, Long>> getOrderCountByStatus(@PathVariable Long userId) {
-        Map<Integer, Long> counts = orderApplicationService.getOrderCountByStatus(userId);
+        Map<Integer, Long> counts = orderQueryApplicationService.getOrderCountByStatus(userId);
         return Result.success(counts);
     }
 }

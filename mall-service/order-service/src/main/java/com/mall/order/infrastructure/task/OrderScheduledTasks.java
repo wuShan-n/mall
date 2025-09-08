@@ -1,6 +1,6 @@
 package com.mall.order.infrastructure.task;
 
-import com.mall.order.application.service.OrderApplicationService;
+import com.mall.order.application.service.OrderScheduleApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderScheduledTasks {
     
-    private final OrderApplicationService orderApplicationService;
+    private final OrderScheduleApplicationService orderScheduleApplicationService;
     
     /**
      * 检查超时订单
@@ -24,7 +24,7 @@ public class OrderScheduledTasks {
     public void checkOrderTimeout() {
         log.info("Starting check order timeout task");
         try {
-//            orderApplicationService.checkOrderTimeout();
+            orderScheduleApplicationService.checkAndCancelTimeoutOrders();
         } catch (Exception e) {
             log.error("Check order timeout task failed", e);
         }
@@ -38,23 +38,23 @@ public class OrderScheduledTasks {
     public void autoConfirmReceipt() {
         log.info("Starting auto confirm receipt task");
         try {
-            // TODO: 实现自动确认收货
+            orderScheduleApplicationService.autoConfirmReceipt();
         } catch (Exception e) {
             log.error("Auto confirm receipt task failed", e);
         }
     }
     
     /**
-     * 自动完成订单
+     * 清理老订单
      * 每天凌晨3点执行
      */
     @Scheduled(cron = "0 0 3 * * ?")
-    public void autoCompleteOrder() {
-        log.info("Starting auto complete order task");
+    public void cleanupOldOrders() {
+        log.info("Starting cleanup old orders task");
         try {
-            // TODO: 实现自动完成订单
+            orderScheduleApplicationService.cleanupOldOrders();
         } catch (Exception e) {
-            log.error("Auto complete order task failed", e);
+            log.error("Cleanup old orders task failed", e);
         }
     }
 }
