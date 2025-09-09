@@ -5,11 +5,9 @@ import com.mall.api.order.dto.request.OrderItemRequest;
 import com.mall.api.product.dto.response.SkuVO;
 import com.mall.api.user.dto.response.AddressVO;
 import com.mall.api.user.dto.response.UserVO;
-import com.mall.order.application.dto.StockCheckItem;
 import com.mall.order.application.facade.OrderExternalServiceFacade;
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.valueobject.UserId;
-import com.mall.order.infrastructure.external.InventoryServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 public class OrderValidationService {
     
     private final OrderExternalServiceFacade externalServiceFacade;
-    private final InventoryServiceClient inventoryServiceClient;
     
     /**
      * 验证订单创建请求
@@ -178,24 +175,15 @@ public class OrderValidationService {
     }
     
     /**
-     * 验证库存（批量优化）
+     * 验证库存
      */
     private void validateStock(List<OrderItemRequest> orderItems, List<SkuVO> skuList) {
         Map<Long, SkuVO> skuMap = skuList.stream()
                 .collect(Collectors.toMap(SkuVO::getId, Function.identity()));
         
-        // 构建批量检查请求
-        List<StockCheckItem> stockCheckItems = orderItems.stream()
-                .map(item -> StockCheckItem.of(item.getSkuId(), item.getQuantity()))
-                .collect(Collectors.toList());
-        
-        // 批量检查库存
-        Map<Long, Boolean> stockResults = inventoryServiceClient.checkStockBatch(stockCheckItems);
-        
-        // 检查结果
         for (OrderItemRequest item : orderItems) {
-            Boolean hasStock = stockResults.get(item.getSkuId());
-            if (hasStock == null || !hasStock) {
+            boolean hasStock = externalServiceFacade.checkStock(item.getSkuId(), item.getQuantity());
+            if (!hasStock) {
                 SkuVO sku = skuMap.get(item.getSkuId());
                 throw new IllegalStateException("商品库存不足: " + (sku != null ? sku.getSkuName() : item.getSkuId()));
             }
