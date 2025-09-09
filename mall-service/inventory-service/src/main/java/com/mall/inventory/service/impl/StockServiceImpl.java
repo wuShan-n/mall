@@ -167,7 +167,7 @@ public class StockServiceImpl implements StockService {
                             return null;
                         }
                     }))
-                    .collect(Collectors.toList());
+                    .toList();
 
             // 等待所有异步操作完成
             CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
