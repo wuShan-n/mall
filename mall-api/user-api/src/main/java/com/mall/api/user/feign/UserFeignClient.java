@@ -1,7 +1,6 @@
 package com.mall.api.user.feign;
 
 import com.mall.api.user.constant.UserConstants;
-
 import com.mall.api.user.dto.request.UserLoginRequest;
 import com.mall.api.user.dto.request.UserQueryRequest;
 import com.mall.api.user.dto.request.UserRegisterRequest;

@@ -3,7 +3,6 @@ package com.mall.api.order.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mall.common.base.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

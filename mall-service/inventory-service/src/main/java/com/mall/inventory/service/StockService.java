@@ -1,8 +1,10 @@
 package com.mall.inventory.service;
 
 import com.mall.api.inventory.dto.request.*;
-import com.mall.api.inventory.dto.response.*;
+import com.mall.api.inventory.dto.response.StockLockVO;
+import com.mall.api.inventory.dto.response.StockVO;
 import com.mall.common.result.PageResult;
+
 import java.util.List;
 import java.util.Map;
 

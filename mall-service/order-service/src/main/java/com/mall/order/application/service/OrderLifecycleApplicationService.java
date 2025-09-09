@@ -5,7 +5,6 @@ import com.mall.api.order.dto.request.OrderShipRequest;
 import com.mall.order.application.validation.OrderValidationService;
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.repository.OrderRepository;
-import com.mall.order.domain.order.service.OrderDomainService;
 import com.mall.order.domain.order.valueobject.OrderNo;
 import com.mall.order.infrastructure.messaging.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderLifecycleApplicationService {
     
     private final OrderRepository orderRepository;
-    private final OrderDomainService orderDomainService;
     private final DomainEventPublisher domainEventPublisher;
     private final OrderValidationService validationService;
     
@@ -48,13 +46,10 @@ public class OrderLifecycleApplicationService {
             // 4. 取消订单
             order.cancel(request.getReason());
             
-            // 5. 释放库存
-            orderDomainService.releaseStock(order.getOrderNo());
-            
-            // 6. 保存订单状态变更
+            // 5. 保存订单状态变更
             orderRepository.update(order);
             
-            // 7. 发布订单取消领域事件
+            // 6. 发布订单取消领域事件
             domainEventPublisher.publishEvents(order);
             
             log.info("Order cancelled successfully: {}", request.getOrderNo());
@@ -82,13 +77,10 @@ public class OrderLifecycleApplicationService {
             // 3. 取消订单
             order.cancel(reason);
             
-            // 4. 释放库存
-            orderDomainService.releaseStock(order.getOrderNo());
-            
-            // 5. 保存订单状态变更
+            // 4. 保存订单状态变更
             orderRepository.update(order);
             
-            // 6. 发布订单取消领域事件
+            // 5. 发布订单取消领域事件
             domainEventPublisher.publishEvents(order);
             
             log.info("Order cancelled by system successfully: {}", orderNo);

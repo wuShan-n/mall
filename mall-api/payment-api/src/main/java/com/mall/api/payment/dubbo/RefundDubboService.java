@@ -1,9 +1,14 @@
 package com.mall.api.payment.dubbo;
 
-import com.mall.api.payment.dto.request.*;
-import com.mall.api.payment.dto.response.*;
-import com.mall.common.result.Result;
+import com.mall.api.payment.dto.request.RefundApplyRequest;
+import com.mall.api.payment.dto.request.RefundCallbackRequest;
+import com.mall.api.payment.dto.request.RefundQueryRequest;
+import com.mall.api.payment.dto.response.RefundDetailVO;
+import com.mall.api.payment.dto.response.RefundResultVO;
+import com.mall.api.payment.dto.response.RefundVO;
 import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
+
 import java.util.List;
 
 /**

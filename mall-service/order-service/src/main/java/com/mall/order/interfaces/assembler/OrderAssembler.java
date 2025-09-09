@@ -5,8 +5,6 @@ import com.mall.api.order.dto.response.OrderItemVO;
 import com.mall.api.order.dto.response.OrderVO;
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.entity.OrderItem;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

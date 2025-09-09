@@ -1,8 +1,8 @@
 package com.mall.product.provider;
 
-import com.mall.api.product.dubbo.BrandDubboService;
 import com.mall.api.product.dto.request.BrandCreateRequest;
 import com.mall.api.product.dto.response.BrandVO;
+import com.mall.api.product.dubbo.BrandDubboService;
 import com.mall.common.base.PageRequest;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;

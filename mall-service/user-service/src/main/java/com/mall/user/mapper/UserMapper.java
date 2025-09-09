@@ -1,7 +1,7 @@
 package com.mall.user.mapper;
 
-import com.mall.user.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mall.user.entity.User;
 
 /**
 * @author 21279

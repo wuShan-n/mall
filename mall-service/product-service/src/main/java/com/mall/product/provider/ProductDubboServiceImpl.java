@@ -1,13 +1,12 @@
 package com.mall.product.provider;
 
-import com.mall.api.product.dubbo.ProductDubboService;
 import com.mall.api.product.dto.request.ProductQueryRequest;
 import com.mall.api.product.dto.request.SpuCreateRequest;
-import com.mall.api.product.dto.request.StockUpdateRequest;
 import com.mall.api.product.dto.response.ProductStatisticsVO;
 import com.mall.api.product.dto.response.SkuVO;
 import com.mall.api.product.dto.response.SpuDetailVO;
 import com.mall.api.product.dto.response.SpuVO;
+import com.mall.api.product.dubbo.ProductDubboService;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
 import com.mall.product.service.ProductService;

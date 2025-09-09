@@ -1,7 +1,11 @@
 package com.mall.product.controller;
 
-import com.mall.api.product.dto.request.*;
-import com.mall.api.product.dto.response.*;
+import com.mall.api.product.dto.request.ProductQueryRequest;
+import com.mall.api.product.dto.request.SpuCreateRequest;
+import com.mall.api.product.dto.response.ProductStatisticsVO;
+import com.mall.api.product.dto.response.SkuVO;
+import com.mall.api.product.dto.response.SpuDetailVO;
+import com.mall.api.product.dto.response.SpuVO;
 import com.mall.common.result.PageResult;
 import com.mall.common.result.Result;
 import com.mall.product.service.ProductService;

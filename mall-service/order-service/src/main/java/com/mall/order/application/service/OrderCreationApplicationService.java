@@ -4,20 +4,18 @@ import com.mall.api.order.dto.request.OrderCreateRequest;
 import com.mall.api.order.dto.request.OrderItemRequest;
 import com.mall.api.order.dto.response.OrderVO;
 import com.mall.api.product.dto.response.SkuVO;
-import com.mall.order.application.facade.OrderExternalServiceFacade;
 import com.mall.order.application.validation.OrderValidationService;
 import com.mall.order.domain.order.entity.Order;
 import com.mall.order.domain.order.entity.OrderAddress;
 import com.mall.order.domain.order.entity.OrderItem;
 import com.mall.order.domain.order.repository.OrderRepository;
-import com.mall.order.domain.order.service.OrderDomainService;
 import com.mall.order.domain.order.service.OrderFactory;
 import com.mall.order.infrastructure.messaging.DomainEventPublisher;
 import com.mall.order.interfaces.assembler.OrderAssembler;
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,18 +32,16 @@ import java.util.Map;
 public class OrderCreationApplicationService {
     
     private final OrderRepository orderRepository;
-    private final OrderDomainService orderDomainService;
     private final OrderFactory orderFactory;
     private final OrderAssembler orderAssembler;
     private final DomainEventPublisher domainEventPublisher;
     
     private final OrderValidationService validationService;
-    private final OrderExternalServiceFacade externalServiceFacade;
-    
+
     /**
      * 创建订单
      */
-    @GlobalTransactional
+    @Transactional
     public OrderVO createOrder(Long userId, OrderCreateRequest request) {
         log.info("Creating order for user: {}, request: {}", userId, request);
         
@@ -71,19 +67,16 @@ public class OrderCreationApplicationService {
             
             // 5. 应用优惠（如果有）
             applyDiscounts(order, request);
-            
-            // 6. 锁定库存
-            orderDomainService.lockStock(order.getOrderNo(), orderItems);
-            
-            // 7. 保存订单
+
+            // 6. 保存订单
             order = orderRepository.save(order);
             
-            // 8. 发布领域事件
+            // 7. 发布领域事件
             domainEventPublisher.publishEvents(order);
             
             log.info("Order created successfully: {}", order.getOrderNo());
             
-            // 9. 返回订单视图对象
+            // 8. 返回订单视图对象
             return orderAssembler.toOrderVO(order);
             
         } catch (Exception e) {

@@ -1,11 +1,8 @@
 package com.mall.user.service;
 
-import com.mall.api.user.constant.UserConstants;
 import com.mall.api.user.dto.request.AddressCreateRequest;
 import com.mall.api.user.dto.response.AddressVO;
 import com.mall.common.result.Result;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

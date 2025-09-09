@@ -2,7 +2,8 @@ package com.mall.api.inventory.feign;
 
 import com.mall.api.inventory.constant.InventoryConstants;
 import com.mall.api.inventory.dto.request.*;
-import com.mall.api.inventory.dto.response.*;
+import com.mall.api.inventory.dto.response.StockLockVO;
+import com.mall.api.inventory.dto.response.StockVO;
 import com.mall.common.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

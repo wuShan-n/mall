@@ -1,7 +1,7 @@
 package com.mall.product.provider;
 
-import com.mall.api.product.dubbo.AttributeDubboService;
 import com.mall.api.product.dto.response.AttributeVO;
+import com.mall.api.product.dubbo.AttributeDubboService;
 import com.mall.common.result.Result;
 import com.mall.product.service.AttributeService;
 import lombok.RequiredArgsConstructor;

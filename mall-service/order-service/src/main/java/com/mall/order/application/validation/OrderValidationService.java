@@ -7,7 +7,6 @@ import com.mall.api.user.dto.response.AddressVO;
 import com.mall.api.user.dto.response.UserVO;
 import com.mall.order.application.facade.OrderExternalServiceFacade;
 import com.mall.order.domain.order.entity.Order;
-import com.mall.order.domain.order.valueobject.UserId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -165,7 +164,7 @@ public class OrderValidationService {
             throw new IllegalArgumentException("商品不存在: " + item.getSkuId());
         }
         
-        if (!"ON_SALE".equals(sku.getStatus())) {
+        if (sku.getStatus()==0) {
             throw new IllegalArgumentException("商品已下架: " + sku.getSkuName());
         }
         

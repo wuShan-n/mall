@@ -1,7 +1,8 @@
 package com.mall.inventory.provider;
 
 import com.mall.api.inventory.dto.request.*;
-import com.mall.api.inventory.dto.response.*;
+import com.mall.api.inventory.dto.response.StockLockVO;
+import com.mall.api.inventory.dto.response.StockVO;
 import com.mall.api.inventory.dubbo.InventoryDubboService;
 import com.mall.common.result.Result;
 import com.mall.inventory.service.StockService;

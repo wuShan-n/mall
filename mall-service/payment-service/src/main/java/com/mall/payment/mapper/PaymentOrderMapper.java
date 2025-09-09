@@ -1,7 +1,7 @@
 package com.mall.payment.mapper;
 
-import com.mall.payment.entity.PaymentOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mall.payment.entity.PaymentOrder;
 
 /**
 * @author 21279

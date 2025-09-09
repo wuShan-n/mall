@@ -1,12 +1,20 @@
 package com.mall.api.payment.feign;
 
 import com.mall.api.payment.constant.PaymentConstants;
-import com.mall.api.payment.dto.request.*;
-import com.mall.api.payment.dto.response.*;
-import com.mall.common.result.Result;
+import com.mall.api.payment.dto.request.RefundApplyRequest;
+import com.mall.api.payment.dto.request.RefundCallbackRequest;
+import com.mall.api.payment.dto.request.RefundQueryRequest;
+import com.mall.api.payment.dto.response.RefundDetailVO;
+import com.mall.api.payment.dto.response.RefundResultVO;
+import com.mall.api.payment.dto.response.RefundVO;
 import com.mall.common.result.PageResult;
+import com.mall.common.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 /**

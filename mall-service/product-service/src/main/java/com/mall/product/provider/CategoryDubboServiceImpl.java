@@ -1,8 +1,8 @@
 package com.mall.product.provider;
 
-import com.mall.api.product.dubbo.CategoryDubboService;
 import com.mall.api.product.dto.request.CategoryCreateRequest;
 import com.mall.api.product.dto.response.CategoryVO;
+import com.mall.api.product.dubbo.CategoryDubboService;
 import com.mall.common.result.Result;
 import com.mall.product.service.CategoryService;
 import lombok.RequiredArgsConstructor;

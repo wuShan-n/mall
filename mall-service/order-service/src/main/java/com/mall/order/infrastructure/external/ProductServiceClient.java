@@ -1,7 +1,6 @@
 package com.mall.order.infrastructure.external;
 
 import com.mall.api.product.dto.response.SkuVO;
-import com.mall.api.product.dto.response.SpuVO;
 import com.mall.api.product.dubbo.ProductDubboService;
 import com.mall.common.result.Result;
 import lombok.RequiredArgsConstructor;

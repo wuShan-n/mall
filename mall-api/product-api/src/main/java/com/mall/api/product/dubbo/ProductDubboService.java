@@ -2,7 +2,6 @@ package com.mall.api.product.dubbo;
 
 import com.mall.api.product.dto.request.ProductQueryRequest;
 import com.mall.api.product.dto.request.SpuCreateRequest;
-import com.mall.api.product.dto.request.StockUpdateRequest;
 import com.mall.api.product.dto.response.ProductStatisticsVO;
 import com.mall.api.product.dto.response.SkuVO;
 import com.mall.api.product.dto.response.SpuDetailVO;

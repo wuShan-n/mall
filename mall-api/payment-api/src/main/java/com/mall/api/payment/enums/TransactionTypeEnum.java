@@ -1,7 +1,7 @@
 package com.mall.api.payment.enums;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Transaction type enumeration

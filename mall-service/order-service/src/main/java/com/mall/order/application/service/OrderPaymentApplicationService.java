@@ -83,13 +83,10 @@ public class OrderPaymentApplicationService {
             // 3. 更新订单状态为已支付
             order.pay(transactionId);
             
-            // 4. 扣减库存
-            orderDomainService.deductStock(order.getOrderNo());
-            
-            // 5. 保存订单状态变更
+            // 4. 保存订单状态变更
             orderRepository.update(order);
             
-            // 6. 发布支付成功领域事件
+            // 5. 发布支付成功领域事件
             domainEventPublisher.publishEvents(order);
             
             log.info("Payment callback handled successfully for order: {}, transaction: {}", 

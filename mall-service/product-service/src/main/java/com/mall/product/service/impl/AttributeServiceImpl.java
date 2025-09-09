@@ -1,7 +1,6 @@
 package com.mall.product.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mall.api.product.dto.response.AttributeVO;
 import com.mall.common.result.Result;
 import com.mall.common.utils.Assert;
