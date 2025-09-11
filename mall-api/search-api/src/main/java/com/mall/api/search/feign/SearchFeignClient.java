@@ -16,7 +16,7 @@ import java.util.List;
 public interface SearchFeignClient {
 
     @PostMapping("/products")
-    Result<SearchResultVO<ProductSearchVO>> searchProducts(@RequestBody SearchRequest request);
+    Result<SearchResultVO<ProductSearchVO>> searchProducts(@RequestBody ProductSearchQuery request);
 
     @GetMapping("/suggest")
     Result<List<SuggestVO>> getSuggestions(@RequestParam("keyword") String keyword,

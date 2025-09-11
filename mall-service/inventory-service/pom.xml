@@ -18,6 +18,18 @@
             <groupId>com.mall</groupId>
             <artifactId>inventory-api</artifactId>
         </dependency>
+
+        <!-- Seata for distributed transaction -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
+
+        <!-- RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -88,7 +88,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    @Cacheable(value = "brand", key = "'all'")
+    @Cacheable(value = "brand", key = "'all'" )
     public Result<List<BrandVO>> getAllBrands() {
         List<ProductBrand> brands = brandMapper.selectList(new LambdaQueryWrapper<ProductBrand>()
                 .eq(ProductBrand::getStatus, 1)

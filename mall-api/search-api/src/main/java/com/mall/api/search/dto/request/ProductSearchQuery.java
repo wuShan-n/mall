@@ -16,7 +16,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "Search request")
-public class SearchRequest extends PageRequest {
+public class ProductSearchQuery extends PageRequest {
     private static final long serialVersionUID = 1L;
     
     @NotBlank(message = "Search keyword cannot be empty")
@@ -69,7 +69,7 @@ public class SearchRequest extends PageRequest {
     private Boolean isBest;
     
     @Schema(description = "Minimum score", example = "4.0")
-    private BigDecimal minScore;
+    private Float minScore;
     
     @Schema(description = "Include aggregations", example = "true")
     private Boolean includeAggregations = true;

@@ -75,7 +75,6 @@
         <minio.version>8.5.7</minio.version>
         <elasticsearch.version>8.11.1</elasticsearch.version>
         <seata.version>2.0.0</seata.version>
-        <sentinel.version>1.8.7</sentinel.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
         <sa-token.version>1.44.0</sa-token.version>
 
@@ -131,6 +130,8 @@
                 <scope>import</scope>
             </dependency>
 
+
+
             <!-- Dubbo -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
@@ -182,12 +183,7 @@
                 <version>${seata.version}</version>
             </dependency>
 
-            <!-- Sentinel -->
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-core</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
+
 
             <!-- Utils -->
             <dependency>

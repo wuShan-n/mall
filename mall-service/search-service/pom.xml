@@ -11,54 +11,38 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-service</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>search-service</artifactId>
 
-    <name>order-service</name>
-    <description>Order service for mall platform</description>
+    <name>search-service</name>
+    <description>Search service for product search and recommendations</description>
 
     <dependencies>
-        <!-- API Dependencies -->
+        <!-- Search API -->
         <dependency>
             <groupId>com.mall</groupId>
-            <artifactId>order-api</artifactId>
+            <artifactId>search-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>user-api</artifactId>
-        </dependency>
-
+        <!-- Product API for domain objects -->
         <dependency>
             <groupId>com.mall</groupId>
             <artifactId>product-api</artifactId>
         </dependency>
 
+        <!-- Common Core -->
         <dependency>
             <groupId>com.mall</groupId>
-            <artifactId>inventory-api</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>payment-api</artifactId>
-        </dependency>
-
-        <!-- Seata for distributed transaction -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-        </dependency>
-
-        <!-- RabbitMQ -->
+        <!-- Elasticsearch -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

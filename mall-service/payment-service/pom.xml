@@ -23,6 +23,12 @@
             <groupId>com.mall</groupId>
             <artifactId>payment-api</artifactId>
         </dependency>
+
+        <!-- Seata for distributed transaction -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

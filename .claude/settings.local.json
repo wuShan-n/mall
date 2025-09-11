@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mvn clean:*)"
+      "Bash(mvn clean:*)",
+      "Bash(dir)",
+      "Bash(dir mall-api)",
+      "Bash(mvn compile:*)"
     ],
     "deny": [],
     "ask": []

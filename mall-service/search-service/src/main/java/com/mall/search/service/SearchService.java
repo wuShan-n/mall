@@ -1,35 +1,24 @@
-package com.mall.api.search.dubbo;
+package com.mall.search.service;
 
-import com.mall.api.search.dto.request.*;
-import com.mall.api.search.dto.response.*;
+import com.mall.api.search.dto.request.ProductSearchQuery;
+import com.mall.api.search.dto.request.SearchHistoryRequest;
+import com.mall.api.search.dto.response.ProductSearchVO;
+import com.mall.api.search.dto.response.SearchHistoryVO;
+import com.mall.api.search.dto.response.SearchResultVO;
+import com.mall.api.search.dto.response.SearchStatisticsVO;
 import com.mall.common.result.Result;
 
 import java.util.List;
 
 /**
- * Search Dubbo RPC service interface
+ * Search service interface
  */
-public interface SearchDubboService {
+public interface SearchService {
     
     /**
      * Search products
      */
     Result<SearchResultVO<ProductSearchVO>> searchProducts(ProductSearchQuery request);
-    
-    /**
-     * Get search suggestions
-     */
-    Result<List<SuggestVO>> getSuggestions(SuggestRequest request);
-    
-    /**
-     * Get hot keywords
-     */
-    Result<List<HotKeywordVO>> getHotKeywords(Integer size);
-    
-    /**
-     * Get hot keywords by category
-     */
-    Result<List<HotKeywordVO>> getHotKeywordsByCategory(Long categoryId, Integer size);
     
     /**
      * Save search history
@@ -50,31 +39,6 @@ public interface SearchDubboService {
      * Delete specific search history
      */
     Result<Void> deleteSearchHistory(Long userId, Long historyId);
-    
-    /**
-     * Sync product to index
-     */
-    Result<Void> syncProductToIndex(IndexSyncRequest request);
-    
-    /**
-     * Batch sync products to index
-     */
-    Result<Void> batchSyncProductsToIndex(List<IndexSyncRequest> requests);
-    
-    /**
-     * Remove product from index
-     */
-    Result<Void> removeProductFromIndex(Long productId);
-    
-    /**
-     * Batch remove products from index
-     */
-    Result<Void> batchRemoveProductsFromIndex(List<Long> productIds);
-    
-    /**
-     * Rebuild index
-     */
-    Result<Void> rebuildIndex(String indexType);
     
     /**
      * Get search statistics

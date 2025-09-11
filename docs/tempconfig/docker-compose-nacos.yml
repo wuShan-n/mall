@@ -115,6 +115,7 @@ services:
       - "9200:9200"
       - "9300:9300"
     volumes:
+      - ./elasticsearch/plugins:/usr/share/elasticsearch/plugins
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/logs:/usr/share/elasticsearch/logs
     restart: always

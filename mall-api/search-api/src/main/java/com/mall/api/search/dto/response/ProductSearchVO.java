@@ -69,7 +69,7 @@ public class ProductSearchVO extends BaseDTO {
     private Integer commentCount;
     
     @Schema(description = "Average score", example = "4.8")
-    private BigDecimal score;
+    private Float score;
     
     @Schema(description = "Stock status", example = "IN_STOCK")
     private String stockStatus;
@@ -105,7 +105,7 @@ public class ProductSearchVO extends BaseDTO {
     private Boolean freeShipping;
     
     @Schema(description = "Search score", example = "10.5")
-    private Float searchScore;
+    private Double searchScore;
     
     @Schema(description = "Distance in km (for location-based search)", example = "2.5")
     private Double distance;

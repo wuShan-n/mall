@@ -23,7 +23,7 @@
          <module>order-service</module>
          <module>payment-service</module>
          <module>inventory-service</module>
-<!--         <module>search-service</module> -->
+         <module>search-service</module>
 <!--         <module>marketing-service</module> -->
 <!--         <module>message-service</module> -->
     </modules>
@@ -151,17 +151,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- Seata for distributed transaction -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-        </dependency>
-
-        <!-- Sentinel for circuit breaker -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-        </dependency>
 
         <!-- API Documentation -->
         <dependency>
@@ -169,14 +158,15 @@
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+<!--        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>-->
 
         <!-- MapStruct for Object Mapping -->
         <dependency>
@@ -212,11 +202,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- RabbitMQ -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>org.testcontainers</groupId>
