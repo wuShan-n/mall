@@ -4,7 +4,9 @@
       "Bash(mvn clean:*)",
       "Bash(dir)",
       "Bash(dir mall-api)",
-      "Bash(mvn compile:*)"
+      "Bash(mvn compile:*)",
+      "Read(//d/**)",
+      "Bash(mvn install:*)"
     ],
     "deny": [],
     "ask": []
