@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Product document for Elasticsearch
+ * Elasticsearch商品文档类
  * 
  * @author mall
  */
@@ -140,7 +140,7 @@ public class ProductDocument {
     private LocalDateTime updateTime;
 
     /**
-     * Product attribute
+     * 商品属性
      */
     @Data
     public static class ProductAttribute {
@@ -155,7 +155,7 @@ public class ProductDocument {
     }
 
     /**
-     * SKU option
+     * SKU选项
      */
     @Data
     public static class SkuOption {
@@ -176,7 +176,7 @@ public class ProductDocument {
     }
 
     /**
-     * Geographic point
+     * 地理点位置
      */
     @Data
     public static class GeoPoint {

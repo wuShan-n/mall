@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Index synchronization service
+ * 索引同步服务实现类
  * 
  * @author mall
  */
@@ -60,12 +60,12 @@ public class IndexSyncServiceImpl implements IndexSyncService {
                     reindexProducts();
                     break;
                 default:
-                    throw new BusinessException("Unsupported operation type: " + request.getOperationType());
+                    throw new BusinessException("不支持的操作类型: " + request.getOperationType());
             }
             return Result.success();
         } catch (Exception e) {
             log.error("Sync product to index failed", e);
-            throw new BusinessException("Index sync failed: " + e.getMessage());
+            throw new BusinessException("索引同步失败: " + e.getMessage());
         }
     }
 
@@ -73,22 +73,22 @@ public class IndexSyncServiceImpl implements IndexSyncService {
     @Async
     public void asyncSyncProductToIndex(Long spuId) {
         try {
-            // Fetch product details from product service
+            // 从商品服务获取商品详情
             Result<SpuDetailVO> result = productFeignClient.getSpuDetail(spuId);
             if (!result.isSuccess() || result.getData() == null) {
-                log.error("Failed to fetch product details for SPU: {}", spuId);
+                log.error("获取SPU商品详情失败: {}", spuId);
                 return;
             }
             
             SpuDetailVO spuDetail = result.getData();
             
-            // Convert to document and save
+            // 转换为文档并保存
             List<ProductDocument> documents = convertToDocuments(spuDetail);
             productSearchRepository.saveAll(documents);
             
-            log.info("Successfully synced product to index: SPU={}", spuId);
+            log.info("成功将商品同步到索引: SPU={}", spuId);
         } catch (Exception e) {
-            log.error("Failed to sync product to index: SPU=" + spuId, e);
+            log.error("将商品同步到索引失败: SPU=" + spuId, e);
         }
     }
 
@@ -97,9 +97,9 @@ public class IndexSyncServiceImpl implements IndexSyncService {
     public void asyncRemoveProductFromIndex(Long spuId) {
         try {
             productSearchRepository.deleteBySpuId(spuId);
-            log.info("Successfully removed product from index: SPU={}", spuId);
+            log.info("成功从索引中移除商品: SPU={}", spuId);
         } catch (Exception e) {
-            log.error("Failed to remove product from index: SPU=" + spuId, e);
+            log.error("从索引中移除商品失败: SPU=" + spuId, e);
         }
     }
 
@@ -107,7 +107,7 @@ public class IndexSyncServiceImpl implements IndexSyncService {
     @Transactional
     public Result<Void> rebuildIndex(String indexType) {
         try {
-            // Get index coordinates
+            // 获取索引坐标
             IndexCoordinates indexCoordinates = IndexCoordinates.of("mall_product");
             IndexOperations indexOperations = elasticsearchOperations.indexOps(indexCoordinates);
             
