@@ -23,12 +23,6 @@
             <artifactId>search-api</artifactId>
         </dependency>
 
-        <!-- Product API for domain objects -->
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>product-api</artifactId>
-        </dependency>
-
         <!-- Common Core -->
         <dependency>
             <groupId>com.mall</groupId>
@@ -40,6 +34,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

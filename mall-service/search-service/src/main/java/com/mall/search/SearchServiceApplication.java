@@ -18,8 +18,6 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.mall.api.*.feign")
 @EnableDubbo
-@EnableElasticsearchRepositories(basePackages = "com.mall.search.repository")
-@MapperScan("com.mall.search.mapper")
 @ComponentScan(basePackages = {"com.mall.search", "com.mall.common"})
 public class SearchServiceApplication {
 

@@ -1,34 +1,32 @@
 package com.mall.search.service;
 
-import com.mall.api.search.dto.request.SuggestRequest;
-import com.mall.api.search.dto.response.HotKeywordVO;
-import com.mall.api.search.dto.response.SuggestVO;
-import com.mall.common.result.Result;
+
+import com.mall.search.dto.response.HotWordDTO;
 
 import java.util.List;
 
 /**
- * Suggest service interface
+ * =====================================================
+ * 服务接口定义
+ * =====================================================
+ */
+
+/**
+ * 搜索建议服务接口
  */
 public interface SuggestService {
+    /**
+     * 获取搜索建议
+     */
+    List<String> suggest(String keyword, Integer size);
     
     /**
-     * Get search suggestions
+     * 更新搜索建议索引
      */
-    Result<List<SuggestVO>> getSuggestions(SuggestRequest request);
+    void updateSuggestIndex(String keyword, Integer weight);
     
     /**
-     * Get hot keywords
+     * 批量导入热词
      */
-    Result<List<HotKeywordVO>> getHotKeywords(Integer size);
-    
-    /**
-     * Get hot keywords by category
-     */
-    Result<List<HotKeywordVO>> getHotKeywordsByCategory(Long categoryId, Integer size);
-    
-    /**
-     * Update hot keyword
-     */
-    void updateHotKeyword(String keyword, Long categoryId);
+    void batchImportHotWords(List<HotWordDTO> hotWords);
 }
