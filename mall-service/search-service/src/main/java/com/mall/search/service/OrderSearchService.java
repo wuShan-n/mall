@@ -25,8 +25,4 @@ public interface OrderSearchService {
      */
     void export(OrderExportRequest request, HttpServletResponse response);
 
-    /**
-     * 更新订单索引
-     */
-    void updateOrderIndex(String orderNo);
 }

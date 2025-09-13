@@ -10,9 +10,7 @@ import com.mall.search.dto.response.ProductSimpleVO;
 import java.util.List;
 
 /**
- * =====================================================
- * 搜索服务接口定义
- * =====================================================
+ * 商品搜索服务接口定义
  */
 public interface ProductSearchService {
 
@@ -31,23 +29,4 @@ public interface ProductSearchService {
      */
     List<ProductSimpleVO> getRelatedProducts(Long spuId, Integer size);
 
-    /**
-     * 批量获取商品信息
-     */
-    List<ProductSearchVO> getByIds(List<Long> spuIds);
-
-    /**
-     * 更新商品索引
-     */
-    void updateProduct(Long spuId);
-
-    /**
-     * 批量更新商品索引
-     */
-    void batchUpdateProducts(List<Long> spuIds);
-
-    /**
-     * 删除商品索引
-     */
-    void deleteProduct(Long spuId);
 }

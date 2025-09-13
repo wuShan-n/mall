@@ -17,11 +17,6 @@
     <description>Search service for product search and recommendations</description>
 
     <dependencies>
-        <!-- Search API -->
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>search-api</artifactId>
-        </dependency>
 
         <!-- Common Core -->
         <dependency>

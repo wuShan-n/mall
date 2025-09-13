@@ -28,8 +28,4 @@ public interface InventorySearchService {
      */
     InventoryStatistics getStatistics(InventoryStatRequest request);
 
-    /**
-     * 更新库存索引
-     */
-    void updateInventoryIndex(Long skuId, Long warehouseId);
 }
