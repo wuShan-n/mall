@@ -3,9 +3,9 @@ package com.mall.search.controller;
 import com.mall.common.result.Result;
 import com.mall.search.dto.request.FilterRequest;
 import com.mall.search.dto.request.ProductSearchRequest;
-import com.mall.search.dto.response.SearchFilters;
 import com.mall.search.dto.response.ProductSearchResponse;
 import com.mall.search.dto.response.ProductSimpleVO;
+import com.mall.search.dto.response.SearchFilters;
 import com.mall.search.service.ProductSearchService;
 import com.mall.search.service.SuggestService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +29,7 @@ import java.util.List;
 public class ProductSearchController {
 
     private final ProductSearchService productSearchService;
-    private final SuggestService suggestService;
+//    private final SuggestService suggestService;
 
     /**
      * 商品搜索主接口
@@ -41,16 +41,16 @@ public class ProductSearchController {
         return Result.success(productSearchService.search(request));
     }
 
-    /**
-     * 搜索建议/自动补全
-     */
-    @GetMapping("/suggest")
-    @Operation(summary = "搜索建议")
-    public Result<List<String>> suggest(
-            @RequestParam @NotBlank String keyword,
-            @RequestParam(defaultValue = "10") Integer size) {
-        return Result.success(suggestService.suggest(keyword, size));
-    }
+//    /**
+//     * 搜索建议/自动补全
+//     */
+//    @GetMapping("/suggest")
+//    @Operation(summary = "搜索建议")
+//    public Result<List<String>> suggest(
+//            @RequestParam @NotBlank String keyword,
+//            @RequestParam(defaultValue = "10") Integer size) {
+//        return Result.success(suggestService.suggest(keyword, size));
+//    }
 
     /**
      * 获取筛选项（聚合）

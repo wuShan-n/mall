@@ -25,8 +25,8 @@ import java.util.List;
  * 5. 高级搜索接口 - 复杂查询
  * =====================================================
  */
-@RestController
-@RequestMapping("/api/search/advanced")
+//@RestController
+//@RequestMapping("/api/search/advanced")
 @Tag(name = "高级搜索接口")
 public class AdvancedSearchController {
 

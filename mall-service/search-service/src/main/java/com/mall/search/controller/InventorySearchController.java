@@ -21,8 +21,8 @@ import java.util.List;
  * 2. 库存搜索接口 - B端库存管理
  * =====================================================
  */
-@RestController
-@RequestMapping("/api/search/inventory")
+//@RestController
+//@RequestMapping("/api/search/inventory")
 @Tag(name = "库存搜索接口")
 public class InventorySearchController {
 

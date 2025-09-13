@@ -12,7 +12,6 @@ import java.util.List;
  * 商品搜索请求参数
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "商品搜索请求")

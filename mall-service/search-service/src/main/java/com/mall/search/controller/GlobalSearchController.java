@@ -17,8 +17,8 @@ import java.util.List;
  * 4. 聚合搜索接口 - 全局搜索
  * =====================================================
  */
-@RestController
-@RequestMapping("/api/search/global")
+//@RestController
+//@RequestMapping("/api/search/global")
 @Tag(name = "全局搜索接口")
 public class GlobalSearchController {
 

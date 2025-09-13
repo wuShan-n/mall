@@ -1,8 +1,6 @@
 package com.mall.search.service;
 
 
-import com.mall.search.dto.response.HotWordDTO;
-
 import java.util.List;
 
 /**

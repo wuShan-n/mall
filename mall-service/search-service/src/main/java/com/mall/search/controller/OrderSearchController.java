@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
  * 3. 订单搜索接口 - 订单管理
  * =====================================================
  */
-@RestController
-@RequestMapping("/api/search/order")
+//@RestController
+//@RequestMapping("/api/search/order")
 @Tag(name = "订单搜索接口")
 @RequiredArgsConstructor
 public class OrderSearchController {

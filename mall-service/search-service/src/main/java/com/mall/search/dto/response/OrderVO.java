@@ -60,7 +60,7 @@ public class OrderVO {
     @Value
     @Builder
     @Schema(description = "收货信息")
-    public class ReceiverInfo {
+    public static class ReceiverInfo {
         @Schema(description = "收货人")
         String name;
 

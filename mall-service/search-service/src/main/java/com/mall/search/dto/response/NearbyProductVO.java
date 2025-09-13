@@ -1,6 +1,7 @@
 package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 
@@ -10,9 +11,13 @@ import java.math.BigDecimal;
  * 附近商品VO
  */
 @Value
-@SuperBuilder
+@Builder
 @Schema(description = "附近商品")
-public class NearbyProductVO extends ProductSimpleVO {
+public class NearbyProductVO {
+
+    @Schema(description = "商品简要信息")
+    ProductSimpleVO productSimpleVO;
+
     @Schema(description = "距离(米)")
     Double distance;
 

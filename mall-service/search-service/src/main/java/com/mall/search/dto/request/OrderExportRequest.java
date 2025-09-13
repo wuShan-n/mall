@@ -10,7 +10,11 @@ import java.util.List;
  */
 @Data
 @Schema(description = "订单导出请求")
-public class OrderExportRequest extends OrderSearchRequest {
+public class OrderExportRequest {
+
+    @Schema(description = "订单搜索请求")
+    private OrderSearchRequest orderSearchRequest;
+
     @Schema(description = "导出格式")
     private ExportFormat format = ExportFormat.EXCEL;
 

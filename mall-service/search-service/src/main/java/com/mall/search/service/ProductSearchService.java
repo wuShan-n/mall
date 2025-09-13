@@ -2,10 +2,9 @@ package com.mall.search.service;
 
 import com.mall.search.dto.request.FilterRequest;
 import com.mall.search.dto.request.ProductSearchRequest;
-import com.mall.search.dto.response.SearchFilters;
 import com.mall.search.dto.response.ProductSearchResponse;
-import com.mall.search.dto.response.ProductSearchVO;
 import com.mall.search.dto.response.ProductSimpleVO;
+import com.mall.search.dto.response.SearchFilters;
 
 import java.util.List;
 

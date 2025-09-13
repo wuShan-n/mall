@@ -1,9 +1,8 @@
 package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ import java.util.List;
  * =====================================================
  */
 @Value
-@SuperBuilder
+@Builder
 @Schema(description = "商品简要信息")
 public class ProductSimpleVO {
 

@@ -5,33 +5,13 @@ spring:
   application:
     name: search-service
 
-  config:
-    import:
-      - "optional:nacos:common.yml?group=DEFAULT_GROUP"
-
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-        namespace: ${NACOS_NAMESPACE:public}
-        group: DEFAULT_GROUP
-        metadata:
-          version: 1.0.0
-          region: default
-      config:
-        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
-        namespace: ${NACOS_NAMESPACE:public}
-        group: DEFAULT_GROUP
 
   # 数据源配置
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/mall_search?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
   elasticsearch:
     uris: http://localhost:9200
-# Dubbo配置
-dubbo:
-  protocol:
-    port: ${TRIPLE_PORT:50052}
+
 # Actuator监控配置
 management:
   endpoints:
