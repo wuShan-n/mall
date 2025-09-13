@@ -33,30 +33,6 @@ import java.util.Arrays;
 @Configuration
 public class ElasticsearchConfig {
     
-    @Value("${spring.elasticsearch.uris:http://localhost:9200}")
-    private String[] uris;
-    
-    @Value("${spring.elasticsearch.username:}")
-    private String username;
-    
-    @Value("${spring.elasticsearch.password:}")
-    private String password;
-    
-    @Value("${spring.elasticsearch.connection-timeout:5000}")
-    private int connectionTimeout;
-    
-    @Value("${spring.elasticsearch.socket-timeout:60000}")
-    private int socketTimeout;
-    
-    @Value("${spring.elasticsearch.max-conn-total:100}")
-    private int maxConnTotal;
-    
-    @Value("${spring.elasticsearch.max-conn-per-route:10}")
-    private int maxConnPerRoute;
-    
-    @Value("${spring.elasticsearch.io-thread-count:4}")
-    private int ioThreadCount;
-    
     /**
      * 配置 ObjectMapper
      */

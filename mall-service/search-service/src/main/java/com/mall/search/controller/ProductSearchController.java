@@ -29,7 +29,7 @@ import java.util.List;
 public class ProductSearchController {
 
     private final ProductSearchService productSearchService;
-//    private final SuggestService suggestService;
+    private final SuggestService suggestService;
 
     /**
      * 商品搜索主接口
@@ -41,16 +41,16 @@ public class ProductSearchController {
         return Result.success(productSearchService.search(request));
     }
 
-//    /**
-//     * 搜索建议/自动补全
-//     */
-//    @GetMapping("/suggest")
-//    @Operation(summary = "搜索建议")
-//    public Result<List<String>> suggest(
-//            @RequestParam @NotBlank String keyword,
-//            @RequestParam(defaultValue = "10") Integer size) {
-//        return Result.success(suggestService.suggest(keyword, size));
-//    }
+    /**
+     * 搜索建议/自动补全
+     */
+    @GetMapping("/suggest")
+    @Operation(summary = "搜索建议")
+    public Result<List<String>> suggest(
+            @RequestParam @NotBlank String keyword,
+            @RequestParam(defaultValue = "10") Integer size) {
+        return Result.success(suggestService.suggest(keyword, size));
+    }
 
     /**
      * 获取筛选项（聚合）
