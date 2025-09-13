@@ -5,10 +5,11 @@ spring:
   application:
     name: search-service
 
-
   # 数据源配置
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/mall_search?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
   elasticsearch:
     uris: http://localhost:9200
 

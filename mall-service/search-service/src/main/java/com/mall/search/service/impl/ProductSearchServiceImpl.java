@@ -48,10 +48,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     public ProductSearchResponse search(ProductSearchRequest request) {
         try {
             long startTime = System.currentTimeMillis();
-            
-            // 1. 参数预处理
-            preprocessRequest(request);
-            
+
             // 2. 获取搜索策略
             SearchStrategy strategy = searchStrategyFactory.getStrategy(request.getScene());
             
@@ -90,27 +87,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         } catch (Exception e) {
             log.error("Search error. Request: {}", request, e);
             throw new RuntimeException("搜索服务异常", e);
-        }
-    }
-
-    /**
-     * 参数预处理
-     */
-    private void preprocessRequest(ProductSearchRequest request) {
-        // 设置默认值
-        if (request.getPageNum() == null || request.getPageNum() < 1) {
-            request.setPageNum(1);
-        }
-        if (request.getPageSize() == null || request.getPageSize() < 1) {
-            request.setPageSize(20);
-        }
-        if (request.getPageSize() > 100) {
-            request.setPageSize(100);
-        }
-        
-        // 关键词处理
-        if (StringUtils.hasText(request.getKeyword())) {
-            request.setKeyword(request.getKeyword().trim());
         }
     }
 
