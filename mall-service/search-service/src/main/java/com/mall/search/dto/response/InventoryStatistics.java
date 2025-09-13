@@ -2,7 +2,8 @@ package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Singular;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,41 +11,42 @@ import java.util.List;
 /**
  * 库存统计结果
  */
-@Data
+@Value
 @Builder
 @Schema(description = "库存统计结果")
 public class InventoryStatistics {
     @Schema(description = "总SKU数")
-    private Integer totalSkuCount;
-    
+    Integer totalSkuCount;
+
     @Schema(description = "总库存量")
-    private Long totalStockQuantity;
-    
+    Long totalStockQuantity;
+
     @Schema(description = "总库存价值")
-    private BigDecimal totalStockValue;
-    
+    BigDecimal totalStockValue;
+
     @Schema(description = "缺货SKU数")
-    private Integer outOfStockCount;
-    
+    Integer outOfStockCount;
+
     @Schema(description = "预警SKU数")
-    private Integer warningCount;
-    
+    Integer warningCount;
+
     @Schema(description = "库存周转率")
-    private Float turnoverRate;
-    
+    Float turnoverRate;
+
     @Schema(description = "平均库存天数")
-    private Float avgStockDays;
-    
+    Float avgStockDays;
+
     @Schema(description = "分组统计")
-    private List<GroupStatistics> groupStats;
-    
-    @Data
+    @Singular
+    List<GroupStatistics> groupStats;
+
+    @Value
     @Builder
     public static class GroupStatistics {
-        private String groupName;
-        private Long stockQuantity;
-        private BigDecimal stockValue;
-        private Integer skuCount;
-        private Float percentage;
+        String groupName;
+        Long stockQuantity;
+        BigDecimal stockValue;
+        Integer skuCount;
+        Float percentage;
     }
 }

@@ -2,55 +2,56 @@ package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
+
 /**
  * 库存VO
  */
-@Data
+@Value
 @Builder
 @Schema(description = "库存信息")
 public class InventoryVO {
     @Schema(description = "库存ID")
-    private Long id;
-    
+    Long id;
+
     @Schema(description = "SKU ID")
-    private Long skuId;
-    
+    Long skuId;
+
     @Schema(description = "SKU编码")
-    private String skuCode;
-    
+    String skuCode;
+
     @Schema(description = "SKU名称")
-    private String skuName;
-    
+    String skuName;
+
     @Schema(description = "SPU名称")
-    private String spuName;
-    
+    String spuName;
+
     @Schema(description = "仓库ID")
-    private Long warehouseId;
-    
+    Long warehouseId;
+
     @Schema(description = "仓库名称")
-    private String warehouseName;
-    
+    String warehouseName;
+
     @Schema(description = "总库存")
-    private Integer totalStock;
-    
+    Integer totalStock;
+
     @Schema(description = "可用库存")
-    private Integer availableStock;
-    
+    Integer availableStock;
+
     @Schema(description = "锁定库存")
-    private Integer lockedStock;
-    
+    Integer lockedStock;
+
     @Schema(description = "在途库存")
-    private Integer inTransitStock;
-    
+    Integer inTransitStock;
+
     @Schema(description = "预警库存")
-    private Integer warnStock;
-    
+    Integer warnStock;
+
     @Schema(description = "库存状态")
-    private String stockStatus;
-    
+    String stockStatus;
+
     @Schema(description = "最后更新时间")
-    private LocalDateTime updateTime;
+    LocalDateTime updateTime;
 }

@@ -1,10 +1,10 @@
 package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,61 +14,59 @@ import java.util.List;
  * 商品简要信息
  * =====================================================
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
+@SuperBuilder
 @Schema(description = "商品简要信息")
 public class ProductSimpleVO {
-    
+
     @Schema(description = "SPU ID")
-    private Long spuId;
-    
+    Long spuId;
+
     @Schema(description = "商品名称")
-    private String productName;
-    
+    String productName;
+
     @Schema(description = "商品编码")
-    private String productCode;
-    
+    String productCode;
+
     @Schema(description = "主图")
-    private String mainImage;
-    
+    String mainImage;
+
     @Schema(description = "最低价")
-    private BigDecimal minPrice;
-    
+    BigDecimal minPrice;
+
     @Schema(description = "最高价")
-    private BigDecimal maxPrice;
-    
+    BigDecimal maxPrice;
+
     @Schema(description = "原价")
-    private BigDecimal originalPrice;
-    
+    BigDecimal originalPrice;
+
     @Schema(description = "销量")
-    private Integer salesCount;
-    
+    Integer salesCount;
+
     @Schema(description = "评论数")
-    private Integer commentCount;
-    
+    Integer commentCount;
+
     @Schema(description = "评分")
-    private Float score;
-    
+    Float score;
+
     @Schema(description = "品牌名称")
-    private String brandName;
-    
+    String brandName;
+
     @Schema(description = "分类名称")
-    private String categoryName;
-    
+    String categoryName;
+
     @Schema(description = "标签")
-    private List<String> tags;
-    
+    List<String> tags;
+
     @Schema(description = "是否有货")
-    private Boolean hasStock;
-    
+    Boolean hasStock;
+
     @Schema(description = "商品标识")
-    private ProductFlags flags;
-    
+    ProductFlags flags;
+
     @Schema(description = "活动信息")
-    private ActivityInfo activity;
-    
+    ActivityInfo activity;
+
     /**
      * 商品标识
      */
@@ -76,21 +74,21 @@ public class ProductSimpleVO {
     @Builder
     public static class ProductFlags {
         @Schema(description = "是否新品")
-        private Boolean isNew;
-        
+        Boolean isNew;
+
         @Schema(description = "是否热销")
-        private Boolean isHot;
-        
+        Boolean isHot;
+
         @Schema(description = "是否精品")
-        private Boolean isBest;
-        
+        Boolean isBest;
+
         @Schema(description = "是否包邮")
-        private Boolean freeShipping;
-        
+        Boolean freeShipping;
+
         @Schema(description = "是否自营")
-        private Boolean isSelfOperated;
+        Boolean isSelfOperated;
     }
-    
+
     /**
      * 活动信息
      */
@@ -98,15 +96,15 @@ public class ProductSimpleVO {
     @Builder
     public static class ActivityInfo {
         @Schema(description = "活动类型")
-        private String type;
-        
+        String type;
+
         @Schema(description = "活动名称")
-        private String name;
-        
+        String name;
+
         @Schema(description = "活动标签")
-        private String label;
-        
+        String label;
+
         @Schema(description = "活动图标")
-        private String icon;
+        String icon;
     }
 }

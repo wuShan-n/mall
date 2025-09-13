@@ -19,17 +19,17 @@ public interface AdvancedSearchService {
      * 多字段搜索
      */
     ProductSearchResponse multiFieldSearch(MultiFieldSearchRequest request);
-    
+
     /**
      * 附近商品搜索
      */
     List<NearbyProductVO> searchNearby(NearbySearchRequest request);
-    
+
     /**
      * 相似商品搜索
      */
     List<ProductSearchVO> searchSimilar(SimilarSearchRequest request);
-    
+
     /**
      * 滚动搜索
      */

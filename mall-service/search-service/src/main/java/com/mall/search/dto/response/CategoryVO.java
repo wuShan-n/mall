@@ -2,30 +2,31 @@ package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * 分类VO
  */
-@Data
+@Value
 @Builder
 @Schema(description = "分类信息")
 public class CategoryVO {
+
     @Schema(description = "分类ID")
-    private Long categoryId;
-    
+    Long categoryId;
+
     @Schema(description = "分类名称")
-    private String categoryName;
-    
+    String categoryName;
+
     @Schema(description = "分类图标")
-    private String icon;
-    
+    String icon;
+
     @Schema(description = "分类层级")
-    private Integer level;
-    
+    Integer level;
+
     @Schema(description = "父分类ID")
-    private Long parentId;
-    
+    Long parentId;
+
     @Schema(description = "商品数量")
-    private Integer productCount;
+    Integer productCount;
 }

@@ -1,15 +1,17 @@
 package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * 热词DTO
  */
-@Data
+@Value
+@Builder
 @Schema(description = "热词DTO")
 public class HotWordDTO {
-    private String keyword;
-    private Integer weight;
-    private String category;
+    String keyword;
+    Integer weight;
+    String category;
 }

@@ -2,27 +2,28 @@ package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * 品牌VO
  */
-@Data
+@Value
 @Builder
 @Schema(description = "品牌信息")
 public class BrandVO {
+
     @Schema(description = "品牌ID")
-    private Long brandId;
-    
+    Long brandId;
+
     @Schema(description = "品牌名称")
-    private String brandName;
-    
+    String brandName;
+
     @Schema(description = "品牌Logo")
-    private String brandLogo;
-    
+    String brandLogo;
+
     @Schema(description = "品牌描述")
-    private String description;
-    
+    String description;
+
     @Schema(description = "商品数量")
-    private Integer productCount;
+    Integer productCount;
 }

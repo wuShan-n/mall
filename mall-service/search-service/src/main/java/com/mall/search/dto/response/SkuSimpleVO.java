@@ -1,10 +1,9 @@
 package com.mall.search.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -14,52 +13,50 @@ import java.util.Map;
  * SKU简要信息
  * =====================================================
  */
-@Data
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(description = "SKU简要信息")
 public class SkuSimpleVO {
-    
+
     @Schema(description = "SKU ID")
-    private Long skuId;
-    
+    Long skuId;
+
     @Schema(description = "SKU编码")
-    private String skuCode;
-    
+    String skuCode;
+
     @Schema(description = "SKU名称")
-    private String skuName;
-    
+    String skuName;
+
     @Schema(description = "价格")
-    private BigDecimal price;
-    
+    BigDecimal price;
+
     @Schema(description = "原价")
-    private BigDecimal originalPrice;
-    
+    BigDecimal originalPrice;
+
     @Schema(description = "库存")
-    private Integer stock;
-    
+    Integer stock;
+
     @Schema(description = "销量")
-    private Integer salesCount;
-    
+    Integer salesCount;
+
     @Schema(description = "规格信息")
-    private Map<String, String> specs;
-    
+    Map<String, String> specs;
+
     @Schema(description = "规格描述")
-    private String specsText;
-    
+    String specsText;
+
     @Schema(description = "SKU图片")
-    private String image;
-    
+    String image;
+
     @Schema(description = "是否可售")
-    private Boolean available;
-    
+    Boolean available;
+
     @Schema(description = "是否默认")
-    private Boolean isDefault;
-    
+    Boolean isDefault;
+
     @Schema(description = "促销信息")
-    private PromotionInfo promotion;
-    
+    PromotionInfo promotion;
+
     /**
      * 促销信息
      */
@@ -67,15 +64,15 @@ public class SkuSimpleVO {
     @Builder
     public static class PromotionInfo {
         @Schema(description = "促销类型")
-        private String type; // DISCOUNT, COUPON, GIFT
-        
+        String type; // DISCOUNT, COUPON, GIFT
+
         @Schema(description = "促销标签")
-        private String label;
-        
+        String label;
+
         @Schema(description = "促销价格")
-        private BigDecimal promotionPrice;
-        
+        BigDecimal promotionPrice;
+
         @Schema(description = "折扣率")
-        private Integer discountRate;
+        Integer discountRate;
     }
 }

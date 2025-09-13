@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /**
  * =====================================================
  * 2. 库存搜索接口 - B端库存管理
@@ -27,13 +28,13 @@ public class InventorySearchController {
 
     @Resource
     private InventorySearchService inventorySearchService;
-    
+
     @PostMapping("/search")
     @Operation(summary = "库存搜索")
     public Result<PageResult<InventoryVO>> searchInventory(@RequestBody @Valid InventorySearchRequest request) {
         return Result.success(inventorySearchService.search(request));
     }
-    
+
     @GetMapping("/warning")
     @Operation(summary = "库存预警列表")
     public Result<List<InventoryWarningVO>> getWarningList(
@@ -41,7 +42,7 @@ public class InventorySearchController {
             @RequestParam(defaultValue = "50") Integer limit) {
         return Result.success(inventorySearchService.getWarningList(warehouseId, limit));
     }
-    
+
     @PostMapping("/statistics")
     @Operation(summary = "库存统计")
     public Result<InventoryStatistics> getStatistics(@RequestBody InventoryStatRequest request) {

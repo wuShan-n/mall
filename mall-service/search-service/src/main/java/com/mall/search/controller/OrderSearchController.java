@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * =====================================================
  * 3. 订单搜索接口 - 订单管理
@@ -24,13 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class OrderSearchController {
 
     private final OrderSearchService orderSearchService;
-    
+
     @PostMapping("/search")
     @Operation(summary = "订单搜索")
     public Result<PageResult<OrderVO>> searchOrders(@RequestBody @Valid OrderSearchRequest request) {
         return Result.success(orderSearchService.search(request));
     }
-    
+
     @GetMapping("/user/{userId}")
     @Operation(summary = "用户订单列表")
     public Result<PageResult<OrderVO>> getUserOrders(
@@ -40,7 +41,7 @@ public class OrderSearchController {
             @RequestParam(defaultValue = "10") Integer pageSize) {
         return Result.success(orderSearchService.getUserOrders(userId, status, pageNum, pageSize));
     }
-    
+
     @PostMapping("/export")
     @Operation(summary = "订单导出")
     public void exportOrders(@RequestBody OrderExportRequest request, HttpServletResponse response) {

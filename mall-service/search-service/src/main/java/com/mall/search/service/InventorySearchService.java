@@ -17,17 +17,17 @@ public interface InventorySearchService {
      * 库存搜索
      */
     PageResult<InventoryVO> search(InventorySearchRequest request);
-    
+
     /**
      * 获取库存预警列表
      */
     List<InventoryWarningVO> getWarningList(Long warehouseId, Integer limit);
-    
+
     /**
      * 库存统计
      */
     InventoryStatistics getStatistics(InventoryStatRequest request);
-    
+
     /**
      * 更新库存索引
      */

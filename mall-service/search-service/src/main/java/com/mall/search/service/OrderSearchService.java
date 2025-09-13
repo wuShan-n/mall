@@ -14,17 +14,17 @@ public interface OrderSearchService {
      * 订单搜索
      */
     PageResult<OrderVO> search(OrderSearchRequest request);
-    
+
     /**
      * 获取用户订单
      */
     PageResult<OrderVO> getUserOrders(Long userId, Integer status, Integer pageNum, Integer pageSize);
-    
+
     /**
      * 导出订单
      */
     void export(OrderExportRequest request, HttpServletResponse response);
-    
+
     /**
      * 更新订单索引
      */
